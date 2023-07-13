@@ -5,7 +5,7 @@ class Singleton
 {
 public:
     static T& Instance()
-    {
+     {
         static T instance;
         return instance;
     }

@@ -19,23 +19,25 @@ void SceneGame::Init()
 	Release();
 	auto size = FRAMEWORK.GetWindowSize();
 	Player* player = (Player*)AddGo(new Player("player"));
-	UIButton* testButton = (UIButton*)AddGo(new UIButton("graphics/button.png"));
-	testButton->SetOrigin(Origins::TR);
-	testButton->sortLayer = 100;
-	testButton->SetPosition(size.x, 0.f);
-	testButton->OnEnter = [testButton]() {
-		std::cout << "Enter" << std::endl;
-		sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/button2.png");
-		testButton->sprite.setTexture(*tex);
-	};
-	testButton->OnClick = []() {
-		std::cout << "Click" << std::endl;
-	};
-	testButton->OnExit = [testButton]() {
-		std::cout << "Exit" << std::endl;
-		sf::Texture* tex = RESOURCE_MGR.GetTexture(testButton->textureId);
-		testButton->sprite.setTexture(*tex);
-	};
+
+	// BUTTON TEST CODE
+	//UIButton* testButton = (UIButton*)AddGo(new UIButton("graphics/button.png"));
+	//testButton->SetOrigin(Origins::TR);
+	//testButton->sortLayer = 100;
+	//testButton->SetPosition(size.x, 0.f);
+	//testButton->OnEnter = [testButton]() {
+	//	std::cout << "Enter" << std::endl;
+	//	sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/button2.png");
+	//	testButton->sprite.setTexture(*tex);
+	//};
+	//testButton->OnClick = []() {
+	//	std::cout << "Click" << std::endl;
+	//};
+	//testButton->OnExit = [testButton]() {
+	//	std::cout << "Exit" << std::endl;
+	//	sf::Texture* tex = RESOURCE_MGR.GetTexture(testButton->textureId);
+	//	testButton->sprite.setTexture(*tex);
+	//};
 
 	for (auto go : gameObjects)
 	{

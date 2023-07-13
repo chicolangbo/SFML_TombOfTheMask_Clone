@@ -13,12 +13,11 @@ void Player::Init()
 	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveLR.csv");
 	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveB.csv");
 
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleF.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleLR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/IdleB.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveF.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveLR.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/MoveB.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharArrive.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharFlight.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharIdle.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharLongJump.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharRun.csv"));
 
 	animation.SetTarget(&sprite);
 	SetOrigin(Origins::BC);
@@ -26,7 +25,7 @@ void Player::Init()
 
 void Player::Reset()
 {
-	animation.Play("IdleF");
+	animation.Play("CharIdle");
 	SetOrigin(origin);
 	SetPosition(0,0);
 	SetFlipX(false);
@@ -38,27 +37,23 @@ void Player::Update(float dt)
 	{
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
 		{
-			animation.Play("IdleF");
+			animation.Play("CharArrive");
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
 		{
-			animation.Play("IdleLR");
+			animation.Play("CharFlight");
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num3))
 		{
-			animation.Play("IdleB");
+			animation.Play("CharIdle");
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num4))
 		{
-			animation.Play("MoveLR");
+			animation.Play("CharLongJump");
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num5))
 		{
-			animation.Play("MoveB");
-		}
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num6))
-		{
-			animation.Play("MoveF");
+			animation.Play("CharRun");
 		}
 	}
 
@@ -79,33 +74,9 @@ void Player::Update(float dt)
 
 		position += direction * speed * dt;
 
-		//if (position.y >= FRAMEWORK.GetWindowSize().y)
-		//{
-		//	isCollide = true;
-		//	position.y = FRAMEWORK.GetWindowSize().y;
-		//}
-
-		//if (position.y <= 256.f)
-		//{
-		//	isCollide = true;
-		//	position.y = 256.f;
-		//}
-
-		//if (position.x <= 128.f)
-		//{
-		//	isCollide = true;
-		//	position.x = 128.f;
-		//}
-
-		//if (position.x >= FRAMEWORK.GetWindowSize().x - 128.f)
-		//{
-		//	isCollide = true;
-		//	position.x = FRAMEWORK.GetWindowSize().x - 128.f;
-		//}
-
 		SetPosition(position);
 
-		{
+		/* {
 			if (animation.GetCurrentClipId() == "IdleF" ||
 				animation.GetCurrentClipId() == "IdleLR" ||
 				animation.GetCurrentClipId() == "IdleB")
@@ -144,7 +115,7 @@ void Player::Update(float dt)
 					animation.Play("IdleF");
 				}
 			}
-		}
+		} */
 	}
 }
 

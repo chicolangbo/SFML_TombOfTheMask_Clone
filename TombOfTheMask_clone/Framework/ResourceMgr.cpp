@@ -37,7 +37,7 @@ void ResourceMgr::UnLoadAll()
 		auto it = mapTexture.begin();
 		while (it != mapTexture.end())
 		{
-			if (std::get<1>(it->second))
+			if (!std::get<1>(it->second))
 			{
 				delete std::get<0>(it->second);
 				it = mapTexture.erase(it);
@@ -53,7 +53,7 @@ void ResourceMgr::UnLoadAll()
 		auto it = mapFont.begin();
 		while (it != mapFont.end())
 		{
-			if (std::get<1>(it->second))
+			if (!std::get<1>(it->second))
 			{
 				delete std::get<0>(it->second);
 				it = mapFont.erase(it);
@@ -69,7 +69,7 @@ void ResourceMgr::UnLoadAll()
 		auto it = mapSoundBuffer.begin();
 		while (it != mapSoundBuffer.end())
 		{
-			if (std::get<1>(it->second))
+			if (!std::get<1>(it->second))
 			{
 				delete std::get<0>(it->second);
 				it = mapSoundBuffer.erase(it);
@@ -85,7 +85,7 @@ void ResourceMgr::UnLoadAll()
 		auto it = mapAnimationClip.begin();
 		while (it != mapAnimationClip.end())
 		{
-			if (std::get<1>(it->second))
+			if (!std::get<1>(it->second))
 			{
 				delete std::get<0>(it->second);
 				it = mapAnimationClip.erase(it);
@@ -149,8 +149,8 @@ void ResourceMgr::Load(ResourceTypes t, const std::string path, bool isDefault)
 	break;
 	case ResourceTypes::AnimationClip:
 	{
-		auto it = mapSoundBuffer.find(path);
-		if (mapSoundBuffer.end() == it)
+		auto it = mapAnimationClip.find(path);
+		if (mapAnimationClip.end() == it)
 		{
 			auto clip = new AnimationClip();
 			clip->LoadFromFile(path);
@@ -242,7 +242,7 @@ sf::Texture* ResourceMgr::GetTexture(const std::string& id)
 	if (it != mapTexture.end())
 	{
 		return 	std::get<0>(it->second);
-		;
+		std::cout << "ok" << std::endl;
 	}
 	return nullptr;
 }

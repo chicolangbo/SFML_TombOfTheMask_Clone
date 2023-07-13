@@ -15,7 +15,6 @@ void Framework::Init(int width, int height, const std::string& title)
 	window.create(sf::VideoMode(width, height), title);
 
     DATATABLE_MGR.LoadAll();
-    // Resource
     RESOURCE_MGR.Init();
     SCENE_MGR.Init();
 }
