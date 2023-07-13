@@ -1,0 +1,9 @@
+ID,FPS,LOOPTYPE,,
+CharLongJump,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/character/0_Char_long_jump_1.png,0,0,14,14
+graphics/character/0_Char_long_jump_2.png,0,0,14,14
+graphics/character/0_Char_long_jump_3.png,0,0,14,14
+graphics/character/0_Char_long_jump_4.png,0,0,14,14
+graphics/character/0_Char_long_jump_5.png,0,0,14,14

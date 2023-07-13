@@ -1,0 +1,17 @@
+ID,FPS,LOOPTYPE,,
+Logo,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/ui/Logo_reveal_1.png,0,0,139,31
+graphics/ui/Logo_reveal_2.png,0,0,139,31
+graphics/ui/Logo_reveal_3.png,0,0,139,31
+graphics/ui/Logo_reveal_4.png,0,0,139,31
+graphics/ui/Logo_reveal_5.png,0,0,139,31
+graphics/ui/Logo_reveal_6.png,0,0,139,31
+graphics/ui/Logo_reveal_7.png,0,0,139,31
+graphics/ui/Logo_reveal_8.png,0,0,139,31
+graphics/ui/Logo_reveal_9.png,0,0,139,31
+graphics/ui/Logo_reveal_10.png,0,0,139,31
+graphics/ui/Logo_reveal_11.png,0,0,139,31
+graphics/ui/Logo_reveal_12.png,0,0,139,31
+graphics/ui/Logo_reveal_13.png,0,0,139,31

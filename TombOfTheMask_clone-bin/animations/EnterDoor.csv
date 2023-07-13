@@ -1,0 +1,24 @@
+ID,FPS,LOOPTYPE,,
+EnterDoor,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/item/EnterDoor_01.png,0,0,64,64
+graphics/item/EnterDoor_02.png,0,0,64,64
+graphics/item/EnterDoor_03.png,0,0,64,64
+graphics/item/EnterDoor_04.png,0,0,64,64
+graphics/item/EnterDoor_05.png,0,0,64,64
+graphics/item/EnterDoor_06.png,0,0,64,64
+graphics/item/EnterDoor_07.png,0,0,64,64
+graphics/item/EnterDoor_08.png,0,0,64,64
+graphics/item/EnterDoor_09.png,0,0,64,64
+graphics/item/EnterDoor_10.png,0,0,64,64
+graphics/item/EnterDoor_11.png,0,0,64,64
+graphics/item/EnterDoor_12.png,0,0,64,64
+graphics/item/EnterDoor_13.png,0,0,64,64
+graphics/item/EnterDoor_14.png,0,0,64,64
+graphics/item/EnterDoor_15.png,0,0,64,64
+graphics/item/EnterDoor_16.png,0,0,64,64
+graphics/item/EnterDoor_17.png,0,0,64,64
+graphics/item/EnterDoor_18.png,0,0,64,64
+graphics/item/EnterDoor_19.png,0,0,64,64
+graphics/item/EnterDoor_20.png,0,0,64,64

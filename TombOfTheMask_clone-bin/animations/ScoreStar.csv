@@ -1,0 +1,12 @@
+ID,FPS,LOOPTYPE,,
+ScoreStar,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/ui/Star_get_1.png,0,0,6,52
+graphics/ui/Star_get_2.png,0,0,18,52
+graphics/ui/Star_get_3.png,0,0,22,52
+graphics/ui/Star_get_4.png,0,0,42,42
+graphics/ui/Star_get_5.png,0,0,52,32
+graphics/ui/Star_get_6.png,0,0,52,21
+graphics/ui/Star_get_7.png,0,0,50,30
+graphics/ui/Star_get_8.png,0,0,40,26

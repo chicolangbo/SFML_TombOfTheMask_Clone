@@ -1,0 +1,19 @@
+"RESOURCE_TYPES(1: 텍스쳐, 2: 폰트, 3: 사운드클립, 4: 애니메이션클립)",RESOURCE_PATH
+3,animations/CharArrive.csv
+3,animations/CharFlight.csv
+3,animations/CharIdle.csv
+3,animations/CharLongJump.csv
+3,animations/CharRun.csv
+3,animations/EnterDoor.csv
+3,animations/Exit.csv
+3,animations/Logo.csv
+3,animations/ScoreStar.csv
+3,animations/Spikes.csv
+3,animations/Tower.csv
+3,animations/Bat.csv
+1,fonts/LiberationSans.ttf
+1,fonts/MyriadPro-Semibold.otf
+1,fonts/PT_Sans-Web-Bold.ttf
+1,fonts/PT_Sans-Web-Regular.ttf
+1,fonts/PTS55F.ttf
+0,graphics/ui/Tower_top.png

@@ -1,0 +1,12 @@
+ID,FPS,LOOPTYPE,,
+CharArrive,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/character/0_Char_arrive_1.png,0,0,14,14
+graphics/character/0_Char_arrive_2.png,0,0,14,14
+graphics/character/0_Char_arrive_3.png,0,0,14,14
+graphics/character/0_Char_arrive_4.png,0,0,14,14
+graphics/character/0_Char_arrive_5.png,0,0,14,14
+graphics/character/0_Char_arrive_6.png,0,0,14,14
+graphics/character/0_Char_arrive_7.png,0,0,14,14
+graphics/character/0_Char_arrive_8.png,0,0,14,14

@@ -1,0 +1,14 @@
+ID,FPS,LOOPTYPE,,
+CharRun,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/character/0_Char_run_1.png,0,0,14,14
+graphics/character/0_Char_run_2.png,0,0,14,14
+graphics/character/0_Char_run_3.png,0,0,14,14
+graphics/character/0_Char_run_4.png,0,0,14,14
+graphics/character/0_Char_run_5.png,0,0,14,14
+graphics/character/0_Char_run_6.png,0,0,14,14
+graphics/character/0_Char_run_7.png,0,0,14,14
+graphics/character/0_Char_run_8.png,0,0,14,14
+graphics/character/0_Char_run_9.png,0,0,14,14
+graphics/character/0_Char_run_10.png,0,0,14,14

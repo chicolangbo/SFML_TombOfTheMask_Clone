@@ -1,0 +1,12 @@
+ID,FPS,LOOPTYPE,,
+Tower,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/ui/Tower_1.png,0,0,108,35
+graphics/ui/Tower_2.png,0,0,108,35
+graphics/ui/Tower_3.png,0,0,108,35
+graphics/ui/Tower_4.png,0,0,108,35
+graphics/ui/Tower_5.png,0,0,108,35
+graphics/ui/Tower_6.png,0,0,108,35
+graphics/ui/Tower_7.png,0,0,108,35
+graphics/ui/Tower_8.png,0,0,108,35
