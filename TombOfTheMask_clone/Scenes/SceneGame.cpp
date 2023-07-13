@@ -39,10 +39,15 @@ void SceneGame::Init()
 	//	testButton->sprite.setTexture(*tex);
 	//};
 
+	tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tileMap.png", "TileMap"));
+
 	for (auto go : gameObjects)
 	{
 		go->Init();
 	}
+
+	tileMap->Load("map/map_1.csv");
+	tileMap->SetOrigin(Origins::MC);
 }
 
 void SceneGame::Release()
@@ -59,7 +64,7 @@ void SceneGame::Enter()
 	auto size = FRAMEWORK.GetWindowSize();
 	sf::Vector2f centerPos = size * 0.5f;
 	worldView.setSize(size);
-	worldView.setCenter(0,0);
+	worldView.setCenter(tileMap->GetPosition());
 	uiView.setSize(size);
 	uiView.setCenter(centerPos);
 

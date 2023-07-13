@@ -166,6 +166,7 @@
     </ClCompile>
     <ClCompile Include="GameObjects\RectGo.cpp" />
     <ClCompile Include="GameObjects\SpriteEffect.cpp" />
+    <ClCompile Include="GameObjects\TileMap.cpp" />
     <ClCompile Include="GameObjects\VertexArrayGo.cpp" />
     <ClCompile Include="Global\Utils.cpp" />
     <ClCompile Include="main.cpp">
@@ -192,6 +193,7 @@
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GameObjects\RectGo.h" />
     <ClInclude Include="GameObjects\SpriteEffect.h" />
+    <ClInclude Include="GameObjects\TileMap.h" />
     <ClInclude Include="GameObjects\VertexArrayGo.h" />
     <ClInclude Include="Global\Defines.h" />
     <ClInclude Include="Framework\Framework.h" />

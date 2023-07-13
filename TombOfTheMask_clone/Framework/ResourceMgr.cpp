@@ -9,6 +9,11 @@ ResourceMgr::~ResourceMgr()
 		delete std::get<0>(pair.second);
 	}
 	mapTexture.clear();
+	for (auto pair : mapTexture)
+	{
+		delete std::get<0>(pair.second);
+	}
+	mapTexture.clear();
 	for (auto pair : mapFont)
 	{
 		delete std::get<0>(pair.second);

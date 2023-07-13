@@ -6,12 +6,7 @@
 
 void Player::Init()
 {
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/IdleF.csv");
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/IdleLR.csv");
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/IdleB.csv");
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveF.csv");
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveLR.csv");
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/MoveB.csv");
+	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/Idle.csv");
 
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharArrive.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharFlight.csv"));
@@ -26,6 +21,8 @@ void Player::Init()
 void Player::Reset()
 {
 	animation.Play("CharIdle");
+	sprite.setScale(2.f, 2.f);
+	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(origin);
 	SetPosition(0,0);
 	SetFlipX(false);
@@ -37,24 +34,29 @@ void Player::Update(float dt)
 	{
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
 		{
-			animation.Play("CharArrive");
+			animation.Play("CharArrive"); // 지상
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
 		{
-			animation.Play("CharFlight");
+			animation.Play("CharFlight"); // 이동 시
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num3))
 		{
-			animation.Play("CharIdle");
+			animation.Play("CharIdle"); // 좌,우,위
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num4))
 		{
-			animation.Play("CharLongJump");
+			animation.Play("CharLongJump"); // 마지막
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num5))
 		{
-			animation.Play("CharRun");
+			animation.Play("CharRun"); // 이동 시
 		}
+	}
+
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
+	{
+
 	}
 
 	animation.Update(dt);
@@ -76,46 +78,69 @@ void Player::Update(float dt)
 
 		SetPosition(position);
 
-		/* {
-			if (animation.GetCurrentClipId() == "IdleF" ||
-				animation.GetCurrentClipId() == "IdleLR" ||
-				animation.GetCurrentClipId() == "IdleB")
+		{
+			//이동
+			direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
+			direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
+			float magnitude = Utils::Magnitude(direction);
+			if (magnitude > 1.f)
 			{
-				if (direction.x != 0.f)
+				direction /= magnitude;
+			}
+
+			position += direction * speed * dt;
+			SetPosition(position);
+
+
+
+			if (direction.x != 0 || direction.y != 0)
+			{
+				if (animation.GetCurrentClipId() != "Move_Side" &&
+					INPUT_MGR.GetAxisRaw(Axis::Horizontal) != 0.f)
 				{
-					animation.Play("MoveLR");
+					animation.Play("Move_Side");
 				}
-				if (direction.y < 0)
+				else if (animation.GetCurrentClipId() != "Move_Down" &&
+					INPUT_MGR.GetAxisRaw(Axis::Vertical) > 0.f &&
+					INPUT_MGR.GetAxisRaw(Axis::Horizontal) == 0.f)
 				{
-					animation.Play("MoveB");
+					animation.Play("Move_Down");
 				}
-				if (direction.y > 0)
+				else if (animation.GetCurrentClipId() != "Move_Up" &&
+					INPUT_MGR.GetAxisRaw(Axis::Vertical) < 0.f &&
+					INPUT_MGR.GetAxisRaw(Axis::Horizontal) == 0.f)
 				{
-					animation.Play("MoveF");
+					animation.Play("Move_Up");
 				}
 			}
-			else if (animation.GetCurrentClipId() == "MoveLR")
+			else
 			{
-				if (direction.x == 0.f && direction.y == 0.f)
+				if (animation.GetCurrentClipId() == "Move_Side" &&
+					animation.GetCurrentClipId() != "Idle_Side")
 				{
-					animation.Play("IdleLR");
+					animation.Play("Idle_Side");
+				}
+				else if (animation.GetCurrentClipId() == "Move_Down" &&
+					animation.GetCurrentClipId() != "Idle_Down")
+				{
+					animation.Play("Idle_Down");
+				}
+				else if (animation.GetCurrentClipId() == "Move_Up" &&
+					animation.GetCurrentClipId() != "Idle_Up")
+				{
+					animation.Play("Idle_Up");
 				}
 			}
-			else if (animation.GetCurrentClipId() == "MoveB")
+			if (INPUT_MGR.GetAxisRaw(Axis::Horizontal) > 0)
 			{
-				if (direction.x == 0.f && direction.y == 0.f)
-				{
-					animation.Play("IdleB");
-				}
+				animation.GetTarget()->setScale(-1, 1);
 			}
-			else if (animation.GetCurrentClipId() == "MoveF")
+			else if (INPUT_MGR.GetAxisRaw(Axis::Horizontal) < 0)
 			{
-				if (direction.x == 0.f && direction.y == 0.f)
-				{
-					animation.Play("IdleF");
-				}
+				animation.GetTarget()->setScale(1, 1);
 			}
-		} */
+			animation.Update(dt);
+		}
 	}
 }
 
