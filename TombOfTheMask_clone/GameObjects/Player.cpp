@@ -12,7 +12,7 @@ void Player::Init()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharRun.csv"));
 
 	animation.SetTarget(&sprite);
-	SetOrigin(Origins::BC);
+	SetOrigin(Origins::MC);
 }
 
 void Player::Reset()
@@ -21,7 +21,7 @@ void Player::Reset()
 	sprite.setScale(2.f, 2.f);
 	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(origin);
-	SetPosition(0,0);
+	SetPosition(90.f+15.f,180.f+15.f);
 	SetFlipX(false);
 }
 
@@ -61,10 +61,14 @@ void Player::Update(float dt)
 				SetFlipX(flip);
 			}
 		}
-
-		//position += direction * speed * dt;
-
-		//SetPosition(position);
+		if (direction.y != 0.f)
+		{
+			bool flip = direction.y < 0.f;
+			if (GetFlipY() != flip)
+			{
+				SetFlipY(flip);
+			}
+		}
 
 		if (!isMoving)
 		{
@@ -94,25 +98,21 @@ void Player::Update(float dt)
 			if (wMove)
 			{
 				direction = { 0,-1 };
-				position += direction * speed * dt;
 			}
 			if (aMove)
 			{
 				direction = { -1,0 };
-				position += direction * speed * dt;
 			}
 			if (sMove)
 			{
 				direction = { 0,1 };
-				position += direction * speed * dt;
 			}
 			if (dMove)
 			{
 				direction = { 1,0 };
-				position += direction * speed * dt;
 			}
-
 		}
+		position += direction * speed * dt;
 		SetPosition(position);
 	}
 }
@@ -122,11 +122,6 @@ void Player::Draw(sf::RenderWindow& window)
 	SpriteGo::Draw(window);
 }
 
-bool Player::GetFlipX() const
-{
-	return flipX;
-}
-
 void Player::SetFlipX(bool flip)
 {
 	flipX = flip;
@@ -134,4 +129,23 @@ void Player::SetFlipX(bool flip)
 	sf::Vector2f scale = sprite.getScale();
 	scale.x = !flip ? abs(scale.x) : -abs(scale.x);
 	sprite.setScale(scale);
+}
+
+void Player::SetFlipY(bool flip)
+{
+	flipY = flip;
+
+	sf::Vector2f scale = sprite.getScale();
+	scale.y = !flip ? abs(scale.y) : -abs(scale.y);
+	sprite.setScale(scale);
+}
+
+void Player::SpeedOnOff(bool on)
+{
+	if (on)
+	{
+		speed = 300.f;
+		return;
+	}
+	speed = 0.f;
 }

@@ -10,9 +10,10 @@ protected:
     AnimationController animation;
     sf::Vector2f direction;
 
-    float speed = 500.f;
+    float speed = 100.f;
 
     bool flipX = false;
+    bool flipY = false;
     bool isMoving = false;
     bool wMove = false;
     bool aMove = false;
@@ -30,7 +31,9 @@ public:
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window) override;
 
-    bool GetFlipX() const;
+    bool GetFlipX() const { return flipX; };
+    bool GetFlipY() const { return flipY; };
     void SetFlipX(bool filp);
-
+    void SetFlipY(bool flip);
+    void SpeedOnOff(bool on);
 };
