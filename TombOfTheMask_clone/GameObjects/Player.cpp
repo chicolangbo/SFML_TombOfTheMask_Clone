@@ -52,69 +52,11 @@ void Player::Update(float dt)
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
+	if (!isCollide)
 	{
-		if (direction.x != 0.f)
-		{
-			bool flip = direction.x < 0.f;
-			if (GetFlipX() != flip)
-			{
-				SetFlipX(flip);
-			}
-		}
-		if (direction.y != 0.f)
-		{
-			bool flip = direction.y < 0.f;
-			if (GetFlipY() != flip)
-			{
-				SetFlipY(flip);
-			}
-		}
-
-		if (!isMoving)
-		{
-			if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
-			{
-				isMoving = true;
-				wMove = true;
-			}
-			if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
-			{
-				isMoving = true;
-				aMove = true;
-			}
-			if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
-			{
-				isMoving = true;
-				sMove = true;
-			}
-			if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
-			{
-				isMoving = true;
-				dMove = true;
-			}
-		}
-		else
-		{
-			if (wMove)
-			{
-				direction = { 0,-1 };
-			}
-			if (aMove)
-			{
-				direction = { -1,0 };
-			}
-			if (sMove)
-			{
-				direction = { 0,1 };
-			}
-			if (dMove)
-			{
-				direction = { 1,0 };
-			}
-		}
-		position += direction * speed * dt;
-		SetPosition(position);
+		CheckCollide();
 	}
+	MovePlayer(dt);
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -140,12 +82,108 @@ void Player::SetFlipY(bool flip)
 	sprite.setScale(scale);
 }
 
-void Player::SpeedOnOff(bool on)
+void Player::SetMap(TileMap* tilemap)
 {
-	if (on)
+	this->tileMap = tilemap;
+}
+
+void Player::MovePlayer(float dt)
+{
+	// flip
+	if (direction.x != 0.f)
 	{
-		speed = 300.f;
-		return;
+		bool flip = direction.x < 0.f;
+		if (GetFlipX() != flip)
+		{
+			SetFlipX(flip);
+		}
 	}
-	speed = 0.f;
+	if (direction.y != 0.f)
+	{
+		bool flip = direction.y < 0.f;
+		if (GetFlipY() != flip)
+		{
+			SetFlipY(flip);
+		}
+	}
+
+	// move
+	if (!isMoving)
+	{
+		std::cout << "키 입력" << std::endl;
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
+		{
+			std::cout << "WWWWWWWWWWWW" << std::endl;
+			isMoving = true;
+			wMove = true;
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
+		{
+			std::cout << "AAAAAAAAAAAAA" << std::endl;
+			isMoving = true;
+			aMove = true;
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
+		{
+			std::cout << "SSSSSSSSSSSSS" << std::endl;
+			isMoving = true;
+			sMove = true;
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
+		{
+			std::cout << "DDDDDDDDDDDD" << std::endl;
+			isMoving = true;
+			dMove = true;
+		}
+	}
+	else
+	{
+		std::cout << "이동" << std::endl;
+		if (wMove)
+		{
+			direction = { 0,-1 };
+		}
+		if (aMove)
+		{
+			direction = { -1,0 };
+		}
+		if (sMove)
+		{
+			direction = { 0,1 };
+		}
+		if (dMove)
+		{
+			direction = { 1,0 };
+		}
+		position += direction * speed * dt;
+		SetPosition(position);
+	}
+}
+
+void Player::CheckCollide()
+{
+	// 플레이어가 속한 타일의 인덱스
+	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
+
+	int tileSize = tileMap->tiles.size();
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Return))
+	{
+		std::cout << playerTileIndex.x << "," << playerTileIndex.y << std::endl;
+		std::cout << GetPosition().x << "," << GetPosition().y << std::endl;
+		std::cout << tileSize << std::endl;
+	}
+	for (int i = 0; i < tileSize; i++)
+	{
+		if (tileMap->tiles[i].texIndex == 4)
+		{
+			continue;
+		}
+		if (tileMap->tiles[i].x == playerTileIndex.x && tileMap->tiles[i].y == playerTileIndex.y) // 인덱스가 같으면
+		{
+			std::cout << "충돌" << std::endl;
+			isMoving = false;
+			isCollide = true;
+			break;
+		}
+	}
 }

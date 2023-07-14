@@ -2,6 +2,7 @@
 #include "SpriteGo.h"
 #include "AnimationController.h"
 #include "RectGo.h"
+#include "TileMap.h"
 
 class Player :
     public SpriteGo
@@ -10,17 +11,17 @@ protected:
     AnimationController animation;
     sf::Vector2f direction;
 
-    float speed = 100.f;
+    TileMap* tileMap = nullptr;
 
+    float speed = 300.f;
     bool flipX = false;
     bool flipY = false;
-    bool isMoving = false;
     bool wMove = false;
     bool aMove = false;
     bool sMove = false;
     bool dMove = false;
-
-    //sf::RectangleShape floor;
+    bool isMoving = false;
+    bool isCollide = false;
 
 public:
     Player(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {};
@@ -35,5 +36,8 @@ public:
     bool GetFlipY() const { return flipY; };
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
-    void SpeedOnOff(bool on);
+    void SetMap(TileMap* tilemap);
+    void MovePlayer(float dt);
+
+    void CheckCollide();
 };
