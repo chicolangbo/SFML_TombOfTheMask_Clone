@@ -18,7 +18,7 @@ void SceneGame::Init()
 {
 	Release();
 	auto size = FRAMEWORK.GetWindowSize();
-	Player* player = (Player*)AddGo(new Player("player"));
+	player = (Player*)AddGo(new Player("player"));
 
 	// BUTTON TEST CODE
 	//UIButton* testButton = (UIButton*)AddGo(new UIButton("graphics/button.png"));
@@ -64,7 +64,8 @@ void SceneGame::Enter()
 	auto size = FRAMEWORK.GetWindowSize();
 	sf::Vector2f centerPos = size * 0.5f;
 	worldView.setSize(size);
-	worldView.setCenter(tileMap->GetPosition());
+	//worldView.setCenter(tileMap->GetPosition());
+
 	uiView.setSize(size);
 	uiView.setCenter(centerPos);
 
@@ -78,10 +79,16 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
+	worldView.setCenter(player->GetPosition());
 	Scene::Update(dt);
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneGame::CheckCollide()
+{
+
 }

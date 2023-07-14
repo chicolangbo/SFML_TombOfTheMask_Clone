@@ -1,5 +1,4 @@
 "RESOURCE_TYPES(1: 텍스쳐, 2: 폰트, 3: 사운드클립, 4: 애니메이션클립)",RESOURCE_PATH
-3,animations/CharArrive.csv
 3,animations/CharFlight.csv
 3,animations/CharIdle.csv
 3,animations/CharLongJump.csv

@@ -1,10 +1,12 @@
 #pragma once
 #include "Scene.h"
 #include "TileMap.h"
+#include "Player.h"
 
 class SceneGame : public Scene
 {
 protected:
+	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
 
 public:
@@ -19,5 +21,7 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	void CheckCollide();
 };
 

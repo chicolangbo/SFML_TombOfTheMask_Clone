@@ -17,7 +17,6 @@ struct AxisInfo
 	float value = 0.f;
 };
 
-
 class InputMgr : public Singleton<InputMgr>
 {
 	friend Singleton<InputMgr>;

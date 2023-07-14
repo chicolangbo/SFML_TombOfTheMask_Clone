@@ -6,9 +6,6 @@
 
 void Player::Init()
 {
-	//RESOURCE_MGR.Load(ResourceTypes::AnimationClip, "animations/Idle.csv");
-
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharArrive.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharFlight.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharIdle.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharLongJump.csv"));
@@ -34,113 +31,89 @@ void Player::Update(float dt)
 	{
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num1))
 		{
-			animation.Play("CharArrive"); // 지상
+			animation.Play("CharFlight"); // 이동 시
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num2))
 		{
-			animation.Play("CharFlight"); // 이동 시
+			animation.Play("CharIdle"); // 좌,우,위
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num3))
 		{
-			animation.Play("CharIdle"); // 좌,우,위
-		}
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num4))
-		{
 			animation.Play("CharLongJump"); // 마지막
 		}
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num5))
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Num4))
 		{
 			animation.Play("CharRun"); // 이동 시
 		}
 	}
 
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
-	{
-
-	}
-
 	animation.Update(dt);
-	direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
-	direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
+	//direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
+	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
 	{
 		if (direction.x != 0.f)
 		{
-			bool flip = direction.x > 0.f;
+			bool flip = direction.x < 0.f;
 			if (GetFlipX() != flip)
 			{
 				SetFlipX(flip);
 			}
 		}
 
-		position += direction * speed * dt;
+		//position += direction * speed * dt;
 
-		SetPosition(position);
+		//SetPosition(position);
 
+		if (!isMoving)
 		{
-			//이동
-			direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
-			direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
-			float magnitude = Utils::Magnitude(direction);
-			if (magnitude > 1.f)
+			if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 			{
-				direction /= magnitude;
+				isMoving = true;
+				wMove = true;
 			}
-
-			position += direction * speed * dt;
-			SetPosition(position);
-
-
-
-			if (direction.x != 0 || direction.y != 0)
+			if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 			{
-				if (animation.GetCurrentClipId() != "Move_Side" &&
-					INPUT_MGR.GetAxisRaw(Axis::Horizontal) != 0.f)
-				{
-					animation.Play("Move_Side");
-				}
-				else if (animation.GetCurrentClipId() != "Move_Down" &&
-					INPUT_MGR.GetAxisRaw(Axis::Vertical) > 0.f &&
-					INPUT_MGR.GetAxisRaw(Axis::Horizontal) == 0.f)
-				{
-					animation.Play("Move_Down");
-				}
-				else if (animation.GetCurrentClipId() != "Move_Up" &&
-					INPUT_MGR.GetAxisRaw(Axis::Vertical) < 0.f &&
-					INPUT_MGR.GetAxisRaw(Axis::Horizontal) == 0.f)
-				{
-					animation.Play("Move_Up");
-				}
+				isMoving = true;
+				aMove = true;
 			}
-			else
+			if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 			{
-				if (animation.GetCurrentClipId() == "Move_Side" &&
-					animation.GetCurrentClipId() != "Idle_Side")
-				{
-					animation.Play("Idle_Side");
-				}
-				else if (animation.GetCurrentClipId() == "Move_Down" &&
-					animation.GetCurrentClipId() != "Idle_Down")
-				{
-					animation.Play("Idle_Down");
-				}
-				else if (animation.GetCurrentClipId() == "Move_Up" &&
-					animation.GetCurrentClipId() != "Idle_Up")
-				{
-					animation.Play("Idle_Up");
-				}
+				isMoving = true;
+				sMove = true;
 			}
-			if (INPUT_MGR.GetAxisRaw(Axis::Horizontal) > 0)
+			if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 			{
-				animation.GetTarget()->setScale(-1, 1);
+				isMoving = true;
+				dMove = true;
 			}
-			else if (INPUT_MGR.GetAxisRaw(Axis::Horizontal) < 0)
-			{
-				animation.GetTarget()->setScale(1, 1);
-			}
-			animation.Update(dt);
 		}
+		else
+		{
+			if (wMove)
+			{
+				direction = { 0,-1 };
+				position += direction * speed * dt;
+			}
+			if (aMove)
+			{
+				direction = { -1,0 };
+				position += direction * speed * dt;
+			}
+			if (sMove)
+			{
+				direction = { 0,1 };
+				position += direction * speed * dt;
+			}
+			if (dMove)
+			{
+				direction = { 1,0 };
+				position += direction * speed * dt;
+			}
+
+		}
+		SetPosition(position);
 	}
 }
 

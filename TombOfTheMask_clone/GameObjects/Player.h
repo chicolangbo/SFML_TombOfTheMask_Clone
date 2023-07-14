@@ -10,13 +10,14 @@ protected:
     AnimationController animation;
     sf::Vector2f direction;
 
-    float accel = 500.f;
     float speed = 500.f;
-    //float JumpForce = -250.f;
-    //float gravity = 500.f;
 
     bool flipX = false;
-    bool isCollide = true;
+    bool isMoving = false;
+    bool wMove = false;
+    bool aMove = false;
+    bool sMove = false;
+    bool dMove = false;
 
     //sf::RectangleShape floor;
 
