@@ -13,7 +13,7 @@ protected:
 
     TileMap* tileMap = nullptr;
 
-    float speed = 300.f;
+    float speed = 500.f;
     bool flipX = false;
     bool flipY = false;
     bool wMove = false;
@@ -37,7 +37,8 @@ public:
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
     void SetMap(TileMap* tilemap);
-    void MovePlayer(float dt);
 
+    void MovePlayer(float dt);
     void CheckCollide();
+    void MoveReset();
 };

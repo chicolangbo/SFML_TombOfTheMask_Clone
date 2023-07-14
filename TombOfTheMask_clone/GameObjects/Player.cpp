@@ -52,10 +52,7 @@ void Player::Update(float dt)
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
-	if (!isCollide)
-	{
-		CheckCollide();
-	}
+	CheckCollide();
 	MovePlayer(dt);
 }
 
@@ -181,9 +178,34 @@ void Player::CheckCollide()
 		if (tileMap->tiles[i].x == playerTileIndex.x && tileMap->tiles[i].y == playerTileIndex.y) // 인덱스가 같으면
 		{
 			std::cout << "충돌" << std::endl;
-			isMoving = false;
-			isCollide = true;
-			break;
+			if (direction.x == 1)
+			{
+				SetPosition(position.x - 1.f-15.f, position.y);
+			}
+			if (direction.x == -1)
+			{
+				SetPosition(position.x + 1.f+15.f, position.y);
+			}
+			if (direction.y == 1)
+			{
+				SetPosition(position.x, position.y -1.f-15.f);
+			}
+			if (direction.y == -1)
+			{
+				SetPosition(position.x, position.y + 1.f + 15.f);
+			}
+			MoveReset();
+			return;
 		}
 	}
+	isCollide = false;
+}
+
+void Player::MoveReset()
+{
+	wMove = false;
+	aMove = false;
+	sMove = false;
+	dMove = false;
+	isMoving = false;
 }
