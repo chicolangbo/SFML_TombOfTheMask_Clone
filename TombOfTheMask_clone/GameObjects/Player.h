@@ -4,6 +4,15 @@
 #include "RectGo.h"
 #include "TileMap.h"
 
+enum class COLLIDE
+{
+    NONE = -1,
+    L,
+    R,
+    T,
+    B
+};
+
 class Player :
     public SpriteGo
 {
@@ -36,9 +45,10 @@ public:
     bool GetFlipY() const { return flipY; };
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
+    void SetRotation(COLLIDE c);
     void SetMap(TileMap* tilemap);
 
-    void MovePlayer(float dt);
-    void CheckCollide();
+    void MovePlayer(float dt, COLLIDE c);
+    COLLIDE CheckCollide();
     void MoveReset();
 };

@@ -52,8 +52,7 @@ void Player::Update(float dt)
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
-	CheckCollide();
-	MovePlayer(dt);
+	MovePlayer(dt, CheckCollide());
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -79,15 +78,39 @@ void Player::SetFlipY(bool flip)
 	sprite.setScale(scale);
 }
 
+void Player::SetRotation(COLLIDE c)
+{
+	// 회전 초기화
+	float tempR = sprite.getRotation();
+	sprite.setRotation(-tempR);
+	sprite.setScale(2.f, 2.f);
+
+	switch (c)
+	{
+	case COLLIDE::L:
+		sprite.setRotation(90.f);
+		break;
+	case COLLIDE::R:
+		sprite.setRotation(-90.f);
+		break;
+	case COLLIDE::T:
+		sprite.setRotation(-180.f);
+		break;
+	case COLLIDE::B:
+		sprite.setRotation(0.f);
+		break;
+	}
+}
+
 void Player::SetMap(TileMap* tilemap)
 {
 	this->tileMap = tilemap;
 }
 
-void Player::MovePlayer(float dt)
+void Player::MovePlayer(float dt, COLLIDE c)
 {
 	// flip
-	if (direction.x != 0.f)
+	if (direction.x != 0.f && sprite.getRotation() == 0.f)
 	{
 		bool flip = direction.x < 0.f;
 		if (GetFlipX() != flip)
@@ -95,7 +118,7 @@ void Player::MovePlayer(float dt)
 			SetFlipX(flip);
 		}
 	}
-	if (direction.y != 0.f)
+	if (direction.y != 0.f && sprite.getRotation() == 0.f)
 	{
 		bool flip = direction.y < 0.f;
 		if (GetFlipY() != flip)
@@ -107,7 +130,7 @@ void Player::MovePlayer(float dt)
 	// move
 	if (!isMoving)
 	{
-		std::cout << "키 입력" << std::endl;
+		//std::cout << "키 입력" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
 			std::cout << "WWWWWWWWWWWW" << std::endl;
@@ -155,9 +178,11 @@ void Player::MovePlayer(float dt)
 		position += direction * speed * dt;
 		SetPosition(position);
 	}
+
+	// rotation
 }
 
-void Player::CheckCollide()
+COLLIDE Player::CheckCollide()
 {
 	// 플레이어가 속한 타일의 인덱스
 	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
@@ -177,28 +202,39 @@ void Player::CheckCollide()
 		}
 		if (tileMap->tiles[i].x == playerTileIndex.x && tileMap->tiles[i].y == playerTileIndex.y) // 인덱스가 같으면
 		{
-			std::cout << "충돌" << std::endl;
+			//std::cout << "충돌" << std::endl;
 			if (direction.x == 1)
 			{
 				SetPosition(position.x - 1.f-15.f, position.y);
+				MoveReset();
+				SetRotation(COLLIDE::R);
+				return COLLIDE::R;
 			}
 			if (direction.x == -1)
 			{
 				SetPosition(position.x + 1.f+15.f, position.y);
+				MoveReset();
+				SetRotation(COLLIDE::L);
+				return COLLIDE::L;
 			}
 			if (direction.y == 1)
 			{
 				SetPosition(position.x, position.y -1.f-15.f);
+				MoveReset();
+				SetRotation(COLLIDE::B);
+				return COLLIDE::B;
 			}
 			if (direction.y == -1)
 			{
 				SetPosition(position.x, position.y + 1.f + 15.f);
+				MoveReset();
+				SetRotation(COLLIDE::T);
+				return COLLIDE::T;
 			}
-			MoveReset();
-			return;
 		}
 	}
 	isCollide = false;
+	return COLLIDE::NONE;
 }
 
 void Player::MoveReset()
