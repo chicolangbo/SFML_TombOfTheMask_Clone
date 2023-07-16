@@ -178,8 +178,6 @@ void Player::MovePlayer(float dt, COLLIDE c)
 		position += direction * speed * dt;
 		SetPosition(position);
 	}
-
-	// rotation
 }
 
 COLLIDE Player::CheckCollide()
