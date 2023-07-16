@@ -133,32 +133,27 @@ void Player::MovePlayer(float dt, COLLIDE c)
 		//std::cout << "키 입력" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
-			std::cout << "WWWWWWWWWWWW" << std::endl;
 			isMoving = true;
 			wMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
-			std::cout << "AAAAAAAAAAAAA" << std::endl;
 			isMoving = true;
 			aMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
-			std::cout << "SSSSSSSSSSSSS" << std::endl;
 			isMoving = true;
 			sMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
-			std::cout << "DDDDDDDDDDDD" << std::endl;
 			isMoving = true;
 			dMove = true;
 		}
 	}
 	else
 	{
-		std::cout << "이동" << std::endl;
 		if (wMove)
 		{
 			direction = { 0,-1 };
