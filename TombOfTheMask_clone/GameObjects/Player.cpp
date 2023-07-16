@@ -21,7 +21,7 @@ void Player::Reset()
 	sprite.setScale(2.f, 2.f);
 	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(origin);
-	SetPosition(90.f+15.f,180.f+15.f);
+	SetPosition(120.f+15.f,150.f+15.f);
 	SetFlipX(false);
 }
 
@@ -171,7 +171,7 @@ void Player::CheckCollide()
 	}
 	for (int i = 0; i < tileSize; i++)
 	{
-		if (tileMap->tiles[i].texIndex == 4)
+		if (tileMap->tiles[i].texIndex == 17)
 		{
 			continue;
 		}

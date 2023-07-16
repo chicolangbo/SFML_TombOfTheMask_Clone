@@ -18,7 +18,7 @@ void SceneGame::Init()
 {
 	Release();
 	player = (Player*)AddGo(new Player("player"));
-	tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tileMap.png", "TileMap"));
+	tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
 	player->SetMap(tileMap);
 	// BUTTON TEST CODE
 	{
