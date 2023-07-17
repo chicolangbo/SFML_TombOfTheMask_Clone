@@ -181,6 +181,7 @@
     <ClCompile Include="GameObjects\SpriteGo.cpp" />
     <ClCompile Include="Global\Variables.cpp" />
     <ClCompile Include="GameObjects\UIButton.cpp" />
+    <ClCompile Include="GameObjects\Spikes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="GameObjects\SpriteGo.h" />
+    <ClInclude Include="GameObjects\Spikes.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\UIButton.h" />

@@ -17,9 +17,11 @@ SceneGame::SceneGame() : Scene(SceneId::Game)
 void SceneGame::Init()
 {
 	Release();
-	player = (Player*)AddGo(new Player("player"));
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
+	player = (Player*)AddGo(new Player("player"));
+	spikes = (Spikes*)AddGo(new Spikes("spikes"));
 	player->SetMap(tileMap);
+	player->SetSpikes(spikes);
 	// BUTTON TEST CODE
 	{
 	//UIButton* testButton = (UIButton*)AddGo(new UIButton("graphics/button.png"));
@@ -79,8 +81,8 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-	worldView.setCenter(player->GetPosition());	
 	Scene::Update(dt);
+	worldView.setCenter(player->GetPosition());	
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

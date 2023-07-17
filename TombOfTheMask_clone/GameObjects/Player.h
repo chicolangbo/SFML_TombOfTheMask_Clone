@@ -3,6 +3,7 @@
 #include "AnimationController.h"
 #include "RectGo.h"
 #include "TileMap.h"
+#include "Spikes.h"
 
 enum class COLLIDE
 {
@@ -21,6 +22,7 @@ protected:
     sf::Vector2f direction;
 
     TileMap* tileMap = nullptr;
+    Spikes* spikes = nullptr;
 
     float speed = 500.f;
     bool flipX = false;
@@ -47,6 +49,7 @@ public:
     void SetFlipY(bool flip);
     void SetRotation(COLLIDE c);
     void SetMap(TileMap* tilemap);
+    void SetSpikes(Spikes* spikes);
 
     void MovePlayer(float dt, COLLIDE c);
     COLLIDE CheckCollide();

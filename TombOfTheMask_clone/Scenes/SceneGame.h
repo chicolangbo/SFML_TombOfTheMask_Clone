@@ -2,12 +2,14 @@
 #include "Scene.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "Spikes.h"
 
 class SceneGame : public Scene
 {
 protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
+	Spikes* spikes = nullptr;
 
 public:
 	SceneGame();

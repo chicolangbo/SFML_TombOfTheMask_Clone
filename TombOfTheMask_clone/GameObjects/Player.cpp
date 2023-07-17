@@ -13,10 +13,13 @@ void Player::Init()
 
 	animation.SetTarget(&sprite);
 	SetOrigin(Origins::MC);
+
+	spikes->SetMap(tileMap);
 }
 
 void Player::Reset()
 {
+	// 플레이어 세팅값 초기화
 	animation.Play("CharIdle");
 	sprite.setScale(2.f, 2.f);
 	sprite.setColor(sf::Color::Yellow);
@@ -105,6 +108,11 @@ void Player::SetRotation(COLLIDE c)
 void Player::SetMap(TileMap* tilemap)
 {
 	this->tileMap = tilemap;
+}
+
+void Player::SetSpikes(Spikes* spikes)
+{
+	this->spikes = spikes;
 }
 
 void Player::MovePlayer(float dt, COLLIDE c)
