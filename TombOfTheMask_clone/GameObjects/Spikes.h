@@ -10,6 +10,8 @@ protected:
     AnimationController animation;
 
 public:
+    bool collide;
+
     Spikes(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {};
     virtual ~Spikes() override { Release(); };
 

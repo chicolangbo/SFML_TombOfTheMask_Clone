@@ -53,7 +53,7 @@ void Player::Update(float dt)
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
-	MovePlayer(dt, CheckTileCollide());
+	MovePlayer(dt, CheckCollide());
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -181,7 +181,7 @@ void Player::MovePlayer(float dt, COLLIDE c)
 	}
 }
 
-COLLIDE Player::CheckTileCollide()
+COLLIDE Player::CheckCollide()
 {
 	// 플레이어가 속한 타일의 인덱스
 	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
@@ -195,7 +195,7 @@ COLLIDE Player::CheckTileCollide()
 	}
 	for (int i = 0; i < tileSize; i++)
 	{
-		if (tileMap->tiles[i].texIndex == 17)
+		if (tileMap->tiles[i].texIndex == 17 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 		{
 			continue;
 		}
@@ -203,10 +203,22 @@ COLLIDE Player::CheckTileCollide()
 		{
 			if (tileMap->tiles[i].obstacleIndex == Obstacles::SpikeWall)
 			{
-				std::cout << "죽음" << std::endl;
-				speed = 0.f;
+				std::cout << "spikeWall죽음" << std::endl;
 			}
-			//std::cout << "충돌" << std::endl;
+			if (tileMap->tiles[i].obstacleIndex == Obstacles::Spike)
+			{
+				std::cout << "spike죽음" << std::endl;
+				for (int i = 0; i < spikes.size(); ++i)
+				{
+					if (spikes[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+					{
+						speed = 0;
+						break;
+					}
+				}
+			}
+
+			// 충돌 시 set position
 			if (direction.x == 1)
 			{
 				SetPosition(position.x -15.f, position.y);
@@ -230,7 +242,7 @@ COLLIDE Player::CheckTileCollide()
 			}
 			else if (direction.y == -1)
 			{
-				SetPosition(position.x, position.y + 15.f);
+				SetPosition(position.x, position.y +15.f);
 				MoveReset();
 				SetRotation(COLLIDE::T);
 				return COLLIDE::T;
@@ -239,13 +251,6 @@ COLLIDE Player::CheckTileCollide()
 	}
 	isCollide = false;
 	return COLLIDE::NONE;
-}
-
-COLLIDE Player::CheckSpikeCollide()
-{
-	//for()
-
-	return COLLIDE();
 }
 
 void Player::MoveReset()

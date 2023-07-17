@@ -53,7 +53,6 @@ public:
     void SetSpikes(std::vector<Spikes*> spikes);
 
     void MovePlayer(float dt, COLLIDE c);
-    COLLIDE CheckTileCollide();
-    COLLIDE CheckSpikeCollide();
+    COLLIDE CheckCollide();
     void MoveReset();
 };

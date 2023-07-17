@@ -22,6 +22,8 @@ void Spikes::Reset()
 void Spikes::Update(float dt)
 {
 	animation.Update(dt);
+
+	//if()
 }
 
 void Spikes::Draw(sf::RenderWindow& window)
