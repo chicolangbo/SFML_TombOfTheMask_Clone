@@ -53,7 +53,7 @@ void Player::Update(float dt)
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
-	MovePlayer(dt, CheckCollide());
+	MovePlayer(dt, CheckTileCollide());
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -181,7 +181,7 @@ void Player::MovePlayer(float dt, COLLIDE c)
 	}
 }
 
-COLLIDE Player::CheckCollide()
+COLLIDE Player::CheckTileCollide()
 {
 	// 플레이어가 속한 타일의 인덱스
 	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
@@ -201,6 +201,11 @@ COLLIDE Player::CheckCollide()
 		}
 		if (tileMap->tiles[i].x == playerTileIndex.x && tileMap->tiles[i].y == playerTileIndex.y) // 인덱스가 같으면
 		{
+			if (tileMap->tiles[i].obstacleIndex == Obstacles::SpikeWall)
+			{
+				std::cout << "죽음" << std::endl;
+				speed = 0.f;
+			}
 			//std::cout << "충돌" << std::endl;
 			if (direction.x == 1)
 			{
@@ -209,21 +214,21 @@ COLLIDE Player::CheckCollide()
 				SetRotation(COLLIDE::R);
 				return COLLIDE::R;
 			}
-			if (direction.x == -1)
+			else if (direction.x == -1)
 			{
 				SetPosition(position.x +15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::L);
 				return COLLIDE::L;
 			}
-			if (direction.y == 1)
+			else if (direction.y == 1)
 			{
 				SetPosition(position.x, position.y -15.f);
 				MoveReset();
 				SetRotation(COLLIDE::B);
 				return COLLIDE::B;
 			}
-			if (direction.y == -1)
+			else if (direction.y == -1)
 			{
 				SetPosition(position.x, position.y + 15.f);
 				MoveReset();
@@ -234,6 +239,13 @@ COLLIDE Player::CheckCollide()
 	}
 	isCollide = false;
 	return COLLIDE::NONE;
+}
+
+COLLIDE Player::CheckSpikeCollide()
+{
+	//for()
+
+	return COLLIDE();
 }
 
 void Player::MoveReset()

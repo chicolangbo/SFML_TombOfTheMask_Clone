@@ -28,7 +28,11 @@ bool TileMap::Load(const std::string& filePath)
             size_t str = cell.find('/');
             if (str != std::string::npos) // '/'를 포함하면
             {
-                tile.obstacleIndex = stoi(cell.substr(str + 1));
+                if (stoi(cell.substr(str + 1)) == 18)
+                {
+                    std::cout << j << "," << i << std::endl;
+                    tile.obstacleIndex = Obstacles::Spike;
+                }
                 tile.texIndex = stoi(cell.substr(0, str));
             }
             else
@@ -79,7 +83,7 @@ bool TileMap::Load(const std::string& filePath)
                 vertexArray[vertexIndex].texCoords = texOffsets[k];
                 vertexArray[vertexIndex].texCoords.y += texSize.y * texIndex;
             }
-            if (tiles[tileIndex].obstacleIndex != 0)
+            if (tiles[tileIndex].obstacleIndex != Obstacles::None)
             {
                 if (spikes[sIndex] == nullptr)
                 {
@@ -87,6 +91,10 @@ bool TileMap::Load(const std::string& filePath)
                 }
                 spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
                 ++sIndex;
+            }
+            if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15)
+            {
+                tiles[tileIndex].obstacleIndex = Obstacles::SpikeWall;
             }
             currPos.x += tileSize.x;
         }

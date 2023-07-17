@@ -11,7 +11,8 @@ enum class COLLIDE
     L,
     R,
     T,
-    B
+    B,
+    SPIKE,
 };
 
 class Player :
@@ -52,6 +53,7 @@ public:
     void SetSpikes(std::vector<Spikes*> spikes);
 
     void MovePlayer(float dt, COLLIDE c);
-    COLLIDE CheckCollide();
+    COLLIDE CheckTileCollide();
+    COLLIDE CheckSpikeCollide();
     void MoveReset();
 };

@@ -4,12 +4,20 @@
 
 class Spikes;
 
+enum class Obstacles
+{
+	None,
+	SpikeWall,
+	Spike,
+	Bat,
+};
+
 struct Tile
 {
 	int x = 0;
 	int y = 0;
 	int texIndex;
-	int obstacleIndex = 0;
+	Obstacles obstacleIndex = Obstacles::None;
 };
 
 class TileMap : public VertexArrayGo
