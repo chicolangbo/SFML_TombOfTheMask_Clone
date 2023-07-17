@@ -1,4 +1,4 @@
-"RESOURCE_TYPES(1: ÅØ½ºÃÄ, 2: ÆùÆ®, 3: »ç¿îµåÅ¬¸³, 4: ¾Ö´Ï¸ÞÀÌ¼ÇÅ¬¸³)",RESOURCE_PATH
+"RESOURCE_TYPES(1: ï¿½Ø½ï¿½ï¿½ï¿½, 2: ï¿½ï¿½Æ®, 3: ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½, 4: ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½Å¬ï¿½ï¿½)",RESOURCE_PATH
 3,animations/CharFlight.csv
 3,animations/CharIdle.csv
 3,animations/CharLongJump.csv
@@ -94,6 +94,7 @@
 0,graphics/item/M_Spikes_attack_1.png
 0,graphics/item/M_Spikes_attack_2.png
 0,graphics/item/M_Spikes_attack_3.png
+0,graphics/item/M_Spikes_attack_4.png
 0,graphics/ui/Tower_1.png
 0,graphics/ui/Tower_2.png
 0,graphics/ui/Tower_3.png

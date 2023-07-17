@@ -16,7 +16,7 @@ struct Tile
 {
 	int x = 0;
 	int y = 0;
-	int texIndex;
+	int texIndex = -1;
 	Obstacles obstacleIndex = Obstacles::None;
 };
 

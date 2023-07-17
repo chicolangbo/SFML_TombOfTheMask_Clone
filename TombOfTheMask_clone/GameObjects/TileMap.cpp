@@ -90,6 +90,7 @@ bool TileMap::Load(const std::string& filePath)
                     continue;
                 }
                 spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
+                spikes[sIndex]->SetTileIndex(tileIndex);
                 ++sIndex;
             }
             if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15)

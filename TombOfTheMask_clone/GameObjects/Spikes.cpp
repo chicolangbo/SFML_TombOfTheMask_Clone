@@ -15,15 +15,19 @@ void Spikes::Init()
 void Spikes::Reset()
 {
 	animation.Play("Spikes");
+	animation.SetSpeed(0.f);
 	SetOrigin(origin);
 	/*SetPosition(100.f, 100.f);*/
 }
 
 void Spikes::Update(float dt)
 {
+	if (collide)
+	{
+		std::cout << "애니메 플레이" << std::endl;
+		animation.SetSpeed(0.3f);
+	}
 	animation.Update(dt);
-
-	//if()
 }
 
 void Spikes::Draw(sf::RenderWindow& window)

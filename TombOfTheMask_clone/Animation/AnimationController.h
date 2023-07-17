@@ -31,6 +31,7 @@ public:
 			return "";
 		}
 		return currentClip->id; }
+	int GetCurFrame() { return currentFrame; }
 
 	void Update(float dt);
 	void Play(const std::string& clipId, bool clearQueue = true);

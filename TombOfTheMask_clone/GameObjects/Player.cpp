@@ -201,46 +201,55 @@ COLLIDE Player::CheckCollide()
 		}
 		if (tileMap->tiles[i].x == playerTileIndex.x && tileMap->tiles[i].y == playerTileIndex.y) // 인덱스가 같으면
 		{
+			// SpikeWall : 바로 죽음
 			if (tileMap->tiles[i].obstacleIndex == Obstacles::SpikeWall)
 			{
 				std::cout << "spikeWall죽음" << std::endl;
+				speed = 0.f;
 			}
+			// Spike : 두번째 밟을 때 죽음
 			if (tileMap->tiles[i].obstacleIndex == Obstacles::Spike)
 			{
-				std::cout << "spike죽음" << std::endl;
-				for (int i = 0; i < spikes.size(); ++i)
+				for (int j = 0; j < spikes.size(); ++j)
 				{
-					if (spikes[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+					if (spikes[j]->GetTileIndex() == i)
 					{
-						speed = 0;
-						break;
+						if (spikes[j]->collide == false)
+						{
+							spikes[j]->collide = true;
+						}
+						else if (spikes[j]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && spikes[j]->GetCurFrame() != 0)
+						{
+							std::cout << "spike죽음" << std::endl;
+							speed = 0.f;
+						}
 					}
 				}
 			}
 
 			// 충돌 시 set position
-			if (direction.x == 1)
+			if (direction.x == 1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
 				SetPosition(position.x -15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::R);
 				return COLLIDE::R;
 			}
-			else if (direction.x == -1)
+			else if (direction.x == -1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
 				SetPosition(position.x +15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::L);
 				return COLLIDE::L;
 			}
-			else if (direction.y == 1)
+			else if (direction.y == 1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
 				SetPosition(position.x, position.y -15.f);
 				MoveReset();
 				SetRotation(COLLIDE::B);
 				return COLLIDE::B;
 			}
-			else if (direction.y == -1)
+			else if (direction.y == -1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
 				SetPosition(position.x, position.y +15.f);
 				MoveReset();
