@@ -22,7 +22,7 @@ protected:
     sf::Vector2f direction;
 
     TileMap* tileMap = nullptr;
-    Spikes* spikes = nullptr;
+    std::vector<Spikes*> spikes = {};
 
     float speed = 500.f;
     bool flipX = false;
@@ -49,7 +49,7 @@ public:
     void SetFlipY(bool flip);
     void SetRotation(COLLIDE c);
     void SetMap(TileMap* tilemap);
-    void SetSpikes(Spikes* spikes);
+    void SetSpikes(std::vector<Spikes*> spikes);
 
     void MovePlayer(float dt, COLLIDE c);
     COLLIDE CheckCollide();

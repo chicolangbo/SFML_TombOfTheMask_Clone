@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TileMap.h"
 #include "rapidcsv.h"
+#include "Spikes.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
 	: VertexArrayGo(textureId, n)
@@ -23,7 +24,17 @@ bool TileMap::Load(const std::string& filePath)
             Tile tile;
             tile.x = j;
             tile.y = i;
-            tile.texIndex = map.GetCell<int>(j, i);
+            std::string cell = map.GetCell<std::string>(j, i);
+            size_t str = cell.find('/');
+            if (str != std::string::npos) // '/'를 포함하면
+            {
+                tile.obstacleIndex = stoi(cell.substr(str + 1));
+                tile.texIndex = stoi(cell.substr(0, str));
+            }
+            else
+            {
+                tile.texIndex = stoi(cell);
+            }
             tiles.push_back(tile);
         }
     }
@@ -53,18 +64,29 @@ bool TileMap::Load(const std::string& filePath)
         { 0.f, tileSize.y }
     };
 
-    for (int i = 0; i < size.y; ++i)
+    int sIndex = 0;
+    for (int i = 0; i < size.y; ++i) // 행
     {
-        for (int j = 0; j < size.x; ++j)
+        for (int j = 0; j < size.x; ++j) // 열
         {
             int tileIndex = size.x * i + j;
             int texIndex = tiles[tileIndex].texIndex;
+            int vertexIndex;
             for (int k = 0; k < 4; ++k)
             {
-                int vertexIndex = tileIndex * 4 + k;
+                vertexIndex = tileIndex * 4 + k;
                 vertexArray[vertexIndex].position = currPos + offsets[k];
                 vertexArray[vertexIndex].texCoords = texOffsets[k];
                 vertexArray[vertexIndex].texCoords.y += texSize.y * texIndex;
+            }
+            if (tiles[tileIndex].obstacleIndex != 0)
+            {
+                if (spikes[sIndex] == nullptr)
+                {
+                    continue;
+                }
+                spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
+                ++sIndex;
             }
             currPos.x += tileSize.x;
         }
@@ -73,4 +95,9 @@ bool TileMap::Load(const std::string& filePath)
     }
 
     return true;
+}
+
+void TileMap::SetSpikes(std::vector<Spikes*> spikes)
+{
+    this->spikes = spikes;
 }

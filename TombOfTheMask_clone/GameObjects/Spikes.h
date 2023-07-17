@@ -8,7 +8,6 @@ class Spikes :
 {
 protected:
     AnimationController animation;
-    TileMap* tileMap = nullptr;
 
 public:
     Spikes(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {};
@@ -18,7 +17,5 @@ public:
     virtual void Reset() override;
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window) override;
-
-    void SetMap(TileMap* tilemap);
 };
 

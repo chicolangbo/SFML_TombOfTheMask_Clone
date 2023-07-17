@@ -19,7 +19,14 @@ void SceneGame::Init()
 	Release();
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
 	player = (Player*)AddGo(new Player("player"));
-	spikes = (Spikes*)AddGo(new Spikes("spikes"));
+
+	for (int i = 0; i < 2; i++)
+	{
+		std::string num = std::to_string(i+1);
+		Spikes* spikes = (Spikes*)AddGo(new Spikes("spikes"+num));
+		this->spikes.push_back(spikes);
+	}
+	tileMap->SetSpikes(spikes);
 	player->SetMap(tileMap);
 	player->SetSpikes(spikes);
 	// BUTTON TEST CODE

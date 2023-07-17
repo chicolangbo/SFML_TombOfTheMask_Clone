@@ -9,7 +9,7 @@ class SceneGame : public Scene
 protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
-	Spikes* spikes = nullptr;
+	std::vector<Spikes*> spikes = {};
 
 public:
 	SceneGame();

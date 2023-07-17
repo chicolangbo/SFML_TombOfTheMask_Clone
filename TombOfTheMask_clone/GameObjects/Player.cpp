@@ -13,8 +13,6 @@ void Player::Init()
 
 	animation.SetTarget(&sprite);
 	SetOrigin(Origins::MC);
-
-	spikes->SetMap(tileMap);
 }
 
 void Player::Reset()
@@ -110,7 +108,7 @@ void Player::SetMap(TileMap* tilemap)
 	this->tileMap = tilemap;
 }
 
-void Player::SetSpikes(Spikes* spikes)
+void Player::SetSpikes(std::vector<Spikes*> spikes)
 {
 	this->spikes = spikes;
 }
@@ -206,28 +204,28 @@ COLLIDE Player::CheckCollide()
 			//std::cout << "충돌" << std::endl;
 			if (direction.x == 1)
 			{
-				SetPosition(position.x - 1.f-15.f, position.y);
+				SetPosition(position.x -15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::R);
 				return COLLIDE::R;
 			}
 			if (direction.x == -1)
 			{
-				SetPosition(position.x + 1.f+15.f, position.y);
+				SetPosition(position.x +15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::L);
 				return COLLIDE::L;
 			}
 			if (direction.y == 1)
 			{
-				SetPosition(position.x, position.y -1.f-15.f);
+				SetPosition(position.x, position.y -15.f);
 				MoveReset();
 				SetRotation(COLLIDE::B);
 				return COLLIDE::B;
 			}
 			if (direction.y == -1)
 			{
-				SetPosition(position.x, position.y + 1.f + 15.f);
+				SetPosition(position.x, position.y + 15.f);
 				MoveReset();
 				SetRotation(COLLIDE::T);
 				return COLLIDE::T;
