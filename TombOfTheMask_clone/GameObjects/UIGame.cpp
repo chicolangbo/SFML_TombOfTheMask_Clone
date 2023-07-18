@@ -2,9 +2,12 @@
 #include "UIGame.h"
 #include "ResourceMgr.h"
 #include "Framework.h"
+#include "InputMgr.h"
+#include "StringTable.h"
+#include "DataTableMgr.h"
 
 UIGame::UIGame(const std::string& n)
-	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("fonts/GalmuriMono7.ttf", "scoreText")
+	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("scoreText", "fonts/GalmuriMono7.ttf")
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -56,10 +59,10 @@ void UIGame::Init()
 		std::stringstream ss;
 		ss << this->score;
 		scoreText.text.setString(ss.str());
-		scoreText.text.setCharacterSize(50);
+		scoreText.text.setCharacterSize(30);
 		scoreText.text.setFillColor(sf::Color::Yellow);
 		scoreText.SetOrigin(Origins::TL);
-		scoreText.SetPosition(50.f, 0.f);
+		scoreText.SetPosition(scoreCoin.GetPosition().x + 50.f ,10.f);
 		scoreText.sortLayer = 100;
 	}
 
@@ -101,6 +104,13 @@ void UIGame::Reset()
 void UIGame::Update(float dt)
 {
 	StarIconUpdate();
+	ScoreTextUpdate();
+	pauseIcon.Update(dt);
+
+	if (pause && INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
+	{
+
+	}
 }
 
 void UIGame::Draw(sf::RenderWindow& window)
@@ -142,6 +152,13 @@ void UIGame::StarIconUpdate()
 			break;
 		}
 	}
+}
+
+void UIGame::ScoreTextUpdate()
+{
+	std::stringstream ss;
+	ss << this->score;
+	scoreText.text.setString(ss.str());
 }
 
 bool UIGame::GetPause()

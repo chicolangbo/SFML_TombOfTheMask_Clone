@@ -13,6 +13,9 @@ protected:
 	std::vector<SpriteGo> starIcon;
 	UIButton pauseIcon;
 
+	/*SpriteGo pauseBox;
+	TextGo pauseText;*/
+
 	int score = 0;
 	int maxScore = 0;
 
@@ -29,6 +32,7 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 	
 	void StarIconUpdate();
+	void ScoreTextUpdate();
 
 	bool GetPause();
 	void SetScore(int s);
