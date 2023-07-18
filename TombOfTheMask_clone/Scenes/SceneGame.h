@@ -19,6 +19,7 @@ protected:
 	std::vector<SpriteGo*> SCoins = {};
 
 	int score = 0;
+	bool isPause = false;
 
 public:
 	SceneGame();

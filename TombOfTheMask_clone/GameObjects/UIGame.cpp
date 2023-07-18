@@ -7,7 +7,7 @@
 #include "DataTableMgr.h"
 
 UIGame::UIGame(const std::string& n)
-	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("scoreText", "fonts/GalmuriMono7.ttf"), pauseBox("pauseBox"), pauseText("pauseText", "fonts/GalmuriMono7.ttf")
+	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("scoreText", "fonts/GalmuriMono7.ttf"), pauseBox("pauseBox"), pauseText("pauseText", "fonts/GalmuriMono7.ttf"), enterBox("graphics/ui/Button.png", "enter"), exitBox("graphics/ui/Button.png","exit"), enterText("enterText", "fonts/GalmuriMono7.ttf"), exitText("exitText", "fonts/GalmuriMono7.ttf")
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -37,7 +37,7 @@ void UIGame::Init()
 		};
 		pauseIcon.OnClick = [this]() {
 			std::cout << "Click" << std::endl;
-			pause = true;
+			isPause = true;
 		};
 		pauseIcon.OnExit = [this]() {
 			std::cout << "Exit" << std::endl;
@@ -88,14 +88,66 @@ void UIGame::Init()
 		pauseBox.sortLayer = 100;
 
 		// PAUSE TEXT
-		StringTable* stringTable = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
-		pauseText.SetString(stringTable->Get("CONTINUE"));
-		pauseText.text.setCharacterSize(50);
+		StringTable* stringTable1 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
+		pauseText.SetString(stringTable1->Get("CONTINUE"));
+		pauseText.text.setCharacterSize(60);
 		pauseText.text.setFillColor(sf::Color::Black);
-		pauseText.SetOrigin(Origins::MC);
+		pauseText.SetPosition(screenSize.x*0.5f,screenSize.y*0.5f);
 		pauseText.sortLayer = 100;
-		pauseText.SetPosition(screenSize * 0.5f);
 
+		// YES BOX
+		enterBox.SetOrigin(Origins::MC);
+		enterBox.SetPosition(screenSize.x / 4 * 1, screenSize.y - 200.f);
+		enterBox.sprite.setScale(2.5f, 2.f);
+		enterBox.sprite.setColor(sf::Color::Yellow);
+		enterBox.OnEnter = [this]() {
+			std::cout << "Enter" << std::endl;
+			enterBox.sprite.setColor(sf::Color::Magenta);
+		};
+		enterBox.OnClick = [this]() {
+			std::cout << "Click" << std::endl;
+			isPause = false;
+		};
+		enterBox.OnExit = [this]() {
+			std::cout << "Exit" << std::endl;
+			enterBox.sprite.setColor(sf::Color::Yellow);
+		};
+		enterBox.sortLayer = 100;
+
+		// YES TEXT
+		StringTable* stringTable2 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
+		enterText.SetString(stringTable2->Get("ENTER"));
+		enterText.text.setCharacterSize(20);
+		enterText.text.setFillColor(sf::Color::Black);
+		enterText.SetPosition(enterBox.GetPosition());
+		enterText.sortLayer = 100;
+
+		// GIVE UP BOX
+		exitBox.SetOrigin(Origins::MC);
+		exitBox.SetPosition(screenSize.x / 4 * 3, screenSize.y - 200.f);
+		exitBox.sprite.setScale(2.5f, 2.f);
+		exitBox.sprite.setColor(sf::Color::Yellow);
+		exitBox.OnEnter = [this]() {
+			std::cout << "Enter" << std::endl;
+			exitBox.sprite.setColor(sf::Color::Magenta);
+		};
+		exitBox.OnClick = [this]() {
+			std::cout << "Click" << std::endl;
+			isPause = true;
+		};
+		exitBox.OnExit = [this]() {
+			std::cout << "Exit" << std::endl;
+			exitBox.sprite.setColor(sf::Color::Yellow);
+		};
+		exitBox.sortLayer = 100;
+
+		// GIVE UP TEXT
+		StringTable* stringTable3 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
+		exitText.SetString(stringTable3->Get("GIVE_UP"));
+		exitText.text.setCharacterSize(20);
+		exitText.text.setFillColor(sf::Color::Black);
+		exitText.SetPosition(exitBox.GetPosition());
+		exitText.sortLayer = 100;
 	}
 }
 
@@ -113,6 +165,10 @@ void UIGame::Release()
 	// PAUSE UI
 	pauseBox.Release();
 	pauseText.Release();
+	enterBox.Release();
+	enterText.Release();
+	exitBox.Release();
+	exitText.Release();
 }
 
 void UIGame::Reset()
@@ -129,17 +185,40 @@ void UIGame::Reset()
 	// PAUSE UI
 	pauseBox.Reset();
 	pauseText.Reset();
+	pauseText.SetOrigin(Origins::MC);
+	enterBox.Reset();
+	enterText.Reset();
+	enterText.SetOrigin(Origins::MC);
+	exitBox.Reset();
+	exitText.Reset();
+	exitText.SetOrigin(Origins::MC);
 }
 
 void UIGame::Update(float dt)
 {
 	StarIconUpdate();
 	ScoreTextUpdate();
+
 	pauseIcon.Update(dt);
+	enterBox.Update(dt);
+	exitBox.Update(dt);
 
-	if (pause && INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 	{
+		if (isPause)
+		{
+			isPause = false;
+			return;
+		}
+		isPause = true;
+	}
 
+	if (isPause)
+	{
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
+		{
+			// 타이틀로 이동하는 코드
+		}
 	}
 }
 
@@ -155,8 +234,15 @@ void UIGame::Draw(sf::RenderWindow& window)
 	}
 
 	// PAUSE UI
-	pauseBox.Draw(window);
-	pauseText.Draw(window);
+	if (isPause)
+	{
+		pauseBox.Draw(window);
+		pauseText.Draw(window);
+		enterBox.Draw(window);
+		enterText.Draw(window);
+		exitBox.Draw(window);
+		exitText.Draw(window);
+	}
 }
 
 void UIGame::StarIconUpdate()
@@ -198,7 +284,7 @@ void UIGame::ScoreTextUpdate()
 
 bool UIGame::GetPause()
 {
-	return pause;
+	return isPause;
 }
 
 void UIGame::SetScore(int s)

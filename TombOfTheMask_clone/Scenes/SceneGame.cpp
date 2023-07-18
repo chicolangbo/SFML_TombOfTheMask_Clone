@@ -119,10 +119,17 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-	Scene::Update(dt);
-	worldView.setCenter(player->GetPosition());	
-	score = player->GetScore();
-	uiGame->SetScore(score);
+	if (!uiGame->GetPause())
+	{
+		Scene::Update(dt);
+		worldView.setCenter(player->GetPosition());	
+		score = player->GetScore();
+		uiGame->SetScore(score);
+	}
+	else
+	{
+		uiGame->Update(dt);
+	}
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

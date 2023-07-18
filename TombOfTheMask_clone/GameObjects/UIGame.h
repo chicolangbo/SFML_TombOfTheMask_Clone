@@ -16,11 +16,15 @@ protected:
 
 	RectGo pauseBox;
 	TextGo pauseText;
+	UIButton enterBox;
+	TextGo enterText;
+	UIButton exitBox;
+	TextGo exitText;
 
 	int score = 0;
 	int maxScore = 0;
 
-	bool pause = false;
+	bool isPause = false;
 
 public:
 	UIGame(const std::string& n = "");
