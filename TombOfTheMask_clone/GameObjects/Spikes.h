@@ -8,7 +8,7 @@ class Spikes :
 {
 protected:
     AnimationController animation;
-    int tileIndex;
+    //int tileIndex;
 
 public:
     bool collide;
@@ -22,7 +22,7 @@ public:
     virtual void Draw(sf::RenderWindow& window) override;
 
    int GetCurFrame() { return animation.GetCurFrame(); }
-   void SetTileIndex(int t) { this->tileIndex = t; }
-   int GetTileIndex() { return this->tileIndex; }
+   //void SetTileIndex(int t) { this->tileIndex = t; }
+   //int GetTileIndex() { return this->tileIndex; }
 };
 

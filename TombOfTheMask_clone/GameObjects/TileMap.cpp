@@ -2,6 +2,7 @@
 #include "TileMap.h"
 #include "rapidcsv.h"
 #include "Spikes.h"
+#include "DestinationGo.h"
 
 TileMap::TileMap(const std::string& textureId, const std::string& n)
 	: VertexArrayGo(textureId, n)
@@ -107,7 +108,7 @@ bool TileMap::Load(const std::string& filePath)
                     continue;
                 }
                 spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
-                spikes[sIndex]->SetTileIndex(tileIndex);
+                //spikes[sIndex]->SetTileIndex(tileIndex);
                 ++sIndex;
             }
             if (tiles[tileIndex].itemIndex == Item::SCoin)
@@ -131,6 +132,10 @@ bool TileMap::Load(const std::string& filePath)
             if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15)
             {
                 tiles[tileIndex].obstacleIndex = Obstacles::SpikeWall;
+            }
+            if (tiles[tileIndex].itemIndex == Item::Destination)
+            {
+                destination->SetPosition(GetPosition(j, i));
             }
             currPos.x += tileSize.x;
         }
@@ -157,6 +162,8 @@ void TileMap::SetEnum(Tile& t, int i)
     case 21:
         t.obstacleIndex = Obstacles::Bat;
         break;
+    case 22:
+        t.itemIndex = Item::Destination;
     }
 }
 
@@ -172,6 +179,11 @@ sf::Vector2f TileMap::GetPosition(int x, int y)
     sf::Vector2f pos = vertexArray[vertexIndex].position + sf::Vector2f(15.f, 15.f);
 
     return pos;
+}
+
+void TileMap::SetDestination(DestinationGo* des)
+{
+    this->destination = des;
 }
 
 void TileMap::SetBCoins(std::vector<SpriteGo*> BCoins)

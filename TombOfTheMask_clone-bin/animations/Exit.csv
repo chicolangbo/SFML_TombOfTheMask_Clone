@@ -2,6 +2,6 @@ ID,FPS,LOOPTYPE,,
 Exit,10,1,,
 ,,,,
 TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
-graphics/item/Exit_1.png,0,0,12,12
-graphics/item/Exit_2.png,0,0,12,12
-graphics/item/Exit_3.png,0,0,12,12
+graphics/item/Exit_1.png,0,0,30,30
+graphics/item/Exit_2.png,0,0,30,30
+graphics/item/Exit_3.png,0,0,30,30

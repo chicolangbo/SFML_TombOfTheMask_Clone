@@ -3,6 +3,7 @@
 
 class Spikes;
 class SpriteGo;
+class DestinationGo;
 
 enum class Obstacles
 {
@@ -17,6 +18,7 @@ enum class Item
 	None,
 	BCoin,
 	SCoin,
+	Destination
 };
 
 struct Tile
@@ -34,6 +36,7 @@ protected:
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};
+	DestinationGo* destination = nullptr;
 
 	sf::Vector2i size = {0,0};
 
@@ -46,6 +49,7 @@ public:
 	void SetSpikes(std::vector<Spikes*> spikes);
 	void SetBCoins(std::vector<SpriteGo*> BCoins);
 	void SetSCoins(std::vector<SpriteGo*> SCoins);
+	void SetDestination(DestinationGo* des);
 	void SetEnum(Tile& t, int i);
 
 	sf::Vector2f GetPosition(int x, int y);

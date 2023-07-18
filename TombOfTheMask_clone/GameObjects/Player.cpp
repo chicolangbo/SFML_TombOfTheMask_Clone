@@ -125,6 +125,11 @@ void Player::SetSCoins(std::vector<SpriteGo*> SCoins)
 	this->SCoins = SCoins;
 }
 
+void Player::SetDestination(DestinationGo* des)
+{
+	this->destination = des;
+}
+
 void Player::MovePlayer(float dt, COLLIDE c)
 {
 	// flip

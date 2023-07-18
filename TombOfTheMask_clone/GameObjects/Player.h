@@ -25,6 +25,7 @@ protected:
     std::vector<Spikes*> spikes = {};
     std::vector<SpriteGo*> BCoins = {};
     std::vector<SpriteGo*> SCoins = {};
+    DestinationGo* destination = nullptr;
 
     int score = 0;
 
@@ -57,6 +58,7 @@ public:
     void SetSpikes(std::vector<Spikes*> spikes);
     void SetBCoins(std::vector<SpriteGo*> BCoins);
     void SetSCoins(std::vector<SpriteGo*> SCoins);
+    void SetDestination(DestinationGo* des);
     
     int GetScore() { return score; }
 
