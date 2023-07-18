@@ -64,30 +64,22 @@ void SceneGame::Init()
 
 	// UI OBJECTS
 	{
-		
-	}
+		// TEST CODE
+		//{
+		//	SpriteGo* uiCoin = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Bonus_Coin.png", "uiCoin"));
+		//	uiCoin->sprite.setColor(sf::Color::Yellow);
+		//	uiCoin->SetOrigin(Origins::TL);
+		//	uiCoin->SetPosition(0,0);
+		//	uiCoin->sortLayer = 100;
+		//}
 
-	// BUTTON TEST CODE
-	{
-	//UIButton* testButton = (UIButton*)AddGo(new UIButton("graphics/button.png"));
-	//testButton->SetOrigin(Origins::TR);
-	//testButton->sortLayer = 100;
-	//testButton->SetPosition(size.x, 0.f);
-	//testButton->OnEnter = [testButton]() {
-	//	std::cout << "Enter" << std::endl;
-	//	sf::Texture* tex = RESOURCE_MGR.GetTexture("graphics/button2.png");
-	//	testButton->sprite.setTexture(*tex);
-	//};
-	//testButton->OnClick = []() {
-	//	std::cout << "Click" << std::endl;
-	//};
-	//testButton->OnExit = [testButton]() {
-	//	std::cout << "Exit" << std::endl;
-	//	sf::Texture* tex = RESOURCE_MGR.GetTexture(testButton->textureId);
-	//	testButton->sprite.setTexture(*tex);
-	//};
+		// USING CODE
+		uiGame = (UIGame*)AddGo(new UIGame("uiGame"));
+		uiGame->SetOrigin(Origins::MC);
+		uiGame->SetMaxScore(920);
+		uiGame->SetPosition(screenSize * 0.5f);
+		uiGame->sortLayer = 100;
 	}
-
 
 	for (auto go : gameObjects)
 	{
@@ -130,6 +122,7 @@ void SceneGame::Update(float dt)
 	Scene::Update(dt);
 	worldView.setCenter(player->GetPosition());	
 	score = player->GetScore();
+	uiGame->SetScore(score);
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

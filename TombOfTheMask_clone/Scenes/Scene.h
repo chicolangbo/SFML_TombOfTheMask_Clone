@@ -1,4 +1,5 @@
 #pragma once
+#include "Framework.h"
 
 class GameObject;
 
@@ -17,6 +18,7 @@ protected:
 
 	sf::View worldView;
 	sf::View uiView;
+	sf::Vector2f screenSize = FRAMEWORK.GetWindowSize();
 
 	sf::RenderWindow& window;
 

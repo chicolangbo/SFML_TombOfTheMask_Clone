@@ -10,11 +10,8 @@
 3,animations/Spikes.csv
 3,animations/Tower.csv
 3,animations/Bat.csv
-1,fonts/LiberationSans.ttf
-1,fonts/MyriadPro-Semibold.otf
-1,fonts/PT_Sans-Web-Bold.ttf
-1,fonts/PT_Sans-Web-Regular.ttf
-1,fonts/PTS55F.ttf
+1,fonts/Galmuri14.ttf
+1,fonts/GalmuriMono7.ttf
 0,graphics/ui/Tower_top.png
 0,graphics/character/0_Char_arrive_1.png
 0,graphics/character/0_Char_arrive_2.png
@@ -103,3 +100,9 @@
 0,graphics/ui/Tower_6.png
 0,graphics/ui/Tower_7.png
 0,graphics/ui/Tower_8.png
+0,graphics/item/Bonus_Coin.png
+0,graphics/item/Coin_2.png
+0,graphics/item/Coin_addict_1.png
+0,graphics/item/tile_Map.png
+0,graphics/ui/Star_big_1.png
+0,graphics/ui/Star_big_2.png

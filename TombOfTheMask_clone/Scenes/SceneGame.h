@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Spikes.h"
 #include "DestinationGo.h"
+#include "UIGame.h"
 
 class SceneGame : public Scene
 {
@@ -11,6 +12,8 @@ protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
 	DestinationGo* destination = nullptr;
+	UIGame* uiGame = nullptr;
+
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};

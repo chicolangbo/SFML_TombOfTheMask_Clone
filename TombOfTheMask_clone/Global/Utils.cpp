@@ -132,3 +132,19 @@ float Utils::Angle(const sf::Vector2f& dir)
 {
 	return (float)(atan2(dir.y, dir.x) * (180.f / M_PI));
 }
+
+std::wstring Utils::ConverToUTF(const std::string& text)
+{
+	std::wstring uiText;
+
+	if (Variables::CurrentLang == Languages::KOR || Variables::CurrentLang == Languages::JP)
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+		uiText = converter.from_bytes(text);
+	}
+	else if (Variables::CurrentLang == Languages::ENG)
+	{
+		return std::wstring(text.begin(), text.end());
+	}
+	return uiText;
+}
