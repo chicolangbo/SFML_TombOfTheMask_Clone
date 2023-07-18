@@ -25,17 +25,32 @@ bool TileMap::Load(const std::string& filePath)
             tile.x = j;
             tile.y = i;
             std::string cell = map.GetCell<std::string>(j, i);
-            size_t str = cell.find('/');
-            if (str != std::string::npos) // '/'를 포함하면
+            size_t firstSlashIndex = cell.find('/');
+            size_t secondSlashIndex = cell.find('/', firstSlashIndex + 1);
+            size_t lastSlashIndex = cell.rfind('/');
+            if (firstSlashIndex != std::string::npos) // '/'를 한개 포함하면
             {
-                if (stoi(cell.substr(str + 1)) == 18)
+                // 첫번째 할당
+                int first = stoi(cell.substr(0, firstSlashIndex));
+                tile.texIndex = first;
+
+                // 두번째 할당
+                if (secondSlashIndex == std::string::npos)
                 {
-                    std::cout << j << "," << i << std::endl;
-                    tile.obstacleIndex = Obstacles::Spike;
+                    int second = stoi(cell.substr(firstSlashIndex + 1));
+                    SetEnum(tile, second);
                 }
-                tile.texIndex = stoi(cell.substr(0, str));
+                // 세번째 할당
+                else
+                {
+                    int mid = stoi(cell.substr(firstSlashIndex + 1, secondSlashIndex - firstSlashIndex - 1));
+                    SetEnum(tile, mid);
+
+                    int last = stoi(cell.substr(lastSlashIndex + 1));
+                    SetEnum(tile, last);
+                }
             }
-            else
+            else // '/'를 포함하지 않으면
             {
                 tile.texIndex = stoi(cell);
             }
@@ -69,6 +84,8 @@ bool TileMap::Load(const std::string& filePath)
     };
 
     int sIndex = 0;
+    int scIndex = 0;
+    int bcIndex = 0;
     for (int i = 0; i < size.y; ++i) // 행
     {
         for (int j = 0; j < size.x; ++j) // 열
@@ -83,7 +100,7 @@ bool TileMap::Load(const std::string& filePath)
                 vertexArray[vertexIndex].texCoords = texOffsets[k];
                 vertexArray[vertexIndex].texCoords.y += texSize.y * texIndex;
             }
-            if (tiles[tileIndex].obstacleIndex != Obstacles::None)
+            if (tiles[tileIndex].obstacleIndex == Obstacles::Spike)
             {
                 if (spikes[sIndex] == nullptr)
                 {
@@ -92,6 +109,26 @@ bool TileMap::Load(const std::string& filePath)
                 spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
                 spikes[sIndex]->SetTileIndex(tileIndex);
                 ++sIndex;
+            }
+            if (tiles[tileIndex].itemIndex == Item::SCoin)
+            {
+                if (SCoins[scIndex] == nullptr)
+                {
+                    continue;
+                }
+                SCoins[scIndex]->SetPosition(vertexArray[vertexIndex].position.x + 15.f, vertexArray[vertexIndex].position.y - 15.f);
+                //SCoins[scIndex]->SetTileIndex(tileIndex);
+                ++scIndex;
+            }
+            if (tiles[tileIndex].itemIndex == Item::BCoin)
+            {
+                if (BCoins[bcIndex] == nullptr)
+                {
+                    continue;
+                }
+                BCoins[bcIndex]->SetPosition(vertexArray[vertexIndex].position.x + 15.f, vertexArray[vertexIndex].position.y - 15.f);
+                //SCoins[scIndex]->SetTileIndex(tileIndex);
+                ++bcIndex;
             }
             if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15)
             {
@@ -106,7 +143,36 @@ bool TileMap::Load(const std::string& filePath)
     return true;
 }
 
+void TileMap::SetEnum(Tile& t, int i)
+{
+    switch (i)
+    {
+    case 18:
+        t.obstacleIndex = Obstacles::Spike;
+        break;
+    case 19:
+        t.itemIndex = Item::SCoin;
+        break;
+    case 20:
+        t.itemIndex = Item::BCoin;
+        break;
+    case 21:
+        t.obstacleIndex = Obstacles::Bat;
+        break;
+    }
+}
+
 void TileMap::SetSpikes(std::vector<Spikes*> spikes)
 {
     this->spikes = spikes;
+}
+
+void TileMap::SetBCoins(std::vector<SpriteGo*> BCoins)
+{
+    this->BCoins = BCoins;
+}
+
+void TileMap::SetSCoins(std::vector<SpriteGo*> SCoins)
+{
+    this->SCoins = SCoins;
 }

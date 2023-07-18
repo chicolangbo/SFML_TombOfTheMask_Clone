@@ -24,7 +24,6 @@ void Spikes::Update(float dt)
 {
 	if (collide)
 	{
-		std::cout << "애니메 플레이" << std::endl;
 		animation.SetSpeed(0.3f);
 	}
 	animation.Update(dt);

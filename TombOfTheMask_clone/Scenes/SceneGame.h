@@ -10,6 +10,8 @@ protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
 	std::vector<Spikes*> spikes = {};
+	std::vector<SpriteGo*> BCoins = {};
+	std::vector<SpriteGo*> SCoins = {};
 
 public:
 	SceneGame();

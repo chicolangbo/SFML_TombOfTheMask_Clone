@@ -17,18 +17,44 @@ SceneGame::SceneGame() : Scene(SceneId::Game)
 void SceneGame::Init()
 {
 	Release();
+
+	for (int i = 0; i < 2; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		Spikes* spikes = (Spikes*)AddGo(new Spikes("spikes" + num));
+		this->spikes.push_back(spikes);
+	}
+
+	for (int i = 0; i < 78; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		SpriteGo* scoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_2.png", "scoins" + num));
+		scoins->SetOrigin(Origins::MC);
+		scoins->sprite.setColor(sf::Color::Yellow);
+		this->SCoins.push_back(scoins);
+	}
+
+	for (int i = 0; i < 5; ++i)
+	{
+		std::string num = std::to_string(i + 1);
+		SpriteGo* bcoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Bonus_Coin.png", "bcoins" + num));
+		bcoins->SetOrigin(Origins::MC);
+		bcoins->sprite.setColor(sf::Color::Yellow);
+		this->BCoins.push_back(bcoins);
+	}
+
 	tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
 	player = (Player*)AddGo(new Player("player"));
 
-	for (int i = 0; i < 2; i++)
-	{
-		std::string num = std::to_string(i+1);
-		Spikes* spikes = (Spikes*)AddGo(new Spikes("spikes"+num));
-		this->spikes.push_back(spikes);
-	}
 	tileMap->SetSpikes(spikes);
+	tileMap->SetBCoins(BCoins);
+	tileMap->SetSCoins(SCoins);
+
 	player->SetMap(tileMap);
 	player->SetSpikes(spikes);
+	player->SetBCoins(BCoins);
+	player->SetSCoins(SCoins);
+
 	// BUTTON TEST CODE
 	{
 	//UIButton* testButton = (UIButton*)AddGo(new UIButton("graphics/button.png"));
@@ -58,6 +84,7 @@ void SceneGame::Init()
 
 	tileMap->Load("map/map_1.csv");
 	tileMap->SetOrigin(Origins::TL);
+
 }
 
 void SceneGame::Release()
@@ -90,6 +117,7 @@ void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
 	worldView.setCenter(player->GetPosition());	
+	score = player->GetScore();
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

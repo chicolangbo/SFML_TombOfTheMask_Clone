@@ -1,8 +1,8 @@
 #pragma once
 #include "VertexArrayGo.h"
 
-
 class Spikes;
+class SpriteGo;
 
 enum class Obstacles
 {
@@ -12,18 +12,28 @@ enum class Obstacles
 	Bat,
 };
 
+enum class Item
+{
+	None,
+	BCoin,
+	SCoin,
+};
+
 struct Tile
 {
 	int x = 0;
 	int y = 0;
 	int texIndex = -1;
 	Obstacles obstacleIndex = Obstacles::None;
+	Item itemIndex = Item::None;
 };
 
 class TileMap : public VertexArrayGo
 {
 protected:
 	std::vector<Spikes*> spikes = {};
+	std::vector<SpriteGo*> BCoins = {};
+	std::vector<SpriteGo*> SCoins = {};
 
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
@@ -32,7 +42,9 @@ public:
 	bool Load(const std::string& filePath);
 
 	void SetSpikes(std::vector<Spikes*> spikes);
+	void SetBCoins(std::vector<SpriteGo*> BCoins);
+	void SetSCoins(std::vector<SpriteGo*> SCoins);
+	void SetEnum(Tile& t, int i);
 
 	std::vector<Tile> tiles;
 };
-

@@ -12,7 +12,6 @@ enum class COLLIDE
     R,
     T,
     B,
-    SPIKE,
 };
 
 class Player :
@@ -24,6 +23,10 @@ protected:
 
     TileMap* tileMap = nullptr;
     std::vector<Spikes*> spikes = {};
+    std::vector<SpriteGo*> BCoins = {};
+    std::vector<SpriteGo*> SCoins = {};
+
+    int score = 0;
 
     float speed = 500.f;
     bool flipX = false;
@@ -49,10 +52,20 @@ public:
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
     void SetRotation(COLLIDE c);
+
     void SetMap(TileMap* tilemap);
     void SetSpikes(std::vector<Spikes*> spikes);
+    void SetBCoins(std::vector<SpriteGo*> BCoins);
+    void SetSCoins(std::vector<SpriteGo*> SCoins);
+    
+    int GetScore() { return score; }
 
     void MovePlayer(float dt, COLLIDE c);
-    COLLIDE CheckCollide();
+    COLLIDE CheckTileCollide();
+    void CheckSpikeCollide();
+    void CheckCoinCollide();
     void MoveReset();
 };
+
+#define GETSCOIN 10
+#define GETBCOIN 50

@@ -53,7 +53,9 @@ void Player::Update(float dt)
 	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
 
 	// USING CODE
-	MovePlayer(dt, CheckCollide());
+	CheckCoinCollide();
+	CheckSpikeCollide();
+	MovePlayer(dt, CheckTileCollide());
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -113,10 +115,20 @@ void Player::SetSpikes(std::vector<Spikes*> spikes)
 	this->spikes = spikes;
 }
 
+void Player::SetBCoins(std::vector<SpriteGo*> BCoins)
+{
+	this->BCoins = BCoins;
+}
+
+void Player::SetSCoins(std::vector<SpriteGo*> SCoins)
+{
+	this->SCoins = SCoins;
+}
+
 void Player::MovePlayer(float dt, COLLIDE c)
 {
 	// flip
-	if (direction.x != 0.f && sprite.getRotation() == 0.f)
+	if (direction.x != 0.f/* && sprite.getRotation() == 0.f*/)
 	{
 		bool flip = direction.x < 0.f;
 		if (GetFlipX() != flip)
@@ -124,7 +136,7 @@ void Player::MovePlayer(float dt, COLLIDE c)
 			SetFlipX(flip);
 		}
 	}
-	if (direction.y != 0.f && sprite.getRotation() == 0.f)
+	if (direction.y != 0.f/* && sprite.getRotation() == 0.f*/)
 	{
 		bool flip = direction.y < 0.f;
 		if (GetFlipY() != flip)
@@ -164,15 +176,15 @@ void Player::MovePlayer(float dt, COLLIDE c)
 		{
 			direction = { 0,-1 };
 		}
-		if (aMove)
+		else if (aMove)
 		{
 			direction = { -1,0 };
 		}
-		if (sMove)
+		else if (sMove)
 		{
 			direction = { 0,1 };
 		}
-		if (dMove)
+		else if (dMove)
 		{
 			direction = { 1,0 };
 		}
@@ -181,7 +193,7 @@ void Player::MovePlayer(float dt, COLLIDE c)
 	}
 }
 
-COLLIDE Player::CheckCollide()
+COLLIDE Player::CheckTileCollide()
 {
 	// 플레이어가 속한 타일의 인덱스
 	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
@@ -206,25 +218,6 @@ COLLIDE Player::CheckCollide()
 			{
 				std::cout << "spikeWall죽음" << std::endl;
 				speed = 0.f;
-			}
-			// Spike : 두번째 밟을 때 죽음
-			if (tileMap->tiles[i].obstacleIndex == Obstacles::Spike)
-			{
-				for (int j = 0; j < spikes.size(); ++j)
-				{
-					if (spikes[j]->GetTileIndex() == i)
-					{
-						if (spikes[j]->collide == false)
-						{
-							spikes[j]->collide = true;
-						}
-						else if (spikes[j]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && spikes[j]->GetCurFrame() != 0)
-						{
-							std::cout << "spike죽음" << std::endl;
-							speed = 0.f;
-						}
-					}
-				}
 			}
 
 			// 충돌 시 set position
@@ -260,6 +253,54 @@ COLLIDE Player::CheckCollide()
 	}
 	isCollide = false;
 	return COLLIDE::NONE;
+}
+
+void Player::CheckSpikeCollide()
+{
+	for (int i = 0; i < spikes.size(); ++i)
+	{
+		if (spikes[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+		{
+			std::cout << i << std::endl;
+			if (spikes[i]->collide == false)
+			{
+				spikes[i]->collide = true;
+			}
+			else if (spikes[i]->GetCurFrame() != 0)
+			{
+				std::cout << "spike죽음" << std::endl;
+				speed = 0.f;
+			}
+		}
+	}
+}
+
+void Player::CheckCoinCollide()
+{
+	for (int i = 0; i < SCoins.size(); ++i)
+	{
+		if (SCoins[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+		{
+			if (SCoins[i]->GetActive())
+			{
+				SCoins[i]->SetActive(false);
+				score += GETSCOIN;
+				std::cout << score << std::endl;
+			}
+		}
+	}
+	for (int i = 0; i < BCoins.size(); ++i)
+	{
+		if (BCoins[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+		{
+			if (BCoins[i]->GetActive())
+			{
+				BCoins[i]->SetActive(false);
+				score += GETBCOIN;
+				std::cout << score << std::endl;
+			}
+		}
+	}
 }
 
 void Player::MoveReset()
