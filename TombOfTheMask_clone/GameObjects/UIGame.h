@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "SpriteGo.h"
+#include "RectGo.h"
 #include "UIButton.h"
 #include "TextGo.h"
 
@@ -13,8 +14,8 @@ protected:
 	std::vector<SpriteGo> starIcon;
 	UIButton pauseIcon;
 
-	/*SpriteGo pauseBox;
-	TextGo pauseText;*/
+	RectGo pauseBox;
+	TextGo pauseText;
 
 	int score = 0;
 	int maxScore = 0;

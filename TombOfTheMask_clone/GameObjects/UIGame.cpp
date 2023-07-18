@@ -7,7 +7,7 @@
 #include "DataTableMgr.h"
 
 UIGame::UIGame(const std::string& n)
-	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("scoreText", "fonts/GalmuriMono7.ttf")
+	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("scoreText", "fonts/GalmuriMono7.ttf"), pauseBox("pauseBox"), pauseText("pauseText", "fonts/GalmuriMono7.ttf")
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -77,10 +77,31 @@ void UIGame::Init()
 			starIcon[i].sortLayer = 100;
 		}
 	}
+
+	// PAUSE SCREEN
+	{
+		// PAUSE BOX
+		pauseBox.rect.setSize(sf::Vector2f(screenSize.x, 200.f ));
+		pauseBox.rect.setFillColor(sf::Color::Yellow);
+		pauseBox.SetOrigin(Origins::MC);
+		pauseBox.SetPosition(screenSize * 0.5f);
+		pauseBox.sortLayer = 100;
+
+		// PAUSE TEXT
+		StringTable* stringTable = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
+		pauseText.SetString(stringTable->Get("CONTINUE"));
+		pauseText.text.setCharacterSize(50);
+		pauseText.text.setFillColor(sf::Color::Black);
+		pauseText.SetOrigin(Origins::MC);
+		pauseText.sortLayer = 100;
+		pauseText.SetPosition(screenSize * 0.5f);
+
+	}
 }
 
 void UIGame::Release()
 {
+	// INGAME UI
 	scoreCoin.Release();
 	scoreText.Release();
 	pauseIcon.Release();
@@ -88,10 +109,15 @@ void UIGame::Release()
 	{
 		starIcon[i].Release();
 	}
+
+	// PAUSE UI
+	pauseBox.Release();
+	pauseText.Release();
 }
 
 void UIGame::Reset()
 {
+	// INGAME UI
 	scoreCoin.Reset();
 	scoreText.Reset();
 	pauseIcon.Reset();
@@ -99,6 +125,10 @@ void UIGame::Reset()
 	{
 		starIcon[i].Reset();
 	}
+
+	// PAUSE UI
+	pauseBox.Reset();
+	pauseText.Reset();
 }
 
 void UIGame::Update(float dt)
@@ -115,6 +145,7 @@ void UIGame::Update(float dt)
 
 void UIGame::Draw(sf::RenderWindow& window)
 {
+	// INGAME UI
 	scoreCoin.Draw(window);
 	scoreText.Draw(window);
 	pauseIcon.Draw(window);
@@ -122,6 +153,10 @@ void UIGame::Draw(sf::RenderWindow& window)
 	{
 		starIcon[i].Draw(window);
 	}
+
+	// PAUSE UI
+	pauseBox.Draw(window);
+	pauseText.Draw(window);
 }
 
 void UIGame::StarIconUpdate()
