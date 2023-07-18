@@ -35,6 +35,8 @@ protected:
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};
 
+	sf::Vector2i size = {0,0};
+
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~TileMap() override;
@@ -45,6 +47,8 @@ public:
 	void SetBCoins(std::vector<SpriteGo*> BCoins);
 	void SetSCoins(std::vector<SpriteGo*> SCoins);
 	void SetEnum(Tile& t, int i);
+
+	sf::Vector2f GetPosition(int x, int y);
 
 	std::vector<Tile> tiles;
 };

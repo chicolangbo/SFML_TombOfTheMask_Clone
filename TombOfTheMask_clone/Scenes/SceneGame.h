@@ -13,6 +13,8 @@ protected:
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};
 
+	int score = 0;
+
 public:
 	SceneGame();
 	virtual ~SceneGame() override = default;

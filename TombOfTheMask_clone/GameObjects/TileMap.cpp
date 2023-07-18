@@ -15,7 +15,7 @@ TileMap::~TileMap()
 bool TileMap::Load(const std::string& filePath)
 {
     rapidcsv::Document map(filePath, rapidcsv::LabelParams(-1, -1));
-    sf::Vector2i size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
+    size = { (int)map.GetColumnCount(), (int)map.GetRowCount() };
 
     for (int i = 0; i < size.y; ++i)
     {
@@ -116,8 +116,7 @@ bool TileMap::Load(const std::string& filePath)
                 {
                     continue;
                 }
-                SCoins[scIndex]->SetPosition(vertexArray[vertexIndex].position.x + 15.f, vertexArray[vertexIndex].position.y - 15.f);
-                //SCoins[scIndex]->SetTileIndex(tileIndex);
+                SCoins[scIndex]->SetPosition(GetPosition(j, i));
                 ++scIndex;
             }
             if (tiles[tileIndex].itemIndex == Item::BCoin)
@@ -126,8 +125,7 @@ bool TileMap::Load(const std::string& filePath)
                 {
                     continue;
                 }
-                BCoins[bcIndex]->SetPosition(vertexArray[vertexIndex].position.x + 15.f, vertexArray[vertexIndex].position.y - 15.f);
-                //SCoins[scIndex]->SetTileIndex(tileIndex);
+                BCoins[bcIndex]->SetPosition(GetPosition(j, i));
                 ++bcIndex;
             }
             if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15)
@@ -165,6 +163,15 @@ void TileMap::SetEnum(Tile& t, int i)
 void TileMap::SetSpikes(std::vector<Spikes*> spikes)
 {
     this->spikes = spikes;
+}
+
+sf::Vector2f TileMap::GetPosition(int x, int y)
+{
+    int tileIndex = size.x * y + x;
+    int vertexIndex = tileIndex * 4;
+    sf::Vector2f pos = vertexArray[vertexIndex].position + sf::Vector2f(15.f, 15.f);
+
+    return pos;
 }
 
 void TileMap::SetBCoins(std::vector<SpriteGo*> BCoins)

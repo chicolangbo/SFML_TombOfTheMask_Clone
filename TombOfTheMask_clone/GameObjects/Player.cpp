@@ -22,7 +22,7 @@ void Player::Reset()
 	sprite.setScale(2.f, 2.f);
 	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(origin);
-	SetPosition(120.f+15.f,150.f+15.f);
+	SetPosition(tileMap->GetPosition(4,5));
 	SetFlipX(false);
 }
 
