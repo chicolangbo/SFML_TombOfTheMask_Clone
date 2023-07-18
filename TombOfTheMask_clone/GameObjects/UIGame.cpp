@@ -26,6 +26,8 @@ void UIGame::Init()
 	{
 		pauseIcon.SetOrigin(Origins::TR);
 		pauseIcon.SetPosition(screenSize.x, 0.f);
+		pauseIcon.sprite.setScale(3.f, 3.f);
+		pauseIcon.sprite.setColor(sf::Color::Yellow);
 		pauseIcon.OnEnter = [this]() {
 			std::cout << "Enter" << std::endl;
 			pauseIcon.sprite.setColor(sf::Color::Magenta);
@@ -47,6 +49,7 @@ void UIGame::Init()
 		scoreCoin.SetOrigin(Origins::TL);
 		scoreCoin.SetPosition(0.f, 0.f);
 		scoreCoin.sprite.setColor(sf::Color::Yellow);
+		scoreCoin.sprite.setScale(2.5f, 2.5f);
 		scoreCoin.sortLayer = 100;
 
 		// SCORE TEXT
@@ -65,8 +68,9 @@ void UIGame::Init()
 		for (int i = 0; i < 3; ++i)
 		{
 			starIcon[i].SetOrigin(Origins::TC);
-			starIcon[i].SetPosition(screenSize.x * 0.5f - 30.f + i*30.f, 0.f); // 위치값은 리소스 수정 후 재세팅
+			starIcon[i].SetPosition(screenSize.x * 0.5f - 60.f + i*60.f, 0.f); // 위치값은 리소스 수정 후 재세팅
 			starIcon[i].sprite.setColor(sf::Color::Magenta);
+			starIcon[i].sprite.setScale(2.f, 2.f);
 			starIcon[i].sortLayer = 100;
 		}
 	}
@@ -101,13 +105,13 @@ void UIGame::Update(float dt)
 
 void UIGame::Draw(sf::RenderWindow& window)
 {
+	scoreCoin.Draw(window);
+	scoreText.Draw(window);
+	pauseIcon.Draw(window);
 	for (int i = 0; i<starIcon.size(); ++i)
 	{
 		starIcon[i].Draw(window);
 	}
-	scoreCoin.Draw(window);
-	pauseIcon.Draw(window);
-	scoreText.Draw(window);
 }
 
 void UIGame::StarIconUpdate()
