@@ -212,7 +212,7 @@ void UIGame::Update(float dt)
 		{
 			Reset();
 			isPause = true;
-
+			replay = true;
 		}
 		else if (winWindow)
 		{
@@ -300,7 +300,7 @@ void UIGame::Yupdate(bool open)
 		Yopen(button2Text.text);
 		Yopen(uiText1.text);
 		Yopen(uiText2.text);
-		Yopen(dieUiChar.sprite);
+		Yopen(dieUiChar.sprite, 2.f);
 		for (int i = 0; i < starGet.size(); ++i)
 		{
 			Yopen(starGet[i].sprite);
@@ -453,7 +453,7 @@ void UIGame::SetWinWindow()
 		starEmpty[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 105.f);
 	}
 
-	winWindow = true;
+	winWindow = false;
 }
 
 void UIGame::SetDieWindow()
@@ -480,5 +480,13 @@ void UIGame::SetDieWindow()
 	uiText2.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f + 40.f);
 	uiText2.SetOrigin(Origins::MC);
 
-	dieWindow = true;
+	// DIE CHAR
+	dieAnimation.Play("DieUI");
+	dieAnimation.SetTarget(&dieUiChar.sprite);
+	dieUiChar.sprite.setScale(2.f, 0.f);
+	dieUiChar.sprite.setColor(sf::Color::Cyan);
+	dieUiChar.SetOrigin(Origins::MC);
+	dieUiChar.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 100.f);
+
+	dieWindow = false;
 }

@@ -140,6 +140,10 @@ void SceneGame::Update(float dt)
 	{
 		uiGame->Update(dt);
 	}
+	if (uiGame->replay)
+	{
+		//SCENE_MGR.ChangeScene(SceneId::Game);
+	}
 }
 
 void SceneGame::Draw(sf::RenderWindow& window)

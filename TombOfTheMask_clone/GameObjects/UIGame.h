@@ -37,6 +37,7 @@ protected:
 	bool pauseWindowClose = false;
 
 public:
+	bool replay = false;
 	bool isPause = false;
 	bool pauseWindow = false;
 	bool dieWindow = false;
