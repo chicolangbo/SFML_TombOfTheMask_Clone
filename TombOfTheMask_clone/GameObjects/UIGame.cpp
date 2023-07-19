@@ -243,11 +243,17 @@ void UIGame::Draw(sf::RenderWindow& window)
 		button1Text.Draw(window);
 		button2.Draw(window);
 		button2Text.Draw(window);
-		dieUiChar.Draw(window);
-		for (int i = 0; i < starGet.size(); ++i)
+		if (dieWindow)
 		{
-			starEmpty[i].Draw(window);
-			starGet[i].Draw(window);
+			dieUiChar.Draw(window);
+		}
+		else if (winWindow)
+		{
+			for (int i = 0; i < starGet.size(); ++i)
+			{
+				starEmpty[i].Draw(window);
+				starGet[i].Draw(window);
+			}
 		}
 	}
 }
@@ -303,8 +309,8 @@ void UIGame::Yupdate(bool open)
 		Yopen(dieUiChar.sprite, 2.f);
 		for (int i = 0; i < starGet.size(); ++i)
 		{
-			Yopen(starGet[i].sprite);
-			Yopen(starEmpty[i].sprite);
+			Yopen(starGet[i].sprite, 2.f);
+			Yopen(starEmpty[i].sprite, 2.f);
 		}
 	}
 	else
@@ -412,6 +418,8 @@ void UIGame::SetPauseWindow()
 	button2Text.text.setFillColor(sf::Color::Black);
 	button2Text.SetPosition(button2.GetPosition());
 	button2Text.SetOrigin(Origins::MC);
+
+	pauseWindow = false;
 }
 
 void UIGame::SetWinWindow()
@@ -443,17 +451,15 @@ void UIGame::SetWinWindow()
 	{
 		starGetAnimation[i].Play("ScoreStar");
 		starGetAnimation[i].SetTarget(&starGet[i].sprite);
-		starGet[i].sprite.setScale(2.f, 2.f);
+		starGet[i].sprite.setScale(2.f, 0.f);
 		starGet[i].sprite.setColor(sf::Color::Cyan);
 		starGet[i].SetOrigin(Origins::MC);
 		starGet[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 100.f);
 
-		starEmpty[i].sprite.setScale(2.f, 2.f);
+		starEmpty[i].sprite.setScale(2.f, 0.f);
 		starEmpty[i].SetOrigin(Origins::MC);
 		starEmpty[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 105.f);
 	}
-
-	winWindow = false;
 }
 
 void UIGame::SetDieWindow()
@@ -487,6 +493,4 @@ void UIGame::SetDieWindow()
 	dieUiChar.sprite.setColor(sf::Color::Cyan);
 	dieUiChar.SetOrigin(Origins::MC);
 	dieUiChar.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 100.f);
-
-	dieWindow = false;
 }
