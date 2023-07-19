@@ -81,7 +81,8 @@ void UIGame::Init()
 	// PAUSE SCREEN
 	{
 		// PAUSE BOX
-		pauseBox.rect.setSize(sf::Vector2f(screenSize.x, 200.f ));
+		pauseBox.setSize(sf::Vector2f(screenSize.x, 200.f )); // 200
+		pauseBox.setScale(sf::Vector2f(1.f, 0.f));
 		pauseBox.rect.setFillColor(sf::Color::Yellow);
 		pauseBox.SetOrigin(Origins::MC);
 		pauseBox.SetPosition(screenSize * 0.5f);
@@ -98,7 +99,7 @@ void UIGame::Init()
 		// YES BOX
 		enterBox.SetOrigin(Origins::MC);
 		enterBox.SetPosition(screenSize.x / 4 * 1, screenSize.y - 200.f);
-		enterBox.sprite.setScale(2.5f, 2.f);
+		enterBox.sprite.setScale(2.5f, 0.f); // 2
 		enterBox.sprite.setColor(sf::Color::Yellow);
 		enterBox.OnEnter = [this]() {
 			std::cout << "Enter" << std::endl;
@@ -106,6 +107,7 @@ void UIGame::Init()
 		};
 		enterBox.OnClick = [this]() {
 			std::cout << "Click" << std::endl;
+			Reset();
 			isPause = false;
 		};
 		enterBox.OnExit = [this]() {
@@ -125,7 +127,7 @@ void UIGame::Init()
 		// GIVE UP BOX
 		exitBox.SetOrigin(Origins::MC);
 		exitBox.SetPosition(screenSize.x / 4 * 3, screenSize.y - 200.f);
-		exitBox.sprite.setScale(2.5f, 2.f);
+		exitBox.sprite.setScale(2.5f, 0.f); // 2
 		exitBox.sprite.setColor(sf::Color::Yellow);
 		exitBox.OnEnter = [this]() {
 			std::cout << "Enter" << std::endl;
@@ -133,6 +135,7 @@ void UIGame::Init()
 		};
 		exitBox.OnClick = [this]() {
 			std::cout << "Click" << std::endl;
+			Reset();
 			isPause = true;
 		};
 		exitBox.OnExit = [this]() {
@@ -184,14 +187,30 @@ void UIGame::Reset()
 
 	// PAUSE UI
 	pauseBox.Reset();
+	pauseBox.SetOrigin(Origins::MC);
+	pauseBox.setScale(sf::Vector2f(1.f, 0.f));
+
 	pauseText.Reset();
 	pauseText.SetOrigin(Origins::MC);
+	pauseText.text.setScale(sf::Vector2f(1.f, 0.f));
+
 	enterBox.Reset();
+	enterBox.SetOrigin(Origins::MC);
+	enterBox.sprite.setScale(sf::Vector2f(2.5f, 0.f));
+	enterBox.sprite.setColor(sf::Color::Yellow);
+
 	enterText.Reset();
 	enterText.SetOrigin(Origins::MC);
+	enterText.text.setScale(sf::Vector2f(1.f, 0.f));
+
 	exitBox.Reset();
+	exitBox.SetOrigin(Origins::MC);
+	exitBox.sprite.setScale(sf::Vector2f(2.5f, 0.f));
+	exitBox.sprite.setColor(sf::Color::Yellow);
+
 	exitText.Reset();
 	exitText.SetOrigin(Origins::MC);
+	exitText.text.setScale(sf::Vector2f(1.f, 0.f));
 }
 
 void UIGame::Update(float dt)
@@ -203,22 +222,37 @@ void UIGame::Update(float dt)
 	enterBox.Update(dt);
 	exitBox.Update(dt);
 
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
-	{
-		if (isPause)
-		{
-			isPause = false;
-			return;
-		}
-		isPause = true;
-	}
+
 
 	if (isPause)
 	{
+		Yopen(pauseBox);
+		Yopen(enterBox.sprite, 2.f);
+		Yopen(exitBox.sprite, 2.f);
+		Yopen(enterText.text);
+		Yopen(exitText.text);
+		Yopen(pauseText.text);
+
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
+		{
+			isPause = false;
+		}
+
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 		{
 			// 타이틀로 이동하는 코드
 		}
+	}
+	else
+	{
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
+		{
+			isPause = true;
+			Reset();
+			return;
+		}
+
+		Reset();
 	}
 }
 

@@ -16,6 +16,26 @@ sf::RectangleShape& RectGo::GetRect()
     return rect;
 }
 
+sf::Vector2f RectGo::getSize()
+{
+    return rect.getSize();
+}
+
+sf::Vector2f RectGo::getScale()
+{
+    return rect.getScale();
+}
+
+void RectGo::setSize(sf::Vector2f size)
+{
+    rect.setSize(size);
+}
+
+void RectGo::setScale(sf::Vector2f scale)
+{
+    rect.setScale(scale);
+}
+
 void RectGo::SetPosition(const sf::Vector2f& p)
 {
     rect.setPosition(p);

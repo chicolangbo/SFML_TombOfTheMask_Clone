@@ -12,6 +12,10 @@ public:
 	virtual ~RectGo() override;
 
 	sf::RectangleShape& GetRect();
+	sf::Vector2f getSize();
+	sf::Vector2f getScale();
+	void setSize(sf::Vector2f size);
+	void setScale(sf::Vector2f scale);
 
 	virtual void SetPosition(const sf::Vector2f& p);
 	virtual void SetPosition(float x, float y);

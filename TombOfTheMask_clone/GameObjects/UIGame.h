@@ -6,7 +6,7 @@
 #include "TextGo.h"
 
 class UIGame :
-    public GameObject
+	public GameObject
 {
 protected:
 	SpriteGo scoreCoin;
@@ -23,8 +23,8 @@ protected:
 
 	int score = 0;
 	int maxScore = 0;
-
 	bool isPause = false;
+	float totalTime = 0.f;
 
 public:
 	UIGame(const std::string& n = "");
@@ -35,12 +35,21 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
-	
+
 	void StarIconUpdate();
 	void ScoreTextUpdate();
 
 	bool GetPause();
 	void SetScore(int s);
 	void SetMaxScore(int s);
-};
 
+	template <typename T>
+	void Yopen(T& rec, float maxHeight = 1.f) {
+		float height = rec.getScale().y;
+		if (height <= maxHeight)
+		{
+			height += 0.01f; // 조금씩 증가시킬 값
+		}
+		rec.setScale(sf::Vector2f(rec.getScale().x, height));
+	}
+};
