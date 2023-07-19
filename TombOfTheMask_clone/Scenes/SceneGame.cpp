@@ -119,14 +119,28 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-	if (!uiGame->GetPause())
+	if (!uiGame->isPause && !player->isDie)
 	{
 		Scene::Update(dt);
 		worldView.setCenter(player->GetPosition());	
 		score = player->GetScore();
 		uiGame->SetScore(score);
 	}
-	else
+	else if (player->isDie)
+	{
+		uiGame->dieWindow = true;
+		uiGame->SetDieWindow();
+		uiGame->isPause = true;
+		uiGame->Update(dt);
+	}
+	else if(player->isWin)
+	{
+		uiGame->winWindow = true;
+		uiGame->SetWinWindow();
+		uiGame->isPause = true;
+		uiGame->Update(dt);
+	}
+	else if(uiGame->isPause)
 	{
 		uiGame->Update(dt);
 	}

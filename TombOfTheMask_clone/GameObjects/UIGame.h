@@ -34,11 +34,14 @@ protected:
 
 	int score = 0;
 	int maxScore = 0;
-	bool isPause = false;
 	bool pauseWindowClose = false;
-	float totalTime = 0.f;
 
 public:
+	bool isPause = false;
+	bool pauseWindow = false;
+	bool dieWindow = false;
+	bool winWindow = false;
+
 	UIGame(const std::string& n = "");
 	virtual ~UIGame() override;
 
@@ -50,13 +53,14 @@ public:
 
 	void StarIconUpdate();
 	void ScoreTextUpdate();
+	void Yupdate(bool open);
 
 	bool GetPause();
 	void SetScore(int s);
 	void SetMaxScore(int s);
 
 	void SetPauseWindow();
-	void SetClearWindow();
+	void SetWinWindow();
 	void SetDieWindow();
 
 	template <typename T>
@@ -84,6 +88,7 @@ public:
 		if (rec.getScale().y <= 0)
 		{
 			this->pauseWindowClose = false;
+			this->isPause = false;
 		}
 	}
 };

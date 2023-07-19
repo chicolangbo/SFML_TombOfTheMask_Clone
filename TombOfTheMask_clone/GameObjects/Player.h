@@ -37,9 +37,11 @@ protected:
     bool sMove = false;
     bool dMove = false;
     bool isMoving = false;
-    bool isCollide = false;
 
 public:
+    bool isDie = false;
+    bool isWin = false;
+
     Player(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {};
     virtual ~Player() override { Release(); };
 

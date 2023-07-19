@@ -94,10 +94,7 @@ void UIGame::Init()
 		}
 	}
 
-	// UI WINDOW
 	SetPauseWindow();
-	//SetDieWindow();
-	//SetClearWindow();
 }
 
 void UIGame::Release()
@@ -129,75 +126,45 @@ void UIGame::Release()
 
 void UIGame::Reset()
 {
-	sf::Vector2f screenSize = FRAMEWORK.GetWindowSize();
+	//pauseWindow = false;
+	//dieWindow = false;
+	//winWindow = false;
 
-	// INGAME UI
 	scoreCoin.Reset();
 	scoreText.Reset();
 	pauseIcon.Reset();
 	for (int i = 0; i < starIcon.size(); ++i)
 	{
 		starIcon[i].Reset();
-	}
-
-	// UI WINDOW
-	uiBox.Reset();
-	uiBox.SetOrigin(Origins::MC);
-	uiBox.setScale(sf::Vector2f(1.f, 0.f));
-
-	uiText1.Reset();
-	uiText1.SetOrigin(Origins::MC);
-	uiText1.text.setScale(sf::Vector2f(1.f, 0.f));
-
-	uiText2.Reset();
-	uiText2.SetOrigin(Origins::MC);
-	uiText2.text.setScale(sf::Vector2f(1.f, 0.f));
-
-	button1.Reset();
-	button1.SetOrigin(Origins::MC);
-	button1.sprite.setScale(sf::Vector2f(2.5f, 0.f));
-	button1.sprite.setColor(sf::Color::Yellow);
-
-	button1Text.Reset();
-	button1Text.SetOrigin(Origins::MC);
-	button1Text.text.setScale(sf::Vector2f(1.f, 0.f));
-
-	button2.Reset();
-	button2.SetOrigin(Origins::MC);
-	button2.sprite.setScale(sf::Vector2f(2.5f, 0.f));
-	button2.sprite.setColor(sf::Color::Yellow);
-
-	button2Text.Reset();
-	button2Text.SetOrigin(Origins::MC);
-	button2Text.text.setScale(sf::Vector2f(1.f, 0.f));
-
-	dieAnimation.Play("DieUI");
-	dieUiChar.sprite.setScale(2.f, 2.f);
-	dieUiChar.sprite.setColor(sf::Color::White);
-	dieUiChar.SetOrigin(Origins::MC);
-	dieUiChar.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 100.f);
-
-	for (int i = 0; i < starGet.size(); ++i)
-	{
-		starGetAnimation[i].Play("ScoreStar");
-		starGetAnimation[i].SetTarget(&starGet[i].sprite);
-		starGet[i].sprite.setScale(2.f, 2.f);
-		starGet[i].sprite.setColor(sf::Color::Cyan);
-		starGet[i].SetOrigin(Origins::MC);
-		starGet[i].SetPosition((screenSize.x * 0.5f - 80.f) + i*80.f, screenSize.y * 0.5f - 100.f);
-
 		starEmpty[i].Reset();
-		starEmpty[i].sprite.setScale(2.f, 2.f);
-		starEmpty[i].SetOrigin(Origins::MC);
-		starEmpty[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 105.f);
+	}
+	uiBox.Reset();
+	uiText1.Reset();
+	uiText2.Reset();
+	button1.Reset();
+	button1Text.Reset();
+	button2.Reset();
+	button2Text.Reset();
+
+	SetPauseWindow();
+
+	if (dieWindow)
+	{
+		SetDieWindow();
+	}
+	else if (winWindow)
+	{
+		SetWinWindow();
 	}
 }
 
 void UIGame::Update(float dt)
 {
+	// 상단 고정 UI
 	StarIconUpdate();
 	ScoreTextUpdate();
 
+	// 퍼즈 화면 UI
 	button1.Update(dt);
 	button2.Update(dt);
 	pauseIcon.Update(dt);
@@ -208,60 +175,50 @@ void UIGame::Update(float dt)
 		starGet[i].SetOrigin(Origins::MC);
 		starGetAnimation[i].Update(dt);
 	}
+	bool wait = false;
 
+	// 멈췄을 때
 	if (isPause)
 	{
-		Yopen(uiBox);
-		Yopen(button1.sprite, 2.f);
-		Yopen(button2.sprite, 2.f);
-		Yopen(button1Text.text);
-		Yopen(button2Text.text);
-		Yopen(uiText1.text);
-		Yopen(uiText2.text);
-		Yopen(dieUiChar.sprite);
-		for (int i = 0; i < starGet.size(); ++i)
-		{
-			Yopen(starGet[i].sprite);
-			Yopen(starEmpty[i].sprite);
-		}
+		wait = true;
+		Yupdate(pauseWindowClose);
 
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
-			isPause = false;
 			pauseWindowClose = true;
+			wait = false;
 		}
 
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 		{
 			// 타이틀로 이동하는 코드
-		}
-	}
-	else if (pauseWindowClose)
-	{
-		Yclose(uiBox);
-		Yclose(button1.sprite);
-		Yclose(button2.sprite);
-		Yclose(button1Text.text);
-		Yclose(button2Text.text);
-		Yclose(uiText1.text);
-		Yclose(uiText2.text);
-		Yclose(dieUiChar.sprite);
-		for (int i = 0; i < starGet.size(); ++i)
-		{
-			Yclose(starGet[i].sprite);
-			Yclose(starEmpty[i].sprite);
+			wait = false;
 		}
 
-		Ycheck(button1.sprite);
+		if (pauseWindowClose && !wait)
+		{
+			Yupdate(pauseWindowClose);
+		}
 	}
-	else
+	else if(!isPause)
 	{
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
-			isPause = true;
+			pauseWindow = true;
 			Reset();
+			isPause = true;
 		}
+		else if (dieWindow)
+		{
+			Reset();
+			isPause = true;
 
+		}
+		else if (winWindow)
+		{
+			Reset();
+			isPause = true;
+		}
 	}
 }
 
@@ -277,7 +234,7 @@ void UIGame::Draw(sf::RenderWindow& window)
 	}
 
 	// UI WINDOW
-	if (isPause || (!isPause && pauseWindowClose))
+	if (isPause)
 	{
 		uiBox.Draw(window);
 		uiText1.Draw(window);
@@ -332,6 +289,43 @@ void UIGame::ScoreTextUpdate()
 	scoreText.text.setString(ss.str());
 }
 
+void UIGame::Yupdate(bool open)
+{
+	if (!open)
+	{
+		Yopen(uiBox);
+		Yopen(button1.sprite, 2.f);
+		Yopen(button2.sprite, 2.f);
+		Yopen(button1Text.text);
+		Yopen(button2Text.text);
+		Yopen(uiText1.text);
+		Yopen(uiText2.text);
+		Yopen(dieUiChar.sprite);
+		for (int i = 0; i < starGet.size(); ++i)
+		{
+			Yopen(starGet[i].sprite);
+			Yopen(starEmpty[i].sprite);
+		}
+	}
+	else
+	{
+		Yclose(uiBox);
+		Yclose(button1.sprite);
+		Yclose(button2.sprite);
+		Yclose(button1Text.text);
+		Yclose(button2Text.text);
+		Yclose(uiText1.text);
+		Yclose(uiText2.text);
+		Yclose(dieUiChar.sprite);
+		for (int i = 0; i < starGet.size(); ++i)
+		{
+			Yclose(starGet[i].sprite);
+			Yclose(starEmpty[i].sprite);
+		}
+		Ycheck(button1.sprite);
+	}
+}
+
 bool UIGame::GetPause()
 {
 	return isPause;
@@ -357,7 +351,6 @@ void UIGame::SetPauseWindow()
 	uiBox.rect.setFillColor(sf::Color::Yellow);
 	uiBox.SetOrigin(Origins::MC);
 	uiBox.SetPosition(screenSize * 0.5f);
-	uiBox.sortLayer = 100;
 
 	// PAUSE TEXT
 	StringTable* stringTable1 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
@@ -365,7 +358,7 @@ void UIGame::SetPauseWindow()
 	uiText1.text.setCharacterSize(60);
 	uiText1.text.setFillColor(sf::Color::Black);
 	uiText1.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f);
-	uiText1.sortLayer = 100;
+	uiText1.SetOrigin(Origins::MC);
 
 	// YES BOX
 	button1.SetOrigin(Origins::MC);
@@ -378,14 +371,12 @@ void UIGame::SetPauseWindow()
 	};
 	button1.OnClick = [this]() {
 		std::cout << "Click" << std::endl;
-		isPause = false;
 		pauseWindowClose = true;
 	};
 	button1.OnExit = [this]() {
 		std::cout << "Exit" << std::endl;
 		button1.sprite.setColor(sf::Color::Yellow);
 	};
-	button1.sortLayer = 100;
 
 	// YES TEXT
 	StringTable* stringTable2 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
@@ -393,7 +384,8 @@ void UIGame::SetPauseWindow()
 	button1Text.text.setCharacterSize(20);
 	button1Text.text.setFillColor(sf::Color::Black);
 	button1Text.SetPosition(button1.GetPosition());
-	button1Text.sortLayer = 100;
+	button1Text.SetOrigin(Origins::MC);
+
 
 	// GIVE UP BOX
 	button2.SetOrigin(Origins::MC);
@@ -406,14 +398,12 @@ void UIGame::SetPauseWindow()
 	};
 	button2.OnClick = [this]() {
 		std::cout << "Click" << std::endl;
-		isPause = false;
 		pauseWindowClose = true;
 	};
 	button2.OnExit = [this]() {
 		std::cout << "Exit" << std::endl;
 		button2.sprite.setColor(sf::Color::Yellow);
 	};
-	button2.sortLayer = 100;
 
 	// GIVE UP TEXT
 	StringTable* stringTable3 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
@@ -421,10 +411,10 @@ void UIGame::SetPauseWindow()
 	button2Text.text.setCharacterSize(20);
 	button2Text.text.setFillColor(sf::Color::Black);
 	button2Text.SetPosition(button2.GetPosition());
-	button2Text.sortLayer = 100;
+	button2Text.SetOrigin(Origins::MC);
 }
 
-void UIGame::SetClearWindow()
+void UIGame::SetWinWindow()
 {
 	sf::Vector2f screenSize = FRAMEWORK.GetWindowSize();
 
@@ -432,9 +422,8 @@ void UIGame::SetClearWindow()
 	uiBox.setSize(sf::Vector2f(screenSize.x, 300.f)); // 200
 	uiBox.setScale(sf::Vector2f(1.f, 0.f));
 	uiBox.rect.setFillColor(sf::Color::Yellow);
-	uiBox.SetOrigin(Origins::MC);
 	uiBox.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 50.f);
-	uiBox.sortLayer = 100;
+	uiBox.SetOrigin(Origins::MC);
 
 	// CLEAR TEXT
 	StringTable* stringTable1 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
@@ -442,12 +431,12 @@ void UIGame::SetClearWindow()
 	uiText1.text.setCharacterSize(50);
 	uiText1.text.setFillColor(sf::Color::Black);
 	uiText1.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 20.f);
-	uiText1.sortLayer = 100;
+	uiText1.SetOrigin(Origins::MC);
 	uiText2.SetString(stringTable1->Get("NEXT"));
 	uiText2.text.setCharacterSize(50);
 	uiText2.text.setFillColor(sf::Color::Black);
 	uiText2.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f + 40.f);
-	uiText2.sortLayer = 100;
+	uiText2.SetOrigin(Origins::MC);
 
 	// STAR EMPTY
 	for (int i = 0; i < starEmpty.size(); ++i)
@@ -463,6 +452,8 @@ void UIGame::SetClearWindow()
 		starEmpty[i].SetOrigin(Origins::MC);
 		starEmpty[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 105.f);
 	}
+
+	winWindow = true;
 }
 
 void UIGame::SetDieWindow()
@@ -473,9 +464,8 @@ void UIGame::SetDieWindow()
 	uiBox.setSize(sf::Vector2f(screenSize.x, 300.f)); // 중점.y + 100
 	uiBox.setScale(sf::Vector2f(1.f, 0.f));
 	uiBox.rect.setFillColor(sf::Color::Yellow);
-	uiBox.SetOrigin(Origins::MC);
 	uiBox.SetPosition(screenSize.x * 0.5f , screenSize.y * 0.5f - 50.f);
-	uiBox.sortLayer = 100;
+	uiBox.SetOrigin(Origins::MC);
 
 	// DIE TEXT
 	StringTable* stringTable1 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
@@ -483,10 +473,12 @@ void UIGame::SetDieWindow()
 	uiText1.text.setCharacterSize(50);
 	uiText1.text.setFillColor(sf::Color::Black);
 	uiText1.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 20.f);
-	uiText1.sortLayer = 100;
+	uiText1.SetOrigin(Origins::MC);
 	uiText2.SetString(stringTable1->Get("REPLAY"));
 	uiText2.text.setCharacterSize(50);
 	uiText2.text.setFillColor(sf::Color::Black);
 	uiText2.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f + 40.f);
-	uiText2.sortLayer = 100;
+	uiText2.SetOrigin(Origins::MC);
+
+	dieWindow = true;
 }

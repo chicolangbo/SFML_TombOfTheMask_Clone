@@ -221,8 +221,7 @@ COLLIDE Player::CheckTileCollide()
 			// SpikeWall : 바로 죽음
 			if (tileMap->tiles[i].obstacleIndex == Obstacles::SpikeWall)
 			{
-				std::cout << "spikeWall죽음" << std::endl;
-				speed = 0.f;
+				isDie = true;
 			}
 
 			// 충돌 시 set position
@@ -256,7 +255,6 @@ COLLIDE Player::CheckTileCollide()
 			}
 		}
 	}
-	isCollide = false;
 	return COLLIDE::NONE;
 }
 
@@ -273,8 +271,7 @@ void Player::CheckSpikeCollide()
 			}
 			else if (spikes[i]->GetCurFrame() != 0)
 			{
-				std::cout << "spike죽음" << std::endl;
-				speed = 0.f;
+				isDie = true;
 			}
 		}
 	}
