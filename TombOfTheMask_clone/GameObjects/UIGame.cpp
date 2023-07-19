@@ -12,8 +12,18 @@ UIGame::UIGame(const std::string& n)
 	for (int i = 0; i < 3; ++i)
 	{
 		std::string num = std::to_string(i + 1);
+
 		SpriteGo tempStar = SpriteGo("graphics/ui/Star_big_2.png", "star" + num);
 		starIcon.push_back(tempStar);
+
+		SpriteGo tempStarGet = SpriteGo("", "starGet" + num);
+		starGet.push_back(tempStarGet);
+
+		SpriteGo tempStarEmpty = SpriteGo("graphics/ui/Star_big_1.png", "starEmpty" + num);
+		starEmpty.push_back(tempStarEmpty);
+		
+		AnimationController tempStarAnimation;
+		starGetAnimation.push_back(tempStarAnimation);
 	}
 }
 
@@ -25,7 +35,12 @@ void UIGame::Init()
 {
 	dieAnimation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/DieUI.csv"));
 	dieAnimation.SetTarget(&dieUiChar.sprite);
-	dieUiChar.SetOrigin(Origins::MC);
+
+	for (int i = 0; i < starGet.size(); ++i)
+	{
+		starGetAnimation[i].AddClip(*RESOURCE_MGR.GetAnimationClip("animations/ScoreStar.csv"));
+		starGetAnimation[i].SetTarget(&starGet[i].sprite);
+	}
 
 	sf::Vector2f screenSize = FRAMEWORK.GetWindowSize();
 
@@ -57,7 +72,6 @@ void UIGame::Init()
 		scoreCoin.SetPosition(0.f, 0.f);
 		scoreCoin.sprite.setColor(sf::Color::Yellow);
 		scoreCoin.sprite.setScale(2.5f, 2.5f);
-		scoreCoin.sortLayer = 100;
 
 		// SCORE TEXT
 		std::stringstream ss;
@@ -67,7 +81,6 @@ void UIGame::Init()
 		scoreText.text.setFillColor(sf::Color::Yellow);
 		scoreText.SetOrigin(Origins::TL);
 		scoreText.SetPosition(scoreCoin.GetPosition().x + 50.f ,10.f);
-		scoreText.sortLayer = 100;
 	}
 
 	// STAR ICON
@@ -75,16 +88,16 @@ void UIGame::Init()
 		for (int i = 0; i < 3; ++i)
 		{
 			starIcon[i].SetOrigin(Origins::TC);
-			starIcon[i].SetPosition(screenSize.x * 0.5f - 60.f + i*60.f, 0.f); // 위치값은 리소스 수정 후 재세팅
+			starIcon[i].SetPosition(screenSize.x * 0.5f - 60.f + i*60.f, 0.f);
 			starIcon[i].sprite.setColor(sf::Color::Magenta);
 			starIcon[i].sprite.setScale(2.f, 2.f);
-			starIcon[i].sortLayer = 100;
 		}
 	}
 
 	// UI WINDOW
 	SetPauseWindow();
-	SetDieWindow();
+	//SetDieWindow();
+	//SetClearWindow();
 }
 
 void UIGame::Release()
@@ -101,10 +114,17 @@ void UIGame::Release()
 	// PAUSE UI
 	uiBox.Release();
 	uiText1.Release();
+	uiText2.Release();
 	button1.Release();
 	button1Text.Release();
 	button2.Release();
 	button2Text.Release();
+	dieUiChar.Release();
+	for (int i = 0; i < starGet.size(); ++i)
+	{
+		starGet[i].Release();
+		starEmpty[i].Release();
+	}
 }
 
 void UIGame::Reset()
@@ -115,12 +135,12 @@ void UIGame::Reset()
 	scoreCoin.Reset();
 	scoreText.Reset();
 	pauseIcon.Reset();
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < starIcon.size(); ++i)
 	{
 		starIcon[i].Reset();
 	}
 
-	// PAUSE UI
+	// UI WINDOW
 	uiBox.Reset();
 	uiBox.SetOrigin(Origins::MC);
 	uiBox.setScale(sf::Vector2f(1.f, 0.f));
@@ -156,6 +176,21 @@ void UIGame::Reset()
 	dieUiChar.sprite.setColor(sf::Color::White);
 	dieUiChar.SetOrigin(Origins::MC);
 	dieUiChar.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 100.f);
+
+	for (int i = 0; i < starGet.size(); ++i)
+	{
+		starGetAnimation[i].Play("ScoreStar");
+		starGetAnimation[i].SetTarget(&starGet[i].sprite);
+		starGet[i].sprite.setScale(2.f, 2.f);
+		starGet[i].sprite.setColor(sf::Color::Cyan);
+		starGet[i].SetOrigin(Origins::MC);
+		starGet[i].SetPosition((screenSize.x * 0.5f - 80.f) + i*80.f, screenSize.y * 0.5f - 100.f);
+
+		starEmpty[i].Reset();
+		starEmpty[i].sprite.setScale(2.f, 2.f);
+		starEmpty[i].SetOrigin(Origins::MC);
+		starEmpty[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 105.f);
+	}
 }
 
 void UIGame::Update(float dt)
@@ -168,6 +203,11 @@ void UIGame::Update(float dt)
 	pauseIcon.Update(dt);
 	dieUiChar.SetOrigin(Origins::MC);
 	dieAnimation.Update(dt);
+	for (int i = 0; i<starGetAnimation.size(); ++i)
+	{
+		starGet[i].SetOrigin(Origins::MC);
+		starGetAnimation[i].Update(dt);
+	}
 
 	if (isPause)
 	{
@@ -179,6 +219,11 @@ void UIGame::Update(float dt)
 		Yopen(uiText1.text);
 		Yopen(uiText2.text);
 		Yopen(dieUiChar.sprite);
+		for (int i = 0; i < starGet.size(); ++i)
+		{
+			Yopen(starGet[i].sprite);
+			Yopen(starEmpty[i].sprite);
+		}
 
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
@@ -201,6 +246,11 @@ void UIGame::Update(float dt)
 		Yclose(uiText1.text);
 		Yclose(uiText2.text);
 		Yclose(dieUiChar.sprite);
+		for (int i = 0; i < starGet.size(); ++i)
+		{
+			Yclose(starGet[i].sprite);
+			Yclose(starEmpty[i].sprite);
+		}
 
 		Ycheck(button1.sprite);
 	}
@@ -226,7 +276,7 @@ void UIGame::Draw(sf::RenderWindow& window)
 		starIcon[i].Draw(window);
 	}
 
-	// PAUSE UI
+	// UI WINDOW
 	if (isPause || (!isPause && pauseWindowClose))
 	{
 		uiBox.Draw(window);
@@ -237,6 +287,11 @@ void UIGame::Draw(sf::RenderWindow& window)
 		button2.Draw(window);
 		button2Text.Draw(window);
 		dieUiChar.Draw(window);
+		for (int i = 0; i < starGet.size(); ++i)
+		{
+			starEmpty[i].Draw(window);
+			starGet[i].Draw(window);
+		}
 	}
 }
 
@@ -373,77 +428,41 @@ void UIGame::SetClearWindow()
 {
 	sf::Vector2f screenSize = FRAMEWORK.GetWindowSize();
 
-	// PAUSE BOX
-	uiBox.setSize(sf::Vector2f(screenSize.x, 200.f)); // 200
+	// CLEAR BOX
+	uiBox.setSize(sf::Vector2f(screenSize.x, 300.f)); // 200
 	uiBox.setScale(sf::Vector2f(1.f, 0.f));
 	uiBox.rect.setFillColor(sf::Color::Yellow);
 	uiBox.SetOrigin(Origins::MC);
-	uiBox.SetPosition(screenSize * 0.5f);
+	uiBox.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 50.f);
 	uiBox.sortLayer = 100;
 
-	// PAUSE TEXT
+	// CLEAR TEXT
 	StringTable* stringTable1 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
-	uiText1.SetString(stringTable1->Get("CONTINUE"));
-	uiText1.text.setCharacterSize(60);
+	uiText1.SetString(stringTable1->Get("CLEAR"));
+	uiText1.text.setCharacterSize(50);
 	uiText1.text.setFillColor(sf::Color::Black);
-	uiText1.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f);
+	uiText1.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f - 20.f);
 	uiText1.sortLayer = 100;
+	uiText2.SetString(stringTable1->Get("NEXT"));
+	uiText2.text.setCharacterSize(50);
+	uiText2.text.setFillColor(sf::Color::Black);
+	uiText2.SetPosition(screenSize.x * 0.5f, screenSize.y * 0.5f + 40.f);
+	uiText2.sortLayer = 100;
 
-	// YES BOX
-	button1.SetOrigin(Origins::MC);
-	button1.SetPosition(screenSize.x / 4 * 1, screenSize.y - 200.f);
-	button1.sprite.setScale(2.5f, 0.f); // 2
-	button1.sprite.setColor(sf::Color::Yellow);
-	button1.OnEnter = [this]() {
-		std::cout << "Enter" << std::endl;
-		button1.sprite.setColor(sf::Color::Magenta);
-	};
-	button1.OnClick = [this]() {
-		std::cout << "Click" << std::endl;
-		isPause = false;
-		pauseWindowClose = true;
-	};
-	button1.OnExit = [this]() {
-		std::cout << "Exit" << std::endl;
-		button1.sprite.setColor(sf::Color::Yellow);
-	};
-	button1.sortLayer = 100;
+	// STAR EMPTY
+	for (int i = 0; i < starEmpty.size(); ++i)
+	{
+		starGetAnimation[i].Play("ScoreStar");
+		starGetAnimation[i].SetTarget(&starGet[i].sprite);
+		starGet[i].sprite.setScale(2.f, 2.f);
+		starGet[i].sprite.setColor(sf::Color::Cyan);
+		starGet[i].SetOrigin(Origins::MC);
+		starGet[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 100.f);
 
-	// YES TEXT
-	StringTable* stringTable2 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
-	button1Text.SetString(stringTable2->Get("ENTER"));
-	button1Text.text.setCharacterSize(20);
-	button1Text.text.setFillColor(sf::Color::Black);
-	button1Text.SetPosition(button1.GetPosition());
-	button1Text.sortLayer = 100;
-
-	// GIVE UP BOX
-	button2.SetOrigin(Origins::MC);
-	button2.SetPosition(screenSize.x / 4 * 3, screenSize.y - 200.f);
-	button2.sprite.setScale(2.5f, 0.f); // 2
-	button2.sprite.setColor(sf::Color::Yellow);
-	button2.OnEnter = [this]() {
-		std::cout << "Enter" << std::endl;
-		button2.sprite.setColor(sf::Color::Magenta);
-	};
-	button2.OnClick = [this]() {
-		std::cout << "Click" << std::endl;
-		isPause = false;
-		pauseWindowClose = true;
-	};
-	button2.OnExit = [this]() {
-		std::cout << "Exit" << std::endl;
-		button2.sprite.setColor(sf::Color::Yellow);
-	};
-	button2.sortLayer = 100;
-
-	// GIVE UP TEXT
-	StringTable* stringTable3 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
-	button2Text.SetString(stringTable3->Get("GIVE_UP"));
-	button2Text.text.setCharacterSize(20);
-	button2Text.text.setFillColor(sf::Color::Black);
-	button2Text.SetPosition(button2.GetPosition());
-	button2Text.sortLayer = 100;
+		starEmpty[i].sprite.setScale(2.f, 2.f);
+		starEmpty[i].SetOrigin(Origins::MC);
+		starEmpty[i].SetPosition((screenSize.x * 0.5f - 80.f) + i * 80.f, screenSize.y * 0.5f - 105.f);
+	}
 }
 
 void UIGame::SetDieWindow()

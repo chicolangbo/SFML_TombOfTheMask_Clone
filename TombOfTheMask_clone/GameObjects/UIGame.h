@@ -24,8 +24,13 @@ protected:
 	TextGo button1Text;
 	UIButton button2;
 	TextGo button2Text;
+
+	// UI 애니메이션
 	AnimationController dieAnimation;
 	SpriteGo dieUiChar;
+	std::vector<AnimationController> starGetAnimation;
+	std::vector<SpriteGo> starGet;
+	std::vector<SpriteGo> starEmpty;
 
 	int score = 0;
 	int maxScore = 0;
