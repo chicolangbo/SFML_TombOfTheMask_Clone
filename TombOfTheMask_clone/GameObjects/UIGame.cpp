@@ -218,9 +218,9 @@ void UIGame::Update(float dt)
 	StarIconUpdate();
 	ScoreTextUpdate();
 
-	pauseIcon.Update(dt);
 	enterBox.Update(dt);
 	exitBox.Update(dt);
+	pauseIcon.Update(dt);
 
 	if (isPause)
 	{
@@ -259,10 +259,8 @@ void UIGame::Update(float dt)
 		{
 			isPause = true;
 			Reset();
-			return;
 		}
 
-		Reset();
 	}
 }
 
