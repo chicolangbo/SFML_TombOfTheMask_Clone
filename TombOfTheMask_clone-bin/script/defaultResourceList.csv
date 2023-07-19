@@ -9,6 +9,7 @@
 3,animations/ScoreStar.csv
 3,animations/Spikes.csv
 3,animations/Tower.csv
+3,animations/DieUI.csv
 3,animations/Bat.csv
 1,fonts/Galmuri14.ttf
 1,fonts/GalmuriMono7.ttf
@@ -108,3 +109,15 @@
 0,graphics/ui/Star_big_2.png
 0,graphics/ui/Pause_button_tap.png
 0,graphics/ui/Button.png
+0,graphics/character/Give_up_1.png
+0,graphics/character/Give_up_2.png
+0,graphics/character/Give_up_3.png
+0,graphics/character/Give_up_4.png
+0,graphics/character/Give_up_5.png
+0,graphics/character/Give_up_6.png
+0,graphics/character/Give_up_7.png
+0,graphics/character/Give_up_8.png
+0,graphics/character/Give_up_9.png
+0,graphics/character/Give_up_10.png
+0,graphics/character/Give_up_11.png
+0,graphics/character/Give_up_12.png

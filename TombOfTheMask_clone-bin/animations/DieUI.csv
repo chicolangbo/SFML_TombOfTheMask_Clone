@@ -1,0 +1,16 @@
+ID,FPS,LOOPTYPE,,
+DieUI,10,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/character/Give_up_1.png,0,0,32,40
+graphics/character/Give_up_2.png,0,0,32,40
+graphics/character/Give_up_3.png,0,0,32,40
+graphics/character/Give_up_4.png,0,0,32,40
+graphics/character/Give_up_5.png,0,0,26,24
+graphics/character/Give_up_6.png,0,0,26,12
+graphics/character/Give_up_7.png,0,0,12,8
+graphics/character/Give_up_8.png,0,0,6,6
+graphics/character/Give_up_9.png,0,0,12,12
+graphics/character/Give_up_10.png,0,0,16,16
+graphics/character/Give_up_11.png,0,0,18,18
+graphics/character/Give_up_12.png,0,0,18,18
