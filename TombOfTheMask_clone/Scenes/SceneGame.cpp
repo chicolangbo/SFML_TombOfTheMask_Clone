@@ -129,15 +129,11 @@ void SceneGame::Update(float dt)
 	else if (player->isDie)
 	{
 		uiGame->dieWindow = true;
-		uiGame->SetDieWindow();
-		uiGame->isPause = true;
 		uiGame->Update(dt);
 	}
 	else if(player->isWin)
 	{
 		uiGame->winWindow = true;
-		uiGame->SetWinWindow();
-		uiGame->isPause = true;
 		uiGame->Update(dt);
 	}
 	else if(uiGame->isPause)
