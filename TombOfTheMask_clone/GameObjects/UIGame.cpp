@@ -107,8 +107,8 @@ void UIGame::Init()
 		};
 		enterBox.OnClick = [this]() {
 			std::cout << "Click" << std::endl;
-			Reset();
 			isPause = false;
+			pauseScreenClose = true;
 		};
 		enterBox.OnExit = [this]() {
 			std::cout << "Exit" << std::endl;
@@ -135,8 +135,8 @@ void UIGame::Init()
 		};
 		exitBox.OnClick = [this]() {
 			std::cout << "Click" << std::endl;
-			Reset();
-			isPause = true;
+			isPause = false;
+			pauseScreenClose = true;
 		};
 		exitBox.OnExit = [this]() {
 			std::cout << "Exit" << std::endl;
@@ -222,8 +222,6 @@ void UIGame::Update(float dt)
 	enterBox.Update(dt);
 	exitBox.Update(dt);
 
-
-
 	if (isPause)
 	{
 		Yopen(pauseBox);
@@ -236,12 +234,24 @@ void UIGame::Update(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
 			isPause = false;
+			pauseScreenClose = true;
 		}
 
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 		{
 			// 타이틀로 이동하는 코드
 		}
+	}
+	else if (pauseScreenClose)
+	{
+		Yclose(pauseBox);
+		Yclose(enterBox.sprite);
+		Yclose(exitBox.sprite);
+		Yclose(enterText.text);
+		Yclose(exitText.text);
+		Yclose(pauseText.text);
+
+		Ycheck(enterBox.sprite);
 	}
 	else
 	{
@@ -268,7 +278,7 @@ void UIGame::Draw(sf::RenderWindow& window)
 	}
 
 	// PAUSE UI
-	if (isPause)
+	if (isPause || (!isPause && pauseScreenClose))
 	{
 		pauseBox.Draw(window);
 		pauseText.Draw(window);

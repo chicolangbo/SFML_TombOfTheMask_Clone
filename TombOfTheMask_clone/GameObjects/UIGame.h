@@ -24,6 +24,7 @@ protected:
 	int score = 0;
 	int maxScore = 0;
 	bool isPause = false;
+	bool pauseScreenClose = false;
 	float totalTime = 0.f;
 
 public:
@@ -51,5 +52,23 @@ public:
 			height += 0.01f; // 조금씩 증가시킬 값
 		}
 		rec.setScale(sf::Vector2f(rec.getScale().x, height));
+	}
+
+	template <typename T>
+	void Yclose(T& rec) {
+		float height = rec.getScale().y;
+		if (height >= 0)
+		{
+			height -= 0.01f; // 조금씩 증가시킬 값
+		}
+		rec.setScale(sf::Vector2f(rec.getScale().x, height));
+	}
+
+	template <typename T>
+	void Ycheck(T& rec) {
+		if (rec.getScale().y <= 0)
+		{
+			this->pauseScreenClose = false;
+		}
 	}
 };
