@@ -144,11 +144,12 @@ void SceneGame::Update(float dt)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Game);
 		player->isDie = false;
+		player->score = 0;
 		uiGame->dieWindow = false;
 		uiGame->winWindow = false;
 		uiGame->isPause = false;
 		uiGame->replay = false;
-		player->score = 0;
+		uiGame->ReplayInit();
 	}
 }
 

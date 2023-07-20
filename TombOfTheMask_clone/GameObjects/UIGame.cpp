@@ -97,6 +97,14 @@ void UIGame::Init()
 	SetPauseWindow();
 }
 
+void UIGame::ReplayInit()
+{
+	for (int i = 0; i < starIcon.size(); ++i)
+	{
+		starIcon[i].sprite.setColor(sf::Color::Magenta);
+	}
+}
+
 void UIGame::Release()
 {
 	// INGAME UI
@@ -282,13 +290,18 @@ void UIGame::StarIconUpdate()
 			}
 			break;
 		}
-		else if (score < maxScore / 3 * 2 && score > maxScore / 3)
+		else if (score < maxScore / 3 * 2 && score >= maxScore / 3)
 		{
 			if (i < 1)
 			{
 				starIcon[i].sprite.setColor(sf::Color::Yellow);
 			}
 			break;
+		}
+		else if (score < maxScore / 3)
+		{
+			starIcon[i].sprite.setColor(sf::Color::Magenta);
+			return;
 		}
 	}
 }
