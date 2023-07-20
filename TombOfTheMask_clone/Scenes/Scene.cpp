@@ -135,10 +135,21 @@ void Scene::Draw(sf::RenderWindow& window)
 
 	SortGos();
 
+	window.setView(backView);
+	for (auto go : gameObjects)
+	{
+		if (go->sortLayer >= 0)
+			continue;
+		if (go->GetActive())
+		{
+			go->Draw(window);
+		}
+	}
+
 	window.setView(worldView);
 	for (auto go : gameObjects)
 	{
-		if (go->sortLayer >= 100)
+		if (go->sortLayer >= 100 || go->sortLayer < 0)
 			continue;
 
 		if (go->GetActive())

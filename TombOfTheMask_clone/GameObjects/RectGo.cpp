@@ -64,14 +64,17 @@ void RectGo::SetOrigin(float x, float y)
 
 void RectGo::Init()
 {
+    //GameObject::Init();
 }
 
 void RectGo::Release()
 {
+    //GameObject::Release();
 }
 
 void RectGo::Reset()
 {
+    //GameObject::Reset();
 }
 
 void RectGo::Update(float dt)

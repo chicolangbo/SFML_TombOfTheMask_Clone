@@ -13,13 +13,15 @@ protected:
 	TileMap* tileMap = nullptr;
 	DestinationGo* destination = nullptr;
 	UIGame* uiGame = nullptr;
+	RectGo* backEffect = nullptr;
 
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};
 
 	int score = 0;
-	//bool isPause = false;
+	int count = 3;
+	float totalTime = 0.f;
 
 public:
 	SceneGame();
@@ -33,5 +35,7 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	void BackEffect(float dt);
 };
 

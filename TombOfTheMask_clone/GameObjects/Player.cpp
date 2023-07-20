@@ -325,6 +325,7 @@ void Player::CheckArrival()
 {
 	if (sprite.getGlobalBounds().intersects(destination->sprite.getGlobalBounds()))
 	{
+
 		isWin = true;
 	}
 }

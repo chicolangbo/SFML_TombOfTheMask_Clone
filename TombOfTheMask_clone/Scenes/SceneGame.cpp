@@ -20,6 +20,12 @@ void SceneGame::Init()
 
 	// GAME OBJECTS
 	{
+		backEffect = (RectGo*)AddGo(new RectGo("backEffect"));
+		backEffect->rect.setFillColor(sf::Color(255,255,0,255)); // YELLOW, 0%
+		backEffect->rect.setSize(screenSize);
+		backEffect->sortLayer = -1;
+		backEffect->SetActive(false);
+
 		for (int i = 0; i < 2; ++i)
 		{
 			std::string num = std::to_string(i + 1);
@@ -64,15 +70,6 @@ void SceneGame::Init()
 
 	// UI OBJECTS
 	{
-		// TEST CODE
-		//{
-		//	SpriteGo* uiCoin = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Bonus_Coin.png", "uiCoin"));
-		//	uiCoin->sprite.setColor(sf::Color::Yellow);
-		//	uiCoin->SetOrigin(Origins::TL);
-		//	uiCoin->SetPosition(0,0);
-		//	uiCoin->sortLayer = 100;
-		//}
-
 		// USING CODE
 		uiGame = (UIGame*)AddGo(new UIGame("uiGame"));
 		uiGame->SetOrigin(Origins::MC);
@@ -109,6 +106,9 @@ void SceneGame::Enter()
 	uiView.setSize(size);
 	uiView.setCenter(centerPos);
 
+	backView.setSize(size);
+	backView.setCenter(centerPos);
+
 	Scene::Enter();
 }
 
@@ -119,6 +119,7 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
+	// PLAYER-UI SETTING
 	if (!uiGame->isPause && !player->isDie && !player->isWin)
 	{
 		Scene::Update(dt);
@@ -133,13 +134,23 @@ void SceneGame::Update(float dt)
 	}
 	else if(player->isWin)
 	{
-		uiGame->winWindow = true;
-		uiGame->Update(dt);
+		if (count > 0)
+		{
+			BackEffect(dt);
+		}
+		else
+		{
+			count = 3;
+			uiGame->winWindow = true;
+			uiGame->Update(dt);
+		}
 	}
 	else if(uiGame->isPause)
 	{
 		uiGame->Update(dt);
 	}
+
+	// REPLAY
 	if (uiGame->replay)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Game);
@@ -156,4 +167,19 @@ void SceneGame::Update(float dt)
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneGame::BackEffect(float dt)
+{
+	backEffect->SetActive(true);
+	totalTime += dt;
+	if (totalTime <= 0.8f)
+	{
+		backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - totalTime * 318.75f));
+		if (totalTime <= 0.8f && totalTime >= 0.75f)
+		{
+			totalTime = 0.01f;
+			count--;
+		}
+	}
 }

@@ -18,6 +18,7 @@ protected:
 
 	sf::View worldView;
 	sf::View uiView;
+	sf::View backView;
 	sf::Vector2f screenSize = FRAMEWORK.GetWindowSize();
 
 	sf::RenderWindow& window;
