@@ -27,8 +27,6 @@ protected:
     std::vector<SpriteGo*> SCoins = {};
     DestinationGo* destination = nullptr;
 
-    int score = 0;
-
     float speed = 500.f;
     bool flipX = false;
     bool flipY = false;
@@ -41,6 +39,7 @@ protected:
 public:
     bool isDie = false;
     bool isWin = false;
+    int score = 0;
 
     Player(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {};
     virtual ~Player() override { Release(); };

@@ -126,10 +126,6 @@ void UIGame::Release()
 
 void UIGame::Reset()
 {
-	//pauseWindow = false;
-	//dieWindow = false;
-	//winWindow = false;
-
 	scoreCoin.Reset();
 	scoreText.Reset();
 	pauseIcon.Reset();
@@ -246,7 +242,6 @@ void UIGame::Draw(sf::RenderWindow& window)
 	{
 		uiBox.Draw(window);
 		uiText1.Draw(window);
-		uiText2.Draw(window);
 		button1.Draw(window);
 		button1Text.Draw(window);
 		button2.Draw(window);
@@ -254,9 +249,11 @@ void UIGame::Draw(sf::RenderWindow& window)
 		if (dieWindow)
 		{
 			dieUiChar.Draw(window);
+			uiText2.Draw(window);
 		}
 		else if (winWindow)
 		{
+			uiText2.Draw(window);
 			for (int i = 0; i < starGet.size(); ++i)
 			{
 				starEmpty[i].Draw(window);

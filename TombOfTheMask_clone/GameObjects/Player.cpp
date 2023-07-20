@@ -19,13 +19,28 @@ void Player::Init()
 void Player::Reset()
 {
 	// 플레이어 세팅값 초기화
+	sprite.setRotation(0.f);
 	animation.Play("CharIdle");
 	SetPosition(tileMap->GetPosition(4,5));
 	sprite.setScale(2.f, 2.f);
 	SetOrigin(origin);
-	SetFlipX(false);
-	SetFlipY(false);
 	isMoving = false;
+	direction = { 0,0 };
+	MoveReset();
+
+	// 타일 세팅값 초기화
+	for (int i = 0; i < BCoins.size(); ++i)
+	{
+		BCoins[i]->SetActive(true);
+	}
+	for (int i = 0; i < SCoins.size(); ++i)
+	{
+		SCoins[i]->SetActive(true);
+	}
+	for (int i = 0; i < spikes.size(); ++i)
+	{
+		spikes[i]->collide = false;
+	}
 }
 
 void Player::Update(float dt)

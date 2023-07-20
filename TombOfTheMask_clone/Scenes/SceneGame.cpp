@@ -148,6 +148,7 @@ void SceneGame::Update(float dt)
 		uiGame->winWindow = false;
 		uiGame->isPause = false;
 		uiGame->replay = false;
+		player->score = 0;
 	}
 }
 
