@@ -137,12 +137,16 @@ void SceneGame::Update(float dt)
 		if (count > 0)
 		{
 			BackEffect(dt);
+			player->Update(dt);
 		}
 		else
 		{
-			count = 3;
 			uiGame->winWindow = true;
 			uiGame->Update(dt);
+			if (!uiGame->winWindow)
+			{
+				player->isWin = false;
+			}
 		}
 	}
 	else if(uiGame->isPause)
@@ -161,6 +165,7 @@ void SceneGame::Update(float dt)
 		uiGame->score = 0;
 		uiGame->SetMaxScore(920);
 		uiGame->ReplayInit();
+		count = 3;
 	}
 }
 
@@ -173,10 +178,10 @@ void SceneGame::BackEffect(float dt)
 {
 	backEffect->SetActive(true);
 	totalTime += dt;
-	if (totalTime <= 0.8f)
+	if (totalTime <= 0.5f)
 	{
-		backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - totalTime * 318.75f));
-		if (totalTime <= 0.8f && totalTime >= 0.75f)
+		backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - totalTime * 510.f));
+		if (totalTime <= 0.5f && totalTime >= 0.47f)
 		{
 			totalTime = 0.01f;
 			count--;

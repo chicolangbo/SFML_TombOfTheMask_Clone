@@ -1,0 +1,9 @@
+ID,FPS,LOOPTYPE,,
+CharWinDie,10,0,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/character/win_1.png,0,0,50,50
+graphics/character/win_2.png,0,0,50,50
+graphics/character/win_3.png,0,0,50,50
+graphics/character/win_4.png,0,0,50,50
+graphics/character/win_5.png,0,0,50,50

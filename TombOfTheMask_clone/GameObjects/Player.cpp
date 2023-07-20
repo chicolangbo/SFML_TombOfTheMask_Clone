@@ -10,6 +10,7 @@ void Player::Init()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharIdle.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharLongJump.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharRun.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharWinDie.csv"));
 
 	animation.SetTarget(&sprite);
 	sprite.setColor(sf::Color::Yellow);
@@ -72,7 +73,15 @@ void Player::Update(float dt)
 	// USING CODE
 	CheckCoinCollide();
 	CheckSpikeCollide();
-	CheckArrival();
+	if (!isWin)
+	{
+		CheckArrival();
+	}
+	else if((isWin || isDie)&&animation.GetCurrentClipId() != "CharWinDie")
+	{
+		animation.Play("CharWinDie");
+		SetOrigin(Origins::MC);
+	}
 	MovePlayer(dt, CheckTileCollide());
 }
 
@@ -323,9 +332,13 @@ void Player::CheckCoinCollide()
 
 void Player::CheckArrival()
 {
-	if (sprite.getGlobalBounds().intersects(destination->sprite.getGlobalBounds()))
-	{
+	//float top = destination->sprite.getGlobalBounds().top;
+	//float bottom = destination->sprite.getGlobalBounds().top + destination->sprite.getGlobalBounds().height;
+	//float left = destination->sprite.getGlobalBounds().left;
+	//float right = destination->sprite.getGlobalBounds().left + destination->sprite.getGlobalBounds().width;
 
+	if (Utils::Distance(position, destination->GetPosition()) <= 1.f)
+	{
 		isWin = true;
 	}
 }

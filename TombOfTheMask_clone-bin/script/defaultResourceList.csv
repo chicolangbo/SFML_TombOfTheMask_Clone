@@ -3,6 +3,7 @@
 3,animations/CharIdle.csv
 3,animations/CharLongJump.csv
 3,animations/CharRun.csv
+3,animations/CharWinDie.csv
 3,animations/EnterDoor.csv
 3,animations/Exit.csv
 3,animations/Logo.csv
@@ -122,3 +123,8 @@
 0,graphics/character/Give_up_10.png
 0,graphics/character/Give_up_11.png
 0,graphics/character/Give_up_12.png
+0,graphics/character/win_1.png
+0,graphics/character/win_2.png
+0,graphics/character/win_3.png
+0,graphics/character/win_4.png
+1,graphics/character/win_5.png
