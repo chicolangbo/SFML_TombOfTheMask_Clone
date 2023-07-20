@@ -52,6 +52,7 @@ void SceneGame::Init()
 		}
 		
 		destination = (DestinationGo*)AddGo(new DestinationGo("destination"));
+		entrance = (EntranceGo*)AddGo(new EntranceGo("entrance"));
 
 		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
 		player = (Player*)AddGo(new Player("player"));
@@ -110,6 +111,8 @@ void SceneGame::Enter()
 	backView.setCenter(centerPos);
 
 	Scene::Enter();
+	
+	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 }
 
 void SceneGame::Exit()

@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-EnterDoor,10,1,,
+EnterDoor,10,0,,
 ,,,,
 TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/item/EnterDoor_01.png,0,0,64,64

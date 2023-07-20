@@ -5,6 +5,7 @@
 #include "Spikes.h"
 #include "DestinationGo.h"
 #include "UIGame.h"
+#include "EntranceGo.h"
 
 class SceneGame : public Scene
 {
@@ -12,6 +13,7 @@ protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
 	DestinationGo* destination = nullptr;
+	EntranceGo* entrance = nullptr;
 	UIGame* uiGame = nullptr;
 	RectGo* backEffect = nullptr;
 
