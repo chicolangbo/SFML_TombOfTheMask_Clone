@@ -51,18 +51,16 @@ void UIGame::Init()
 		pauseIcon.sprite.setScale(3.f, 3.f);
 		pauseIcon.sprite.setColor(sf::Color::Yellow);
 		pauseIcon.OnEnter = [this]() {
-			std::cout << "Enter" << std::endl;
 			pauseIcon.sprite.setColor(sf::Color::Magenta);
 		};
 		pauseIcon.OnClick = [this]() {
-			std::cout << "Click" << std::endl;
+			pauseWindow = true;
+			Reset();
 			isPause = true;
 		};
 		pauseIcon.OnExit = [this]() {
-			std::cout << "Exit" << std::endl;
 			pauseIcon.sprite.setColor(sf::Color::Yellow);
 		};
-		pauseIcon.sortLayer = 100;
 	}
 
 	// COIN SCORE
@@ -103,6 +101,7 @@ void UIGame::ReplayInit()
 	{
 		starIcon[i].sprite.setColor(sf::Color::Magenta);
 	}
+	SetPauseWindow();
 }
 
 void UIGame::Release()
@@ -149,10 +148,13 @@ void UIGame::Reset()
 	button1Text.Reset();
 	button2.Reset();
 	button2Text.Reset();
-
 	SetPauseWindow();
 
-	if (dieWindow)
+	if (pauseWindow)
+	{
+		SetPauseWindow();
+	}
+	else if (dieWindow)
 	{
 		SetDieWindow();
 	}
@@ -167,7 +169,6 @@ void UIGame::Update(float dt)
 	// 상단 고정 UI
 	StarIconUpdate();
 	ScoreTextUpdate();
-	//winWindow = true;
 
 	// 퍼즈 화면 UI
 	button1.Update(dt);
@@ -185,35 +186,19 @@ void UIGame::Update(float dt)
 	// 멈췄을 때
 	if (isPause)
 	{
-		wait = true;
-		Yupdate(pauseWindowClose);
-
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
 			pauseWindowClose = true;
-			wait = false;
 		}
 
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 		{
 			// 타이틀로 이동하는 코드
-			wait = false;
 		}
 
-		if (pauseWindowClose && !wait)
-		{
-			Yupdate(pauseWindowClose);
-		}
-		if (!pauseWindowClose && !wait)
-		{
-			if (dieWindow)
-			{
-				replay = true;
-			}
-			isPause = false;
-		}
+		Yupdate(pauseWindowClose);
 	}
-	else if(!isPause)
+	else
 	{
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
@@ -262,10 +247,28 @@ void UIGame::Draw(sf::RenderWindow& window)
 		else if (winWindow)
 		{
 			uiText2.Draw(window);
+			for (int i = 0; i < starEmpty.size(); ++i)
+			{
+			}
 			for (int i = 0; i < starGet.size(); ++i)
 			{
 				starEmpty[i].Draw(window);
-				starGet[i].Draw(window);
+				if (score < maxScore / 3)
+				{
+					break;
+				}
+				else if ((maxScore / 3 <= score) && (score < maxScore / 3 * 2) && i < 1)
+				{
+					starGet[i].Draw(window);
+				}
+				else if ((maxScore / 3 * 2 <= score) && (score < maxScore) && i < 2)
+				{
+					starGet[i].Draw(window);
+				}
+				else if(score == maxScore)
+				{
+					starGet[i].Draw(window);
+				}
 			}
 		}
 	}
@@ -275,33 +278,21 @@ void UIGame::StarIconUpdate()
 {
 	for (int i = 0; i < starIcon.size(); ++i)
 	{
-		if (starIcon[i].sprite.getColor() == sf::Color::Yellow)
-			continue;
-
-		if (score == maxScore)
+		if ((maxScore / 3 <= score) && (score < maxScore / 3 * 2) && i < 1)
 		{
 			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
-		else if (score >= maxScore / 3 * 2 && score < maxScore)
+		else if ((maxScore / 3 * 2 <= score) && (score < maxScore) && i < 2)
 		{
-			if (i < 2)
-			{
-				starIcon[i].sprite.setColor(sf::Color::Yellow);
-			}
-			break;
+			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
-		else if (score < maxScore / 3 * 2 && score >= maxScore / 3)
+		else if (score == maxScore)
 		{
-			if (i < 1)
-			{
-				starIcon[i].sprite.setColor(sf::Color::Yellow);
-			}
-			break;
+			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
-		else if (score < maxScore / 3)
+		else
 		{
 			starIcon[i].sprite.setColor(sf::Color::Magenta);
-			return;
 		}
 	}
 }
@@ -390,15 +381,12 @@ void UIGame::SetPauseWindow()
 	button1.sprite.setScale(2.5f, 0.f); // 2
 	button1.sprite.setColor(sf::Color::Yellow);
 	button1.OnEnter = [this]() {
-		std::cout << "Enter" << std::endl;
 		button1.sprite.setColor(sf::Color::Magenta);
 	};
 	button1.OnClick = [this]() {
-		std::cout << "Click" << std::endl;
 		pauseWindowClose = true;
 	};
 	button1.OnExit = [this]() {
-		std::cout << "Exit" << std::endl;
 		button1.sprite.setColor(sf::Color::Yellow);
 	};
 
@@ -417,15 +405,12 @@ void UIGame::SetPauseWindow()
 	button2.sprite.setScale(2.5f, 0.f); // 2
 	button2.sprite.setColor(sf::Color::Yellow);
 	button2.OnEnter = [this]() {
-		std::cout << "Enter" << std::endl;
 		button2.sprite.setColor(sf::Color::Magenta);
 	};
 	button2.OnClick = [this]() {
-		std::cout << "Click" << std::endl;
 		pauseWindowClose = true;
 	};
 	button2.OnExit = [this]() {
-		std::cout << "Exit" << std::endl;
 		button2.sprite.setColor(sf::Color::Yellow);
 	};
 
@@ -436,8 +421,6 @@ void UIGame::SetPauseWindow()
 	button2Text.text.setFillColor(sf::Color::Black);
 	button2Text.SetPosition(button2.GetPosition());
 	button2Text.SetOrigin(Origins::MC);
-
-	pauseWindow = false;
 }
 
 void UIGame::SetWinWindow()

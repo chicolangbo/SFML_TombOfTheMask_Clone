@@ -32,11 +32,11 @@ protected:
 	std::vector<SpriteGo> starGet;
 	std::vector<SpriteGo> starEmpty;
 
-	int score = 0;
 	int maxScore = 0;
 	bool pauseWindowClose = false;
 
 public:
+	int score = 0;
 	bool replay = false;
 	bool isPause = false;
 	bool pauseWindow = false;
@@ -95,6 +95,9 @@ public:
 			{
 				this->replay = true;
 			}
+			this->dieWindow = false;
+			this->pauseWindow = false;
+			this->winWindow = false;
 		}
 	}
 };

@@ -72,6 +72,7 @@ void Player::Update(float dt)
 	// USING CODE
 	CheckCoinCollide();
 	CheckSpikeCollide();
+	CheckArrival();
 	MovePlayer(dt, CheckTileCollide());
 }
 
@@ -170,7 +171,6 @@ void Player::MovePlayer(float dt, COLLIDE c)
 	// move
 	if (!isMoving)
 	{
-		//std::cout << "키 입력" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
 			isMoving = true;
@@ -221,12 +221,12 @@ COLLIDE Player::CheckTileCollide()
 	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
 
 	int tileSize = tileMap->tiles.size();
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Return))
+	/*if (INPUT_MGR.GetKeyDown(sf::Keyboard::Return))
 	{
 		std::cout << playerTileIndex.x << "," << playerTileIndex.y << std::endl;
 		std::cout << GetPosition().x << "," << GetPosition().y << std::endl;
 		std::cout << tileSize << std::endl;
-	}
+	}*/
 	for (int i = 0; i < tileSize; i++)
 	{
 		if (tileMap->tiles[i].texIndex == 17 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
@@ -318,6 +318,15 @@ void Player::CheckCoinCollide()
 				std::cout << score << std::endl;
 			}
 		}
+	}
+}
+
+void Player::CheckArrival()
+{
+	if (sprite.getGlobalBounds().intersects(destination->sprite.getGlobalBounds()))
+	{
+		std::cout << "도착" << std::endl;
+		isWin = true;
 	}
 }
 

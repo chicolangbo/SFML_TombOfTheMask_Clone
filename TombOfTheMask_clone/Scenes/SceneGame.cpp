@@ -119,7 +119,7 @@ void SceneGame::Exit()
 
 void SceneGame::Update(float dt)
 {
-	if (!uiGame->isPause && !player->isDie)
+	if (!uiGame->isPause && !player->isDie && !player->isWin)
 	{
 		Scene::Update(dt);
 		worldView.setCenter(player->GetPosition());	
@@ -145,10 +145,10 @@ void SceneGame::Update(float dt)
 		SCENE_MGR.ChangeScene(SceneId::Game);
 		player->isDie = false;
 		player->score = 0;
-		uiGame->dieWindow = false;
-		uiGame->winWindow = false;
 		uiGame->isPause = false;
 		uiGame->replay = false;
+		uiGame->score = 0;
+		uiGame->SetMaxScore(920);
 		uiGame->ReplayInit();
 	}
 }

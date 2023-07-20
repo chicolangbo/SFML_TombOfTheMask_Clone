@@ -4,6 +4,7 @@
 #include "RectGo.h"
 #include "TileMap.h"
 #include "Spikes.h"
+#include "DestinationGo.h"
 
 enum class COLLIDE
 {
@@ -67,6 +68,7 @@ public:
     COLLIDE CheckTileCollide();
     void CheckSpikeCollide();
     void CheckCoinCollide();
+    void CheckArrival();
     void MoveReset();
 };
 
