@@ -90,6 +90,10 @@ public:
 		{
 			this->pauseWindowClose = false;
 			this->isPause = false;
+			if (dieWindow)
+			{
+				this->replay = true;
+			}
 		}
 	}
 };

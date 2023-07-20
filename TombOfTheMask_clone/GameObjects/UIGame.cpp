@@ -163,6 +163,7 @@ void UIGame::Update(float dt)
 	// 상단 고정 UI
 	StarIconUpdate();
 	ScoreTextUpdate();
+	//winWindow = true;
 
 	// 퍼즈 화면 UI
 	button1.Update(dt);
@@ -199,6 +200,14 @@ void UIGame::Update(float dt)
 		{
 			Yupdate(pauseWindowClose);
 		}
+		if (!pauseWindowClose && !wait)
+		{
+			if (dieWindow)
+			{
+				replay = true;
+			}
+			isPause = false;
+		}
 	}
 	else if(!isPause)
 	{
@@ -208,13 +217,12 @@ void UIGame::Update(float dt)
 			Reset();
 			isPause = true;
 		}
-		else if (dieWindow)
+		if (dieWindow)
 		{
 			Reset();
 			isPause = true;
-			replay = true;
 		}
-		else if (winWindow)
+		if (winWindow)
 		{
 			Reset();
 			isPause = true;

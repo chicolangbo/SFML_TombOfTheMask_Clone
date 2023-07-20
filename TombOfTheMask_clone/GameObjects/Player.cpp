@@ -12,6 +12,7 @@ void Player::Init()
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharRun.csv"));
 
 	animation.SetTarget(&sprite);
+	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(Origins::MC);
 }
 
@@ -19,11 +20,12 @@ void Player::Reset()
 {
 	// 플레이어 세팅값 초기화
 	animation.Play("CharIdle");
-	sprite.setScale(2.f, 2.f);
-	sprite.setColor(sf::Color::Yellow);
-	SetOrigin(origin);
 	SetPosition(tileMap->GetPosition(4,5));
+	sprite.setScale(2.f, 2.f);
+	SetOrigin(origin);
 	SetFlipX(false);
+	SetFlipY(false);
+	isMoving = false;
 }
 
 void Player::Update(float dt)
@@ -264,7 +266,6 @@ void Player::CheckSpikeCollide()
 	{
 		if (spikes[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
 		{
-			std::cout << i << std::endl;
 			if (spikes[i]->collide == false)
 			{
 				spikes[i]->collide = true;

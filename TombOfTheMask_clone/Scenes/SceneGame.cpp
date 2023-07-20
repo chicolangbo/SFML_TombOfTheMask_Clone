@@ -11,7 +11,7 @@
 
 SceneGame::SceneGame() : Scene(SceneId::Game)
 {
-	resourceListPath = "script/SceneGameResourceList.csv";
+	resourceListPath = "script/defaultResourceList.csv";
 }
 
 void SceneGame::Init()
@@ -142,7 +142,12 @@ void SceneGame::Update(float dt)
 	}
 	if (uiGame->replay)
 	{
-		//SCENE_MGR.ChangeScene(SceneId::Game);
+		SCENE_MGR.ChangeScene(SceneId::Game);
+		player->isDie = false;
+		uiGame->dieWindow = false;
+		uiGame->winWindow = false;
+		uiGame->isPause = false;
+		uiGame->replay = false;
 	}
 }
 
