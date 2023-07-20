@@ -325,7 +325,6 @@ void Player::CheckArrival()
 {
 	if (sprite.getGlobalBounds().intersects(destination->sprite.getGlobalBounds()))
 	{
-		std::cout << "도착" << std::endl;
 		isWin = true;
 	}
 }

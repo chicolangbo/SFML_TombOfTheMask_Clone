@@ -54,9 +54,13 @@ void UIGame::Init()
 			pauseIcon.sprite.setColor(sf::Color::Magenta);
 		};
 		pauseIcon.OnClick = [this]() {
-			pauseWindow = true;
-			Reset();
-			isPause = true;
+			if (!winWindow && !dieWindow)
+			{
+				pauseWindow = true;
+				Reset();
+				isPause = true;
+
+			}
 		};
 		pauseIcon.OnExit = [this]() {
 			pauseIcon.sprite.setColor(sf::Color::Yellow);
