@@ -77,7 +77,7 @@ void Player::Update(float dt)
 	{
 		CheckArrival();
 	}
-	else if((isWin || isDie)&&animation.GetCurrentClipId() != "CharWinDie")
+	if((isWin || isDie)&&animation.GetCurrentClipId() != "CharWinDie")
 	{
 		animation.Play("CharWinDie");
 		SetOrigin(Origins::MC);

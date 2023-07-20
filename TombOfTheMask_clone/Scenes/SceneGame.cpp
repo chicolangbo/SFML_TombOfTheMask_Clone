@@ -130,25 +130,30 @@ void SceneGame::Update(float dt)
 		score = player->GetScore();
 		uiGame->SetScore(score);
 	}
-	else if (player->isDie)
-	{
-		uiGame->dieWindow = true;
-		uiGame->Update(dt);
-	}
-	else if(player->isWin)
+	else if(player->isWin || player->isDie)
 	{
 		if (count > 0)
 		{
-			BackEffect(dt);
+			BackEffect(dt, player->isWin);
+			player->isMoving = false;
 			player->Update(dt);
 		}
-		else
+		else if(player->isWin)
 		{
 			uiGame->winWindow = true;
 			uiGame->Update(dt);
 			if (!uiGame->winWindow)
 			{
 				player->isWin = false;
+			}
+		}
+		else if (player->isDie)
+		{
+			uiGame->dieWindow = true;
+			uiGame->Update(dt);
+			if (!uiGame->dieWindow)
+			{
+				player->isDie = false;
 			}
 		}
 	}
@@ -177,13 +182,20 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	Scene::Draw(window);
 }
 
-void SceneGame::BackEffect(float dt)
+void SceneGame::BackEffect(float dt, bool status)
 {
 	backEffect->SetActive(true);
 	totalTime += dt;
 	if (totalTime <= 0.5f)
 	{
-		backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - totalTime * 510.f));
+		if (status)
+		{
+			backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - totalTime * 510.f));
+		}
+		else
+		{
+			backEffect->rect.setFillColor(sf::Color(255, 0, 0, 255.f - totalTime * 510.f));
+		}
 		if (totalTime <= 0.5f && totalTime >= 0.47f)
 		{
 			totalTime = 0.01f;
