@@ -6,6 +6,7 @@
 #include "DestinationGo.h"
 #include "UIGame.h"
 #include "EntranceGo.h"
+#include "TailsGo.h"
 
 class SceneGame : public Scene
 {
@@ -16,6 +17,7 @@ protected:
 	EntranceGo* entrance = nullptr;
 	UIGame* uiGame = nullptr;
 	RectGo* backEffect = nullptr;
+	TailsGo* tails = nullptr;
 
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};

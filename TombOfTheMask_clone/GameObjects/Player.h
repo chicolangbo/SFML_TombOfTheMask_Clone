@@ -38,6 +38,8 @@ protected:
     bool sMove = false;
     bool dMove = false;
 
+    float totalTime = 0.f;
+
 public:
     bool isDie = false;
     bool isWin = false;
@@ -54,6 +56,7 @@ public:
 
     bool GetFlipX() const { return flipX; };
     bool GetFlipY() const { return flipY; };
+    sf::Vector2f GetDirection() const { return direction; }
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
     void SetRotation(COLLIDE c);

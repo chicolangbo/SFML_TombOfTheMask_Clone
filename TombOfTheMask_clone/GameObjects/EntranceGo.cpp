@@ -16,7 +16,7 @@ void EntranceGo::Reset()
 {
 	animation.Play("EnterDoor");
 	SetOrigin(origin);
-
+	totalTime = 0.f;
 }
 
 void EntranceGo::Update(float dt)

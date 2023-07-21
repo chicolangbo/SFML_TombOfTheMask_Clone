@@ -1,7 +1,7 @@
 "RESOURCE_TYPES(1: �ؽ���, 2: ��Ʈ, 3: ����Ŭ��, 4: �ִϸ��̼�Ŭ��)",RESOURCE_PATH
 3,animations/CharFlight.csv
 3,animations/CharIdle.csv
-3,animations/CharLongJump.csv
+3,animations/CharEnter.csv
 3,animations/CharRun.csv
 3,animations/CharWinDie.csv
 3,animations/EnterDoor.csv
@@ -31,11 +31,6 @@
 0,graphics/character/0_Char_idle_3.png
 0,graphics/character/0_Char_idle_4.png
 0,graphics/character/0_Char_idle_5.png
-0,graphics/character/0_Char_long_jump_1.png
-0,graphics/character/0_Char_long_jump_2.png
-0,graphics/character/0_Char_long_jump_3.png
-0,graphics/character/0_Char_long_jump_4.png
-0,graphics/character/0_Char_long_jump_5.png
 0,graphics/character/0_Char_run_1.png
 0,graphics/character/0_Char_run_2.png
 0,graphics/character/0_Char_run_3.png
@@ -128,3 +123,4 @@
 0,graphics/item/EnterDoor_18.png
 0,graphics/item/EnterDoor_19.png
 0,graphics/item/EnterDoor_20.png
+0,graphics/character/tails.png

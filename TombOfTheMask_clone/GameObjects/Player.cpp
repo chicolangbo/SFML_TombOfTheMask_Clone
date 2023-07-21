@@ -8,7 +8,7 @@ void Player::Init()
 {
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharFlight.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharIdle.csv"));
-	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharLongJump.csv"));
+	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharEnter.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharRun.csv"));
 	animation.AddClip(*RESOURCE_MGR.GetAnimationClip("animations/CharWinDie.csv"));
 
@@ -20,8 +20,9 @@ void Player::Init()
 void Player::Reset()
 {
 	// 플레이어 세팅값 초기화
+	totalTime = 0.f;
 	sprite.setRotation(0.f);
-	animation.Play("CharIdle");
+	animation.Play("CharEnter");
 	SetPosition(tileMap->GetPosition(4,5));
 	sprite.setScale(2.f, 2.f);
 	SetOrigin(origin);
@@ -67,8 +68,21 @@ void Player::Update(float dt)
 	}
 
 	// USING CODE
-	MovePlayer(dt);
-	SetAnimation();
+	totalTime += dt;
+	if (totalTime <= 2.f)
+	{
+		sprite.setScale(totalTime, totalTime);
+		sprite.setColor(sf::Color(255, 255, 0, 0.f + totalTime * 127.5f));
+		if (animation.GetCurrentClipId() != "CharEnter")
+		{
+			animation.Play("CharEnter");
+		}
+	}
+	else
+	{
+		MovePlayer(dt);
+		SetAnimation();
+	}
 	
 	animation.Update(dt);
 }

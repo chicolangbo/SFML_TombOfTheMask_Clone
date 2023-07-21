@@ -56,6 +56,7 @@ void SceneGame::Init()
 
 		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
 		player = (Player*)AddGo(new Player("player"));
+		tails = (TailsGo*)AddGo(new TailsGo("graphics/character/tails.png", "tails"));
 
 		tileMap->SetSpikes(spikes);
 		tileMap->SetBCoins(BCoins);
@@ -67,6 +68,8 @@ void SceneGame::Init()
 		player->SetBCoins(BCoins);
 		player->SetSCoins(SCoins);
 		player->SetDestination(destination);
+
+		tails->SetPlayer(player);
 	}
 
 	// UI OBJECTS
@@ -113,6 +116,7 @@ void SceneGame::Enter()
 	Scene::Enter();
 	
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
+	tails->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 }
 
 void SceneGame::Exit()
