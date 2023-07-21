@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 #include "Player.h"
+#include "ObjectPool.h"
 
 class TailsGo :
     public SpriteGo
@@ -9,8 +10,11 @@ protected:
 	Player* player = nullptr;
 	sf::Vector2f direction = { 0.f,0.f };
 	float maxWidth = 1.5f;
+	bool reachMaxWidth = false;
 
 public:
+	ObjectPool<TailsGo>* pool;
+
 	TailsGo(const std::string& textureId = "", const std::string& n = "");
 	virtual ~TailsGo() override { Release(); };
 

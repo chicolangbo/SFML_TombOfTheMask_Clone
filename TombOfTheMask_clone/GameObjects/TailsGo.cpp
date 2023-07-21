@@ -21,6 +21,7 @@ void TailsGo::Reset()
 	SetPosition(player->GetPosition());
 	SetOrigin(Origins::MR);
 	sprite.setScale(0.f, 1.f);
+	reachMaxWidth = false;
 }
 
 void TailsGo::Update(float dt)
@@ -31,14 +32,19 @@ void TailsGo::Update(float dt)
 	SetPosition(player->GetPosition());
 	if (player->isMoving)
 	{
-		IncreaseTailWidth(dt);
-		//sprite.setScale(1.f, 1.f);
+		if (!reachMaxWidth)
+		{
+			IncreaseTailWidth(dt);
+		}
+		else
+		{
+			DecreaseTailWidth(dt);
+		}
 		SetRotation(direction);
 	}
 	else
 	{
 		DecreaseTailWidth(dt);
-		//sprite.setScale(0.f, 1.f);
 	}
 }
 
@@ -73,17 +79,43 @@ void TailsGo::SetRotation(sf::Vector2f d)
 void TailsGo::IncreaseTailWidth(float dt)
 {
 	float x = sprite.getScale().x;
-	x += dt*5;
-	if (x <= maxWidth)
+	if (x < 0.f)
 	{
-		sprite.setScale(x,1.f);
+		x = 0.f;
+	}
+
+	x += dt*5;
+	if (x < maxWidth - 0.01f)
+	{
+		sprite.setScale(x, 1.f);
+	}
+	if (x >= maxWidth - 0.01f && x <= maxWidth)
+	{
+		reachMaxWidth = true;
 	}
 }
 
 void TailsGo::DecreaseTailWidth(float dt)
 {
 	float x = sprite.getScale().x;
-	x -= dt * 20;
+	if (player->isMoving)
+	{
+		x -= dt * 5;
+	}
+	else if(!player->isMoving)
+	{
+		x -= dt * 10;
+	}
+
+	if (x < 0.f)
+	{
+		x = 0.f;
+	}
+
+	if (x >= 0.8f && x <= 0.9f)
+	{
+		reachMaxWidth = false;
+	}
 	if (x <= 1.5f && x>=0.f)
 	{
 		sprite.setScale(x, 1.f);

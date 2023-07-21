@@ -55,8 +55,8 @@ void SceneGame::Init()
 		entrance = (EntranceGo*)AddGo(new EntranceGo("entrance"));
 
 		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
+Stails.png", "tails"));
 		player = (Player*)AddGo(new Player("player"));
-		tails = (TailsGo*)AddGo(new TailsGo("graphics/character/tails.png", "tails"));
 
 		tileMap->SetSpikes(spikes);
 		tileMap->SetBCoins(BCoins);
@@ -141,6 +141,7 @@ void SceneGame::Update(float dt)
 			BackEffect(dt, player->isWin);
 			player->isMoving = false;
 			player->Update(dt);
+			tails->Update(dt);
 		}
 		else if(player->isWin)
 		{
