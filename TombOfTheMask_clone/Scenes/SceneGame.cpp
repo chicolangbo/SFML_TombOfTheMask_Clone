@@ -55,7 +55,7 @@ void SceneGame::Init()
 		entrance = (EntranceGo*)AddGo(new EntranceGo("entrance"));
 
 		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
-Stails.png", "tails"));
+		tails = (TailsGo*)AddGo(new TailsGo("graphics/character/tails.png", "tails"));
 		player = (Player*)AddGo(new Player("player"));
 
 		tileMap->SetSpikes(spikes);
