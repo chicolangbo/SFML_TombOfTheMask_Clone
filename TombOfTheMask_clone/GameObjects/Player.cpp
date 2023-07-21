@@ -66,23 +66,11 @@ void Player::Update(float dt)
 		}
 	}
 
-	animation.Update(dt);
-	//direction.x = INPUT_MGR.GetAxis(Axis::Horizontal);
-	//direction.y = INPUT_MGR.GetAxis(Axis::Vertical);
-
 	// USING CODE
-	CheckCoinCollide();
-	CheckSpikeCollide();
-	if (!isWin)
-	{
-		CheckArrival();
-	}
-	if((isWin || isDie)&&animation.GetCurrentClipId() != "CharWinDie")
-	{
-		animation.Play("CharWinDie");
-		SetOrigin(Origins::MC);
-	}
-	MovePlayer(dt, CheckTileCollide());
+	MovePlayer(dt);
+	SetAnimation();
+	
+	animation.Update(dt);
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -111,9 +99,7 @@ void Player::SetFlipY(bool flip)
 void Player::SetRotation(COLLIDE c)
 {
 	// 회전 초기화
-	float tempR = sprite.getRotation();
-	sprite.setRotation(-tempR);
-	sprite.setScale(2.f, 2.f);
+	sprite.setRotation(0);
 
 	switch (c)
 	{
@@ -130,6 +116,35 @@ void Player::SetRotation(COLLIDE c)
 		sprite.setRotation(0.f);
 		break;
 	}
+}
+
+void Player::SetAnimation()
+{
+	CheckCoinCollide();
+	CheckTileCollide();
+	CheckSpikeCollide();
+	CheckArrival();
+
+	if (!isMoving)
+	{
+		if ((isWin || isDie) && animation.GetCurrentClipId() != "CharWinDie")
+		{
+			animation.Play("CharWinDie");
+		}
+		else if(!isWin && !isDie && animation.GetCurrentClipId() != "CharIdle")
+		{
+			animation.Play("CharIdle");
+		}
+	}
+	else
+	{
+		if (animation.GetCurrentClipId() != "CharFlight")
+		{
+			animation.Play("CharFlight");
+		}
+	}
+
+	SetOrigin(Origins::MC);
 }
 
 void Player::SetMap(TileMap* tilemap)
@@ -157,52 +172,58 @@ void Player::SetDestination(DestinationGo* des)
 	this->destination = des;
 }
 
-void Player::MovePlayer(float dt, COLLIDE c)
+void Player::MovePlayer(float dt)
 {
-	// flip
-	if (direction.x != 0.f/* && sprite.getRotation() == 0.f*/)
-	{
-		bool flip = direction.x < 0.f;
-		if (GetFlipX() != flip)
-		{
-			SetFlipX(flip);
-		}
-	}
-	if (direction.y != 0.f/* && sprite.getRotation() == 0.f*/)
-	{
-		bool flip = direction.y < 0.f;
-		if (GetFlipY() != flip)
-		{
-			SetFlipY(flip);
-		}
-	}
+	// FLIP : 안 쓸 수도 있음
+	//if (direction.x != 0.f/* && sprite.getRotation() == 0.f*/)
+	//{
+	//	bool flip = direction.x < 0.f;
+	//	if (GetFlipX() != flip)
+	//	{
+	//		SetFlipX(flip);
+	//	}
+	//}
+	//if (direction.y != 0.f/* && sprite.getRotation() == 0.f*/)
+	//{
+	//	bool flip = direction.y < 0.f;
+	//	if (GetFlipY() != flip)
+	//	{
+	//		SetFlipY(flip);
+	//	}
+	//}
 
-	// move
+	// MOVE
 	if (!isMoving)
 	{
+		std::cout << "안움직이는중" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
+			SetRotation(COLLIDE::T);
 			isMoving = true;
 			wMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
+			SetRotation(COLLIDE::L);
 			isMoving = true;
 			aMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
+			SetRotation(COLLIDE::B);
 			isMoving = true;
 			sMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
+			SetRotation(COLLIDE::R);
 			isMoving = true;
 			dMove = true;
 		}
 	}
 	else
 	{
+		std::cout << "무빙" << std::endl;
 		if (wMove)
 		{
 			direction = { 0,-1 };
@@ -224,18 +245,41 @@ void Player::MovePlayer(float dt, COLLIDE c)
 	}
 }
 
+void Player::CheckCoinCollide()
+{
+	for (int i = 0; i < SCoins.size(); ++i)
+	{
+		if (SCoins[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+		{
+			if (SCoins[i]->GetActive())
+			{
+				SCoins[i]->SetActive(false);
+				score += GETSCOIN;
+				std::cout << score << std::endl;
+			}
+		}
+	}
+	for (int i = 0; i < BCoins.size(); ++i)
+	{
+		if (BCoins[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
+		{
+			if (BCoins[i]->GetActive())
+			{
+				BCoins[i]->SetActive(false);
+				score += GETBCOIN;
+				std::cout << score << std::endl;
+			}
+		}
+	}
+}
+
 COLLIDE Player::CheckTileCollide()
 {
 	// 플레이어가 속한 타일의 인덱스
 	sf::Vector2i playerTileIndex = (sf::Vector2i)(GetPosition() / 30.f);
 
 	int tileSize = tileMap->tiles.size();
-	/*if (INPUT_MGR.GetKeyDown(sf::Keyboard::Return))
-	{
-		std::cout << playerTileIndex.x << "," << playerTileIndex.y << std::endl;
-		std::cout << GetPosition().x << "," << GetPosition().y << std::endl;
-		std::cout << tileSize << std::endl;
-	}*/
+
 	for (int i = 0; i < tileSize; i++)
 	{
 		if (tileMap->tiles[i].texIndex == 17 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
@@ -248,6 +292,8 @@ COLLIDE Player::CheckTileCollide()
 			if (tileMap->tiles[i].obstacleIndex == Obstacles::SpikeWall)
 			{
 				isDie = true;
+				isMoving = false;
+				return COLLIDE::DIE;
 			}
 
 			// 충돌 시 set position
@@ -284,7 +330,7 @@ COLLIDE Player::CheckTileCollide()
 	return COLLIDE::NONE;
 }
 
-void Player::CheckSpikeCollide()
+COLLIDE Player::CheckSpikeCollide()
 {
 	for (int i = 0; i < spikes.size(); ++i)
 	{
@@ -297,50 +343,23 @@ void Player::CheckSpikeCollide()
 			else if (spikes[i]->GetCurFrame() != 0)
 			{
 				isDie = true;
+				MoveReset();
 			}
+			return COLLIDE::DIE;
 		}
 	}
+	return COLLIDE::NONE;
 }
 
-void Player::CheckCoinCollide()
+COLLIDE Player::CheckArrival()
 {
-	for (int i = 0; i < SCoins.size(); ++i)
-	{
-		if (SCoins[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
-		{
-			if (SCoins[i]->GetActive())
-			{
-				SCoins[i]->SetActive(false);
-				score += GETSCOIN;
-				std::cout << score << std::endl;
-			}
-		}
-	}
-	for (int i = 0; i < BCoins.size(); ++i)
-	{
-		if (BCoins[i]->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()))
-		{
-			if (BCoins[i]->GetActive())
-			{
-				BCoins[i]->SetActive(false);
-				score += GETBCOIN;
-				std::cout << score << std::endl;
-			}
-		}
-	}
-}
-
-void Player::CheckArrival()
-{
-	//float top = destination->sprite.getGlobalBounds().top;
-	//float bottom = destination->sprite.getGlobalBounds().top + destination->sprite.getGlobalBounds().height;
-	//float left = destination->sprite.getGlobalBounds().left;
-	//float right = destination->sprite.getGlobalBounds().left + destination->sprite.getGlobalBounds().width;
-
 	if (Utils::Distance(position, destination->GetPosition()) <= 1.f)
 	{
 		isWin = true;
+		MoveReset();
+		return COLLIDE::WIN;
 	}
+	return COLLIDE::NONE;
 }
 
 void Player::MoveReset()

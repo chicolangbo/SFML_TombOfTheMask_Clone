@@ -13,6 +13,8 @@ enum class COLLIDE
     R,
     T,
     B,
+    DIE,
+    WIN
 };
 
 class Player :
@@ -55,6 +57,7 @@ public:
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
     void SetRotation(COLLIDE c);
+    void SetAnimation();
 
     void SetMap(TileMap* tilemap);
     void SetSpikes(std::vector<Spikes*> spikes);
@@ -64,11 +67,11 @@ public:
     
     int GetScore() { return score; }
 
-    void MovePlayer(float dt, COLLIDE c);
-    COLLIDE CheckTileCollide();
-    void CheckSpikeCollide();
+    void MovePlayer(float dt);
     void CheckCoinCollide();
-    void CheckArrival();
+    COLLIDE CheckTileCollide();
+    COLLIDE CheckSpikeCollide();
+    COLLIDE CheckArrival();
     void MoveReset();
 };
 
