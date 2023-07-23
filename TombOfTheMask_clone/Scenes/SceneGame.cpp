@@ -55,13 +55,15 @@ void SceneGame::Init()
 		entrance = (EntranceGo*)AddGo(new EntranceGo("entrance"));
 
 		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
-		tails = (TailsGo*)AddGo(new TailsGo("graphics/character/tails.png", "tails"));
+		//tails = (TailsGo*)AddGo(new TailsGo("graphics/character/tails.png", "tails"));
 		player = (Player*)AddGo(new Player("player"));
 
 		tileMap->SetSpikes(spikes);
 		tileMap->SetBCoins(BCoins);
 		tileMap->SetSCoins(SCoins);
 		tileMap->SetDestination(destination);
+		tileMap->Load("map/map_1.csv");
+		tileMap->SetOrigin(Origins::TL);
 
 		player->SetMap(tileMap);
 		player->SetSpikes(spikes);
@@ -69,7 +71,7 @@ void SceneGame::Init()
 		player->SetSCoins(SCoins);
 		player->SetDestination(destination);
 
-		tails->SetPlayer(player);
+		//tails->SetPlayer(player);
 	}
 
 	// UI OBJECTS
@@ -86,10 +88,6 @@ void SceneGame::Init()
 	{
 		go->Init();
 	}
-
-	tileMap->Load("map/map_1.csv");
-	tileMap->SetOrigin(Origins::TL);
-
 }
 
 void SceneGame::Release()
@@ -103,6 +101,8 @@ void SceneGame::Release()
 
 void SceneGame::Enter()
 {
+	Scene::Enter();
+
 	auto size = FRAMEWORK.GetWindowSize();
 	sf::Vector2f centerPos = size * 0.5f;
 	worldView.setSize(size);
@@ -113,10 +113,9 @@ void SceneGame::Enter()
 	backView.setSize(size);
 	backView.setCenter(centerPos);
 
-	Scene::Enter();
 	
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
-	tails->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
+	//tails->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 }
 
 void SceneGame::Exit()

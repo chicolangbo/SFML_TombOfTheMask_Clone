@@ -3,6 +3,7 @@
 #include "InputMgr.h"
 #include "Framework.h"
 #include "ResourceMgr.h"
+#include "SceneMgr.h"
 
 void Player::Init()
 {
@@ -15,6 +16,21 @@ void Player::Init()
 	animation.SetTarget(&sprite);
 	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(Origins::MC);
+	SetPosition(tileMap->GetPosition(4, 5));
+
+	poolTails.OnCreate = [this](TailsGo* tails)
+	{
+		tails->textureId = "graphics/character/tails.png";
+		tails->pool = &poolTails;
+		tails->SetPosition(position);
+	};
+	poolTails.Init();
+}
+
+void Player::Release()
+{
+	SpriteGo::Release();
+	poolTails.Release();
 }
 
 void Player::Reset()
@@ -43,6 +59,13 @@ void Player::Reset()
 	{
 		spikes[i]->collide = false;
 	}
+
+	// tails 초기화
+	for (auto tail : poolTails.GetUseList())
+	{
+		SCENE_MGR.GetCurrScene()->RemoveGo(tail);
+	}
+	poolTails.Clear();
 }
 
 void Player::Update(float dt)
@@ -212,24 +235,32 @@ void Player::MovePlayer(float dt)
 		std::cout << "안움직이는중" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
+			TailsGo* tail = poolTails.Get();
+			tail->Update(dt);
 			SetRotation(COLLIDE::T);
 			isMoving = true;
 			wMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
+			TailsGo* tail = poolTails.Get();
+			tail->Update(dt);
 			SetRotation(COLLIDE::L);
 			isMoving = true;
 			aMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
+			TailsGo* tail = poolTails.Get();
+			tail->Update(dt);
 			SetRotation(COLLIDE::B);
 			isMoving = true;
 			sMove = true;
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
+			TailsGo* tail = poolTails.Get();
+			tail->Update(dt);
 			SetRotation(COLLIDE::R);
 			isMoving = true;
 			dMove = true;

@@ -1,7 +1,8 @@
 #pragma once
 #include "SpriteGo.h"
-#include "Player.h"
 #include "ObjectPool.h"
+
+class Player;
 
 class TailsGo :
     public SpriteGo

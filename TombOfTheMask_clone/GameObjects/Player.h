@@ -5,6 +5,8 @@
 #include "TileMap.h"
 #include "Spikes.h"
 #include "DestinationGo.h"
+#include "ObjectPool.h"
+#include "TailsGo.h"
 
 enum class COLLIDE
 {
@@ -40,6 +42,8 @@ protected:
 
     float totalTime = 0.f;
 
+    ObjectPool <TailsGo> poolTails;
+
 public:
     bool isDie = false;
     bool isWin = false;
@@ -50,6 +54,7 @@ public:
     virtual ~Player() override { Release(); };
 
     virtual void Init() override;
+    virtual void Release() override;
     virtual void Reset() override;
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window) override;
