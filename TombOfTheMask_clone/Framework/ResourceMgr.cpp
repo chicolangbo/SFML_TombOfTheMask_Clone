@@ -111,7 +111,7 @@ void ResourceMgr::LoadFromCSV(const std::string path, bool isDefault)
 	std::vector<std::string> paths = doc.GetColumn<std::string>(1);
 	for (int i = 0; i < types.size(); ++i)
 	{
-		Load((ResourceTypes)types[i], paths[i]);
+		Load((ResourceTypes)types[i], paths[i], isDefault);
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "AnimationController.h"
 #include "LogoGo.h"
+#include "TextGo.h"
 
 class SceneTitle :
     public Scene
@@ -9,6 +10,9 @@ class SceneTitle :
 protected:
 	sf::View titleView;
 	LogoGo* logo = nullptr;
+	TextGo* playText = nullptr;
+
+	float blinkTime = 0.5f;
 
 public:
 	SceneTitle(SceneId id = SceneId::Title);
