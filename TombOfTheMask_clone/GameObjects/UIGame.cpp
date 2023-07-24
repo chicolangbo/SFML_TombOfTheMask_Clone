@@ -115,7 +115,6 @@ void UIGame::Reset()
 	replay = false;
 	next = false;
 	score = 0;
-
 }
 
 void UIGame::Release()

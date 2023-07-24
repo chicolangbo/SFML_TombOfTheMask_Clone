@@ -114,6 +114,8 @@ void SceneGame1::Enter()
 
 	uiGame->SetMaxScore(960);
 
+	backEffect->SetActive(false);
+
 	count = 3;
 }
 
@@ -174,6 +176,11 @@ void SceneGame1::Update(float dt)
 	if (uiGame->replay)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Game1);
+	}
+
+	if (uiGame->next)
+	{
+		SCENE_MGR.ChangeScene(SceneId::Game2);
 	}
 }
 

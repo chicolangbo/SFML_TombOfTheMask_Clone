@@ -26,14 +26,14 @@ void SceneGame2::Init()
 		backEffect->sortLayer = -1;
 		backEffect->SetActive(false);
 
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < 50; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			Spikes* spikes = (Spikes*)AddGo(new Spikes("spikes" + num));
 			this->spikes.push_back(spikes);
 		}
 
-		for (int i = 0; i < 78; ++i)
+		for (int i = 0; i < 114; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* scoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_2.png", "scoins" + num));
@@ -42,7 +42,7 @@ void SceneGame2::Init()
 			this->SCoins.push_back(scoins);
 		}
 
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 34; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* bcoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_addict_1.png", "bcoins" + num));
@@ -109,17 +109,13 @@ void SceneGame2::Enter()
 
 	backView.setSize(size);
 	backView.setCenter(centerPos);
-	
+
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 
-	player->isDie = false;
-	player->isWin = false;
-	player->score = 0;
-	uiGame->isPause = false;
-	uiGame->replay = false;
-	uiGame->score = 0;
-	uiGame->SetMaxScore(920);
-	uiGame->Reset();
+	uiGame->SetMaxScore(960); // 수정 필요
+
+	backEffect->SetActive(false);
+
 	count = 3;
 }
 
@@ -180,14 +176,6 @@ void SceneGame2::Update(float dt)
 	if (uiGame->replay)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Game2);
-		player->isDie = false;
-		player->score = 0;
-		uiGame->isPause = false;
-		uiGame->replay = false;
-		uiGame->score = 0;
-		uiGame->SetMaxScore(920);
-		uiGame->Reset();
-		count = 3;
 	}
 }
 
