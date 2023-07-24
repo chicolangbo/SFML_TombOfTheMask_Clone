@@ -49,6 +49,9 @@ void Player::Reset()
 	isMoving = false;
 	direction = { 0,0 };
 	MoveReset();
+	isDie = false;
+	isWin = false;
+	score = 0;
 
 	// 타일 세팅값 초기화
 	for (int i = 0; i < BCoins.size(); ++i)

@@ -112,14 +112,8 @@ void SceneGame1::Enter()
 	
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 
-	player->isDie = false;
-	player->isWin = false;
-	player->score = 0;
-	uiGame->isPause = false;
-	uiGame->replay = false;
-	uiGame->score = 0;
 	uiGame->SetMaxScore(960);
-	uiGame->Reset();
+
 	count = 3;
 }
 
@@ -180,14 +174,6 @@ void SceneGame1::Update(float dt)
 	if (uiGame->replay)
 	{
 		SCENE_MGR.ChangeScene(SceneId::Game1);
-		player->isDie = false;
-		player->score = 0;
-		uiGame->isPause = false;
-		uiGame->replay = false;
-		uiGame->score = 0;
-		uiGame->SetMaxScore(960);
-		uiGame->Reset();
-		count = 3;
 	}
 }
 

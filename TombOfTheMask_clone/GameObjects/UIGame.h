@@ -38,6 +38,7 @@ protected:
 public:
 	int score = 0;
 	bool replay = false;
+	bool next = false;
 	bool isPause = false;
 	bool pauseWindow = false;
 	bool dieWindow = false;
@@ -94,6 +95,10 @@ public:
 			if (dieWindow)
 			{
 				this->replay = true;
+			}
+			if (winWindow)
+			{
+				this->next = true;
 			}
 			this->dieWindow = false;
 			this->pauseWindow = false;

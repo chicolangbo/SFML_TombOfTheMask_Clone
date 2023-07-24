@@ -112,6 +112,10 @@ void UIGame::Reset()
 	dieWindow = false;
 	winWindow = false;
 	isPause = false;
+	replay = false;
+	next = false;
+	score = 0;
+
 }
 
 void UIGame::Release()
@@ -191,7 +195,6 @@ void UIGame::Update(float dt)
 		starGet[i].SetOrigin(Origins::MC);
 		starGetAnimation[i].Update(dt);
 	}
-	bool wait = false;
 
 	// ∏ÿ√Ë¿ª ∂ß
 	if (isPause)
