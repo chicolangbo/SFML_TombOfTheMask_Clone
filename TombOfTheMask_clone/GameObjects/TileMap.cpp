@@ -129,7 +129,7 @@ bool TileMap::Load(const std::string& filePath)
                 BCoins[bcIndex]->SetPosition(GetPosition(j, i));
                 ++bcIndex;
             }
-            if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15)
+            if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15 || texIndex == 23 || texIndex == 24 || texIndex == 25 || texIndex == 26)
             {
                 tiles[tileIndex].obstacleIndex = Obstacles::SpikeWall;
             }

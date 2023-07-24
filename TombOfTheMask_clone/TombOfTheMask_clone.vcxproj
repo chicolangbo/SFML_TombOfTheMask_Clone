@@ -187,6 +187,7 @@
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\Spikes.cpp" />
     <ClCompile Include="GameObjects\UIGame.cpp" />
+    <ClCompile Include="Scenes\SceneGame2.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -221,6 +222,7 @@
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="GameObjects\SpriteGo.h" />
     <ClInclude Include="GameObjects\Spikes.h" />
+    <ClInclude Include="Scenes\SceneGame2.h" />
     <ClInclude Include="Scenes\SceneTitle.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
