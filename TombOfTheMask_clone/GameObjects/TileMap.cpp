@@ -129,7 +129,7 @@ bool TileMap::Load(const std::string& filePath)
                 BCoins[bcIndex]->SetPosition(GetPosition(j, i));
                 ++bcIndex;
             }
-            if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15 || texIndex == 23 || texIndex == 24 || texIndex == 25 || texIndex == 26)
+            if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15 || texIndex == 18 || texIndex == 19 || texIndex == 20 || texIndex == 21)
             {
                 tiles[tileIndex].obstacleIndex = Obstacles::SpikeWall;
             }
@@ -150,19 +150,19 @@ void TileMap::SetEnum(Tile& t, int i)
 {
     switch (i)
     {
-    case 18:
+    case 22:
         t.obstacleIndex = Obstacles::Spike;
         break;
-    case 19:
+    case 23:
         t.itemIndex = Item::SCoin;
         break;
-    case 20:
+    case 24:
         t.itemIndex = Item::BCoin;
         break;
-    case 21:
+    case 25:
         t.obstacleIndex = Obstacles::Bat;
         break;
-    case 22:
+    case 26:
         t.itemIndex = Item::Destination;
     }
 }

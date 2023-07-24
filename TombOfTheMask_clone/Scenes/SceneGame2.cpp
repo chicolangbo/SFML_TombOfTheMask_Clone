@@ -61,7 +61,7 @@ void SceneGame2::Init()
 		tileMap->SetBCoins(BCoins);
 		tileMap->SetSCoins(SCoins);
 		tileMap->SetDestination(destination);
-		tileMap->Load("map/map_1.csv");
+		tileMap->Load("map/map_2.csv");
 		tileMap->SetOrigin(Origins::TL);
 
 		player->SetMap(tileMap);
@@ -179,7 +179,7 @@ void SceneGame2::Update(float dt)
 	// REPLAY
 	if (uiGame->replay)
 	{
-		SCENE_MGR.ChangeScene(SceneId::Game1);
+		SCENE_MGR.ChangeScene(SceneId::Game2);
 		player->isDie = false;
 		player->score = 0;
 		uiGame->isPause = false;

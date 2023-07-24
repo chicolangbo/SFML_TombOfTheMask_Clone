@@ -276,7 +276,7 @@ void UIGame::Draw(sf::RenderWindow& window)
 				{
 					starGet[i].Draw(window);
 				}
-				else if(score == maxScore)
+				else if(score >= maxScore)
 				{
 					starGet[i].Draw(window);
 				}
@@ -297,7 +297,7 @@ void UIGame::StarIconUpdate()
 		{
 			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
-		else if (score == maxScore)
+		else if (score >= maxScore)
 		{
 			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}

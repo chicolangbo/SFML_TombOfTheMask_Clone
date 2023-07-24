@@ -33,7 +33,7 @@ void SceneGame1::Init()
 			this->spikes.push_back(spikes);
 		}
 
-		for (int i = 0; i < 78; ++i)
+		for (int i = 0; i < 77; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* scoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_2.png", "scoins" + num));
@@ -42,7 +42,7 @@ void SceneGame1::Init()
 			this->SCoins.push_back(scoins);
 		}
 
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 6; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* bcoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_addict_1.png", "bcoins" + num));
@@ -118,7 +118,7 @@ void SceneGame1::Enter()
 	uiGame->isPause = false;
 	uiGame->replay = false;
 	uiGame->score = 0;
-	uiGame->SetMaxScore(920);
+	uiGame->SetMaxScore(960);
 	uiGame->Reset();
 	count = 3;
 }
@@ -185,7 +185,7 @@ void SceneGame1::Update(float dt)
 		uiGame->isPause = false;
 		uiGame->replay = false;
 		uiGame->score = 0;
-		uiGame->SetMaxScore(920);
+		uiGame->SetMaxScore(960);
 		uiGame->Reset();
 		count = 3;
 	}
