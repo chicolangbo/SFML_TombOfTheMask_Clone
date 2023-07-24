@@ -45,9 +45,9 @@ protected:
 
     float totalTime = 0.f;
 
-    ObjectPool <TailsGo> poolTails;
 
 public:
+    ObjectPool <TailsGo> poolTails;
     bool isDie = false;
     bool isWin = false;
     int score = 0;

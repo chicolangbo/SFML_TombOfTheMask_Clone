@@ -136,6 +136,11 @@ void SceneGame::Update(float dt)
 			BackEffect(dt, player->isWin);
 			player->isMoving = false;
 			player->Update(dt);
+			auto tailUseList = player->poolTails.GetUseList();
+			for (auto i : tailUseList)
+			{
+				i->Update(dt);
+			}
 			//tails->Update(dt);
 		}
 		else if(player->isWin)
