@@ -55,7 +55,6 @@ void SceneGame::Init()
 		entrance = (EntranceGo*)AddGo(new EntranceGo("entrance"));
 
 		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
-		//tails = (TailsGo*)AddGo(new TailsGo("graphics/character/tails.png", "tails"));
 		player = (Player*)AddGo(new Player("player"));
 
 		tileMap->SetSpikes(spikes);
@@ -70,8 +69,6 @@ void SceneGame::Init()
 		player->SetBCoins(BCoins);
 		player->SetSCoins(SCoins);
 		player->SetDestination(destination);
-
-		//tails->SetPlayer(player);
 	}
 
 	// UI OBJECTS
@@ -115,7 +112,6 @@ void SceneGame::Enter()
 
 	
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
-	//tails->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 }
 
 void SceneGame::Exit()
@@ -140,7 +136,7 @@ void SceneGame::Update(float dt)
 			BackEffect(dt, player->isWin);
 			player->isMoving = false;
 			player->Update(dt);
-			tails->Update(dt);
+			//tails->Update(dt);
 		}
 		else if(player->isWin)
 		{

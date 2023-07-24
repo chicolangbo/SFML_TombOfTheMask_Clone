@@ -25,12 +25,15 @@ class Player :
 protected:
     AnimationController animation;
     sf::Vector2f direction;
+    sf::Vector2f startPos = {0,0};
+    
 
     TileMap* tileMap = nullptr;
     std::vector<Spikes*> spikes = {};
     std::vector<SpriteGo*> BCoins = {};
     std::vector<SpriteGo*> SCoins = {};
     DestinationGo* destination = nullptr;
+
 
     float speed = 500.f;
     bool flipX = false;
@@ -62,6 +65,7 @@ public:
     bool GetFlipX() const { return flipX; };
     bool GetFlipY() const { return flipY; };
     sf::Vector2f GetDirection() const { return direction; }
+    sf::Vector2f GetStartPos() const { return startPos; }
     void SetFlipX(bool filp);
     void SetFlipY(bool flip);
     void SetRotation(COLLIDE c);

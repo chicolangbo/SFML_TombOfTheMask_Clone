@@ -1,17 +1,16 @@
 #pragma once
 #include "SpriteGo.h"
 #include "AnimationController.h"
-#include "TileMap.h"
 
-class DestinationGo :
+class LogoGo :
     public SpriteGo
 {
 protected:
     AnimationController animation;
 
 public:
-    DestinationGo(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {}
-    virtual ~DestinationGo() override { Release(); }
+    LogoGo(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {}
+    virtual ~LogoGo() override { Release(); }
 
     virtual void Init() override;
     virtual void Reset() override;

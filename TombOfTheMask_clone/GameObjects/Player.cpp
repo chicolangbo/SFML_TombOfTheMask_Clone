@@ -4,6 +4,7 @@
 #include "Framework.h"
 #include "ResourceMgr.h"
 #include "SceneMgr.h"
+#include "SceneGame.h"
 
 void Player::Init()
 {
@@ -23,6 +24,9 @@ void Player::Init()
 		tails->textureId = "graphics/character/tails.png";
 		tails->pool = &poolTails;
 		tails->SetPosition(position);
+		tails->SetOrigin(Origins::MR);
+		tails->sprite.setScale(0.f, 1.f);
+		tails->reachMaxWidth = false;
 	};
 	poolTails.Init();
 }
@@ -108,6 +112,7 @@ void Player::Update(float dt)
 	}
 	
 	animation.Update(dt);
+
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -228,15 +233,23 @@ void Player::MovePlayer(float dt)
 	//		SetFlipY(flip);
 	//	}
 	//}
+	Scene* scene = SCENE_MGR.GetCurrScene();
+	SceneGame* sceneGame = dynamic_cast<SceneGame*>(scene);
 
 	// MOVE
 	if (!isMoving)
 	{
-		std::cout << "안움직이는중" << std::endl;
+		//std::cout << "안움직이는중" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
 			TailsGo* tail = poolTails.Get();
-			tail->Update(dt);
+			if (sceneGame != nullptr)
+			{
+				sceneGame->AddGo(tail);
+				tail->SetPlayer(sceneGame->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { 0.f,-1.f };
+			}
 			SetRotation(COLLIDE::T);
 			isMoving = true;
 			wMove = true;
@@ -244,7 +257,13 @@ void Player::MovePlayer(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
 			TailsGo* tail = poolTails.Get();
-			tail->Update(dt);
+			if (sceneGame != nullptr)
+			{
+				sceneGame->AddGo(tail);
+				tail->SetPlayer(sceneGame->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { -1.f,0.f };
+			}
 			SetRotation(COLLIDE::L);
 			isMoving = true;
 			aMove = true;
@@ -252,7 +271,13 @@ void Player::MovePlayer(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
 			TailsGo* tail = poolTails.Get();
-			tail->Update(dt);
+			if (sceneGame != nullptr)
+			{
+				sceneGame->AddGo(tail);
+				tail->SetPlayer(sceneGame->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { 0.f,1.f };
+			}
 			SetRotation(COLLIDE::B);
 			isMoving = true;
 			sMove = true;
@@ -260,7 +285,13 @@ void Player::MovePlayer(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
 			TailsGo* tail = poolTails.Get();
-			tail->Update(dt);
+			if (sceneGame != nullptr)
+			{
+				sceneGame->AddGo(tail);
+				tail->SetPlayer(sceneGame->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { 1.f,0.f };
+			}
 			SetRotation(COLLIDE::R);
 			isMoving = true;
 			dMove = true;
@@ -268,7 +299,7 @@ void Player::MovePlayer(float dt)
 	}
 	else
 	{
-		std::cout << "무빙" << std::endl;
+		//std::cout << "무빙" << std::endl;
 		if (wMove)
 		{
 			direction = { 0,-1 };
@@ -338,6 +369,7 @@ COLLIDE Player::CheckTileCollide()
 			{
 				isDie = true;
 				isMoving = false;
+				startPos = position;
 				return COLLIDE::DIE;
 			}
 
@@ -347,6 +379,7 @@ COLLIDE Player::CheckTileCollide()
 				SetPosition(position.x -15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::R);
+				startPos = position;
 				return COLLIDE::R;
 			}
 			else if (direction.x == -1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
@@ -354,6 +387,7 @@ COLLIDE Player::CheckTileCollide()
 				SetPosition(position.x +15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::L);
+				startPos = position;
 				return COLLIDE::L;
 			}
 			else if (direction.y == 1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
@@ -361,6 +395,7 @@ COLLIDE Player::CheckTileCollide()
 				SetPosition(position.x, position.y -15.f);
 				MoveReset();
 				SetRotation(COLLIDE::B);
+				startPos = position;
 				return COLLIDE::B;
 			}
 			else if (direction.y == -1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
@@ -368,6 +403,7 @@ COLLIDE Player::CheckTileCollide()
 				SetPosition(position.x, position.y +15.f);
 				MoveReset();
 				SetRotation(COLLIDE::T);
+				startPos = position;
 				return COLLIDE::T;
 			}
 		}
@@ -389,6 +425,7 @@ COLLIDE Player::CheckSpikeCollide()
 			{
 				isDie = true;
 				MoveReset();
+				startPos = position;
 			}
 			return COLLIDE::DIE;
 		}
@@ -402,6 +439,7 @@ COLLIDE Player::CheckArrival()
 	{
 		isWin = true;
 		MoveReset();
+		startPos = position;
 		return COLLIDE::WIN;
 	}
 	return COLLIDE::NONE;

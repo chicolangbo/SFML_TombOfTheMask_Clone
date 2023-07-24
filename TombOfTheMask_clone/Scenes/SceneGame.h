@@ -17,7 +17,6 @@ protected:
 	EntranceGo* entrance = nullptr;
 	UIGame* uiGame = nullptr;
 	RectGo* backEffect = nullptr;
-	TailsGo* tails = nullptr;
 
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
@@ -39,6 +38,8 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	Player* GetPlayer() { return player; };
 
 	void BackEffect(float dt, bool status);
 };

@@ -16,11 +16,15 @@ void TailsGo::Init()
 	sprite.setScale(0.f, 1.f);
 }
 
+void TailsGo::Release()
+{
+	SpriteGo::Release();
+}
+
 void TailsGo::Reset()
 {
 	SpriteGo::Reset();
 
-	//SetPosition(player->GetPosition());
 	SetOrigin(Origins::MR);
 	sprite.setScale(0.f, 1.f);
 	reachMaxWidth = false;
@@ -28,12 +32,14 @@ void TailsGo::Reset()
 
 void TailsGo::Update(float dt)
 {
+	/*std::cout << "꼬리　업뎃" << std::endl;*/
 	SpriteGo::Update(dt);
-	direction = player->GetDirection();
 
-	SetPosition(player->GetPosition());
-	if (player->isMoving)
+	
+	if (player->isMoving && !stop)
 	{
+		SetPosition(player->GetPosition());
+		directionChange = true;
 		if (!reachMaxWidth)
 		{
 			IncreaseTailWidth(dt);
@@ -44,18 +50,20 @@ void TailsGo::Update(float dt)
 		}
 		SetRotation(direction);
 	}
-	else
+	else if(!player->isMoving || stop)
 	{
+		stop = true;
+		startPos = player->GetStartPos();
 		// 원래 위치에 고정
-		SetPosition(position);
+		SetPosition(startPos);
 
-		DecreaseTailWidth(dt);
-
-		//if (sprite.getScale().x <= 0.f)
-		//{
+		if (player != nullptr && DecreaseTailWidth(dt))
+		{
+			count++;
+			std::cout << "리턴" <<count<< std::endl;
 			SCENE_MGR.GetCurrScene()->RemoveGo(this);
 			pool->Return(this);
-		//}
+		}
 	}
 }
 
@@ -106,13 +114,13 @@ void TailsGo::IncreaseTailWidth(float dt)
 	}
 }
 
-void TailsGo::DecreaseTailWidth(float dt)
+bool TailsGo::DecreaseTailWidth(float dt)
 {
 	float x = sprite.getScale().x;
-	//if (x < 0.f)
-	//{
-	//	x = 0.f;
-	//}
+	if (x < 0.f)
+	{
+		return true;
+	}
 
 	if (player->isMoving)
 	{
@@ -131,4 +139,5 @@ void TailsGo::DecreaseTailWidth(float dt)
 	{
 		sprite.setScale(x, 1.f);
 	}
+	return false;
 }

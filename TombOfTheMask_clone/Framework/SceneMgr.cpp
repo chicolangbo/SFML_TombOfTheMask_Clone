@@ -3,6 +3,7 @@
 #include "SceneGame.h"
 #include "DataTableMgr.h"
 #include "StringTable.h"
+#include "SceneTitle.h"
 
 void SceneMgr::Init()
 {
@@ -11,6 +12,7 @@ void SceneMgr::Init()
 		Release();
 	}
 
+	scenes.push_back(new SceneTitle());
 	scenes.push_back(new SceneGame());
 
 	for (auto scene : scenes)

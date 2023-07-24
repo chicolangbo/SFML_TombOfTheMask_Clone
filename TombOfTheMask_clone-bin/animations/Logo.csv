@@ -1,5 +1,5 @@
 ID,FPS,LOOPTYPE,,
-Logo,10,1,,
+Logo,10,0,,
 ,,,,
 TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
 graphics/ui/Logo_reveal_1.png,0,0,139,31

@@ -1,10 +1,14 @@
 #pragma once
 #include "Scene.h"
+#include "AnimationController.h"
+#include "LogoGo.h"
+
 class SceneTitle :
     public Scene
 {
 protected:
-	
+	sf::View titleView;
+	LogoGo* logo = nullptr;
 
 public:
 	SceneTitle(SceneId id = SceneId::Title);
