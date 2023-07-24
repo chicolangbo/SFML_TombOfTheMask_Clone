@@ -180,7 +180,7 @@
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
-    <ClCompile Include="Scenes\SceneGame.cpp" />
+    <ClCompile Include="Scenes\SceneGame1.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
     <ClCompile Include="GameObjects\SpriteGo.cpp" />
     <ClCompile Include="Global\Variables.cpp" />
@@ -216,7 +216,7 @@
     <ClInclude Include="GameObjects\Player.h" />
     <ClInclude Include="GameObjects\LogoGo.h" />
     <ClInclude Include="Scenes\Scene.h" />
-    <ClInclude Include="Scenes\SceneGame.h" />
+    <ClInclude Include="Scenes\SceneGame1.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="GameObjects\SpriteGo.h" />

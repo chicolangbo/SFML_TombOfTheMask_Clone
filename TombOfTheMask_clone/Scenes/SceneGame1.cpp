@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SceneGame.h"
+#include "SceneGame1.h"
 #include "SceneMgr.h"
 #include "InputMgr.h"
 #include "ResourceMgr.h"
@@ -9,12 +9,12 @@
 #include "RectGo.h"
 #include "UIButton.h"
 
-SceneGame::SceneGame() : Scene(SceneId::Game)
+SceneGame1::SceneGame1() : Scene(SceneId::Game1)
 {
 	resourceListPath = "script/defaultResourceList.csv";
 }
 
-void SceneGame::Init()
+void SceneGame1::Init()
 {
 	Release();
 
@@ -87,7 +87,7 @@ void SceneGame::Init()
 	}
 }
 
-void SceneGame::Release()
+void SceneGame1::Release()
 {
 	for (auto go : gameObjects)
 	{
@@ -96,7 +96,7 @@ void SceneGame::Release()
 	}
 }
 
-void SceneGame::Enter()
+void SceneGame1::Enter()
 {
 	Scene::Enter();
 
@@ -109,17 +109,26 @@ void SceneGame::Enter()
 
 	backView.setSize(size);
 	backView.setCenter(centerPos);
-
 	
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
+
+	player->isDie = false;
+	player->isWin = false;
+	player->score = 0;
+	uiGame->isPause = false;
+	uiGame->replay = false;
+	uiGame->score = 0;
+	uiGame->SetMaxScore(920);
+	uiGame->Reset();
+	count = 3;
 }
 
-void SceneGame::Exit()
+void SceneGame1::Exit()
 {
 	Scene::Exit();
 }
 
-void SceneGame::Update(float dt)
+void SceneGame1::Update(float dt)
 {
 	// PLAYER-UI SETTING
 	if (!uiGame->isPause && !player->isDie && !player->isWin)
@@ -170,24 +179,24 @@ void SceneGame::Update(float dt)
 	// REPLAY
 	if (uiGame->replay)
 	{
-		SCENE_MGR.ChangeScene(SceneId::Game);
+		SCENE_MGR.ChangeScene(SceneId::Game1);
 		player->isDie = false;
 		player->score = 0;
 		uiGame->isPause = false;
 		uiGame->replay = false;
 		uiGame->score = 0;
 		uiGame->SetMaxScore(920);
-		uiGame->ReplayInit();
+		uiGame->Reset();
 		count = 3;
 	}
 }
 
-void SceneGame::Draw(sf::RenderWindow& window)
+void SceneGame1::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
 
-void SceneGame::BackEffect(float dt, bool status)
+void SceneGame1::BackEffect(float dt, bool status)
 {
 	backEffect->SetActive(true);
 	totalTime += dt;

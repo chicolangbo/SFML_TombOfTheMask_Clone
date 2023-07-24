@@ -4,7 +4,7 @@
 #include "Framework.h"
 #include "ResourceMgr.h"
 #include "SceneMgr.h"
-#include "SceneGame.h"
+#include "SceneGame1.h"
 
 void Player::Init()
 {
@@ -234,7 +234,7 @@ void Player::MovePlayer(float dt)
 	//	}
 	//}
 	Scene* scene = SCENE_MGR.GetCurrScene();
-	SceneGame* sceneGame = dynamic_cast<SceneGame*>(scene);
+	SceneGame1* sceneGame = dynamic_cast<SceneGame1*>(scene);
 
 	// MOVE
 	if (!isMoving)

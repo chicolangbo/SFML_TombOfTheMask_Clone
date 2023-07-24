@@ -5,6 +5,7 @@
 #include "InputMgr.h"
 #include "StringTable.h"
 #include "DataTableMgr.h"
+#include "SceneMgr.h"
 
 UIGame::UIGame(const std::string& n)
 	: GameObject(n), scoreCoin("graphics/item/Bonus_Coin.png", "scoreCoin"), pauseIcon("graphics/ui/Pause_button_tap.png", "pauseIcon"), scoreText("scoreText", "fonts/GalmuriMono7.ttf"), uiBox("uiBox"), uiText1("uiText1", "fonts/GalmuriMono7.ttf"), uiText2("uiText2", "fonts/GalmuriMono7.ttf"), button1("graphics/ui/Button.png", "enter"), button2("graphics/ui/Button.png","exit"), button1Text("button1Text", "fonts/GalmuriMono7.ttf"), button2Text("button2Text", "fonts/GalmuriMono7.ttf"), dieUiChar("","dieUiChar")
@@ -99,13 +100,18 @@ void UIGame::Init()
 	SetPauseWindow();
 }
 
-void UIGame::ReplayInit()
+void UIGame::Reset()
 {
 	for (int i = 0; i < starIcon.size(); ++i)
 	{
 		starIcon[i].sprite.setColor(sf::Color::Magenta);
 	}
+	UiReplay();
 	SetPauseWindow();
+	pauseWindow = false;
+	dieWindow = false;
+	winWindow = false;
+	isPause = false;
 }
 
 void UIGame::Release()
@@ -135,7 +141,7 @@ void UIGame::Release()
 	}
 }
 
-void UIGame::Reset()
+void UIGame::UiReplay()
 {
 	scoreCoin.Reset();
 	scoreText.Reset();
@@ -198,6 +204,7 @@ void UIGame::Update(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 		{
 			// 타이틀로 이동하는 코드
+			SCENE_MGR.ChangeScene(SceneId::Title);
 		}
 
 		Yupdate(pauseWindowClose);
@@ -207,17 +214,17 @@ void UIGame::Update(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 		{
 			pauseWindow = true;
-			Reset();
+			UiReplay();
 			isPause = true;
 		}
 		if (dieWindow)
 		{
-			Reset();
+			UiReplay();
 			isPause = true;
 		}
 		if (winWindow)
 		{
-			Reset();
+			UiReplay();
 			isPause = true;
 		}
 	}
@@ -398,6 +405,7 @@ void UIGame::SetPauseWindow()
 	StringTable* stringTable2 = DATATABLE_MGR.Get<StringTable>(DataTable::Ids::String);
 	button1Text.SetString(stringTable2->Get("ENTER"));
 	button1Text.text.setCharacterSize(20);
+	button1Text.text.setScale(1.f, 0.f);
 	button1Text.text.setFillColor(sf::Color::Black);
 	button1Text.SetPosition(button1.GetPosition());
 	button1Text.SetOrigin(Origins::MC);
@@ -413,6 +421,7 @@ void UIGame::SetPauseWindow()
 	};
 	button2.OnClick = [this]() {
 		pauseWindowClose = true;
+		SCENE_MGR.ChangeScene(SceneId::Title);
 	};
 	button2.OnExit = [this]() {
 		button2.sprite.setColor(sf::Color::Yellow);
@@ -423,6 +432,7 @@ void UIGame::SetPauseWindow()
 	button2Text.SetString(stringTable3->Get("GIVE_UP"));
 	button2Text.text.setCharacterSize(20);
 	button2Text.text.setFillColor(sf::Color::Black);
+	button2Text.text.setScale(1.f, 0.f);
 	button2Text.SetPosition(button2.GetPosition());
 	button2Text.SetOrigin(Origins::MC);
 }

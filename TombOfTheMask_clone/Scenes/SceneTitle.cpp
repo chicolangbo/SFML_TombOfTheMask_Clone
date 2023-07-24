@@ -97,7 +97,7 @@ void SceneTitle::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 	{
-		SCENE_MGR.ChangeScene(SceneId::Game);
+		SCENE_MGR.ChangeScene(SceneId::Game1);
 	}
 }
 

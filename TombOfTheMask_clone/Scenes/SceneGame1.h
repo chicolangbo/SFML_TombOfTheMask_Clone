@@ -8,7 +8,7 @@
 #include "EntranceGo.h"
 #include "TailsGo.h"
 
-class SceneGame : public Scene
+class SceneGame1 : public Scene
 {
 protected:
 	Player* player = nullptr;
@@ -27,8 +27,8 @@ protected:
 	float totalTime = 0.f;
 
 public:
-	SceneGame();
-	virtual ~SceneGame() override = default;
+	SceneGame1();
+	virtual ~SceneGame1() override = default;
 
 	virtual void Init() override;
 	virtual void Release() override;

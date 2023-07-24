@@ -47,7 +47,7 @@ public:
 	virtual ~UIGame() override;
 
 	virtual void Init() override;
-	void ReplayInit();
+	void UiReplay();
 	virtual void Release() override;
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
