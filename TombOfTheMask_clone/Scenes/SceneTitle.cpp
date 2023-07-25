@@ -70,6 +70,8 @@ void SceneTitle::Enter()
 	playText->text.setFillColor(sf::Color::Magenta);
 	playText->SetPosition(centerPos.x, centerPos.y);
 	playText->SetOrigin(Origins::MC);
+
+	SCENE_MGR.GetCurrScene()->score = 0;
 }
 
 void SceneTitle::Exit()
