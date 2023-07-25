@@ -112,7 +112,10 @@ void SceneGame2::Enter()
 
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 
+	curScore = player->GetScore();
 	uiGame->SetMaxScore(960); // 수정 필요
+	uiGame->SetCurScore(curScore);
+	uiGame->SetPastScore(SCENE_MGR.GetCurrScene()->score);
 
 	backEffect->SetActive(false);
 
@@ -131,8 +134,9 @@ void SceneGame2::Update(float dt)
 	{
 		Scene::Update(dt);
 		worldView.setCenter(player->GetPosition());	
-		score = player->GetScore();
-		uiGame->SetScore(score);
+		curScore = player->GetScore();
+		uiGame->SetCurScore(curScore);
+		uiGame->SetPastScore(SCENE_MGR.GetCurrScene()->score);
 	}
 	else if(player->isWin || player->isDie)
 	{
@@ -175,6 +179,7 @@ void SceneGame2::Update(float dt)
 	// REPLAY
 	if (uiGame->replay)
 	{
+		SCENE_MGR.GetCurrScene()->score = uiGame->GetPastScore();
 		SCENE_MGR.ChangeScene(SceneId::Game2);
 	}
 }

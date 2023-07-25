@@ -78,7 +78,7 @@ void UIGame::Init()
 
 		// SCORE TEXT
 		std::stringstream ss;
-		ss << this->score;
+		ss << curScore + pastScore;
 		scoreText.text.setString(ss.str());
 		scoreText.text.setCharacterSize(30);
 		scoreText.text.setFillColor(sf::Color::Yellow);
@@ -114,7 +114,7 @@ void UIGame::Reset()
 	isPause = false;
 	replay = false;
 	next = false;
-	score = 0;
+	pastScore = SCENE_MGR.GetCurrScene()->score;
 }
 
 void UIGame::Release()
@@ -206,6 +206,7 @@ void UIGame::Update(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
 		{
 			// 타이틀로 이동하는 코드
+			SCENE_MGR.GetCurrScene()->score = 0;
 			SCENE_MGR.ChangeScene(SceneId::Title);
 		}
 
@@ -266,19 +267,19 @@ void UIGame::Draw(sf::RenderWindow& window)
 			for (int i = 0; i < starGet.size(); ++i)
 			{
 				starEmpty[i].Draw(window);
-				if (score < maxScore / 3)
+				if (curScore < maxScore / 3)
 				{
 					break;
 				}
-				else if ((maxScore / 3 <= score) && (score < maxScore / 3 * 2) && i < 1)
+				else if ((maxScore / 3 <= curScore) && (curScore < maxScore / 3 * 2) && i < 1)
 				{
 					starGet[i].Draw(window);
 				}
-				else if ((maxScore / 3 * 2 <= score) && (score < maxScore) && i < 2)
+				else if ((maxScore / 3 * 2 <= curScore) && (curScore < maxScore) && i < 2)
 				{
 					starGet[i].Draw(window);
 				}
-				else if(score >= maxScore)
+				else if(curScore >= maxScore)
 				{
 					starGet[i].Draw(window);
 				}
@@ -291,15 +292,15 @@ void UIGame::StarIconUpdate()
 {
 	for (int i = 0; i < starIcon.size(); ++i)
 	{
-		if ((maxScore / 3 <= score) && (score < maxScore / 3 * 2) && i < 1)
+		if ((maxScore / 3 <= curScore) && (curScore < maxScore / 3 * 2) && i < 1)
 		{
 			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
-		else if ((maxScore / 3 * 2 <= score) && (score < maxScore) && i < 2)
+		else if ((maxScore / 3 * 2 <= curScore) && (curScore < maxScore) && i < 2)
 		{
 			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
-		else if (score >= maxScore)
+		else if (curScore >= maxScore)
 		{
 			starIcon[i].sprite.setColor(sf::Color::Yellow);
 		}
@@ -313,7 +314,8 @@ void UIGame::StarIconUpdate()
 void UIGame::ScoreTextUpdate()
 {
 	std::stringstream ss;
-	ss << this->score;
+
+	ss << curScore + pastScore;
 	scoreText.text.setString(ss.str());
 }
 
@@ -359,9 +361,14 @@ bool UIGame::GetPause()
 	return isPause;
 }
 
-void UIGame::SetScore(int s)
+void UIGame::SetCurScore(int s)
 {
-	score = s;
+	curScore = s;
+}
+
+void UIGame::SetPastScore(int s)
+{
+	pastScore = s;
 }
 
 void UIGame::SetMaxScore(int s)

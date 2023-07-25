@@ -131,8 +131,9 @@ void SceneGame1::Update(float dt)
 	{
 		Scene::Update(dt);
 		worldView.setCenter(player->GetPosition());	
-		score = player->GetScore();
-		uiGame->SetScore(score);
+		curScore = player->GetScore();
+		uiGame->SetCurScore(curScore);
+		SCENE_MGR.GetCurrScene()->score = curScore;
 	}
 	else if(player->isWin || player->isDie)
 	{
@@ -175,11 +176,14 @@ void SceneGame1::Update(float dt)
 	// REPLAY
 	if (uiGame->replay)
 	{
+		SCENE_MGR.GetCurrScene()->score = 0;
 		SCENE_MGR.ChangeScene(SceneId::Game1);
 	}
 
+	// STAGE 2
 	if (uiGame->next)
 	{
+		SCENE_MGR.GetCurrScene()->score = curScore;
 		SCENE_MGR.ChangeScene(SceneId::Game2);
 	}
 }

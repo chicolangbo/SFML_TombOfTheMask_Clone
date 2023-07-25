@@ -4,6 +4,8 @@
 #include "ResourceMgr.h"
 #include "Framework.h"
 
+int Scene::score = 0;
+
 Scene::Scene(SceneId id) : sceneId(id), window(FRAMEWORK.GetWindow())
 {
 }

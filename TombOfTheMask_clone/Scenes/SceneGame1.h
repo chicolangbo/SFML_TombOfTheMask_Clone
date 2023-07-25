@@ -21,8 +21,8 @@ protected:
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};
-
-	int score = 0;
+	
+	int curScore = 0;
 	int count = 3;
 	float totalTime = 0.f;
 

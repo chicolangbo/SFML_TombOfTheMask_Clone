@@ -24,6 +24,8 @@ protected:
 	sf::RenderWindow& window;
 
 public:
+	static int score;
+
 	Scene(SceneId id = SceneId::None);
 	virtual ~Scene();
 

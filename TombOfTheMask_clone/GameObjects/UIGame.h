@@ -32,11 +32,12 @@ protected:
 	std::vector<SpriteGo> starGet;
 	std::vector<SpriteGo> starEmpty;
 
+	int curScore = 0;
+	int pastScore = 0;
 	int maxScore = 0;
 	bool pauseWindowClose = false;
 
 public:
-	int score = 0;
 	bool replay = false;
 	bool next = false;
 	bool isPause = false;
@@ -59,7 +60,9 @@ public:
 	void Yupdate(bool open);
 
 	bool GetPause();
-	void SetScore(int s);
+	int GetPastScore() { return pastScore; }
+	void SetCurScore(int s);
+	void SetPastScore(int s);
 	void SetMaxScore(int s);
 
 	void SetPauseWindow();
