@@ -17,6 +17,7 @@ protected:
 	EntranceGo* entrance = nullptr;
 	UIGame* uiGame = nullptr;
 	RectGo* backEffect = nullptr;
+	RectGo* deathWater = nullptr;
 
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
@@ -24,7 +25,7 @@ protected:
 
 	int curScore = 0;
 	int count = 3;
-	float totalTime = 0.f;
+	float backEffectTime = 0.f;
 
 public:
 	SceneGame2();

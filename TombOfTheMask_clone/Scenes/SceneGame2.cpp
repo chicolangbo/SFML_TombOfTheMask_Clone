@@ -20,6 +20,13 @@ void SceneGame2::Init()
 
 	// GAME OBJECTS
 	{
+		deathWater = (RectGo*)AddGo(new RectGo("deathWater"));
+		deathWater->rect.setFillColor(sf::Color(0, 255, 0, 100));
+		deathWater->rect.setSize(screenSize);
+		deathWater->rect.setScale(1.f, 0.f);
+		deathWater->SetOrigin(Origins::BC);
+		deathWater->sortLayer = -1;
+
 		backEffect = (RectGo*)AddGo(new RectGo("backEffect"));
 		backEffect->rect.setFillColor(sf::Color(255,255,0,255)); // YELLOW, 0%
 		backEffect->rect.setSize(screenSize);
@@ -124,6 +131,9 @@ void SceneGame2::Enter()
 	uiGame->SetPastScore(SCENE_MGR.GetCurrScene()->score);
 
 	backEffect->SetActive(false);
+	deathWater->rect.setScale(1.f, 0.f);
+	deathWater->SetOrigin(Origins::BC);
+	deathWater->SetPosition(centerPos.x, size.y);
 
 	count = 3;
 }
@@ -135,7 +145,13 @@ void SceneGame2::Exit()
 
 void SceneGame2::Update(float dt)
 {
-	// PLAYER-UI SETTING
+	float height = deathWater->rect.getScale().y;
+	if (height <= 1.f)
+	{
+		height += 0.00001f; // 조금씩 증가시킬 값
+	}
+	deathWater->rect.setScale(1.f, height);
+
 	if (!uiGame->isPause && !player->isDie && !player->isWin)
 	{
 		Scene::Update(dt);
@@ -198,20 +214,20 @@ void SceneGame2::Draw(sf::RenderWindow& window)
 void SceneGame2::BackEffect(float dt, bool status)
 {
 	backEffect->SetActive(true);
-	totalTime += dt;
-	if (totalTime <= 0.5f)
+	backEffectTime += dt;
+	if (backEffectTime <= 0.5f)
 	{
 		if (status)
 		{
-			backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - totalTime * 510.f));
+			backEffect->rect.setFillColor(sf::Color(255, 255, 0, 255.f - backEffectTime * 510.f));
 		}
 		else
 		{
-			backEffect->rect.setFillColor(sf::Color(255, 0, 0, 255.f - totalTime * 510.f));
+			backEffect->rect.setFillColor(sf::Color(255, 0, 0, 255.f - backEffectTime * 510.f));
 		}
-		if (totalTime <= 0.5f && totalTime >= 0.47f)
+		if (backEffectTime <= 0.5f && backEffectTime >= 0.47f)
 		{
-			totalTime = 0.01f;
+			backEffectTime = 0.01f;
 			count--;
 		}
 	}
