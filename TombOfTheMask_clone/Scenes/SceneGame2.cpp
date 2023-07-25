@@ -69,6 +69,8 @@ void SceneGame2::Init()
 		player->SetBCoins(BCoins);
 		player->SetSCoins(SCoins);
 		player->SetDestination(destination);
+		player->initialPos = { tileMap->GetPosition(9,50) };
+		player->sceneIndex = 2;
 	}
 
 	// UI OBJECTS

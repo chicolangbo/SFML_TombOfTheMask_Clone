@@ -8,6 +8,9 @@
 #include "ObjectPool.h"
 #include "TailsGo.h"
 
+class SceneGame1;
+class SceneGame2;
+
 enum class COLLIDE
 {
     NONE = -1,
@@ -34,6 +37,8 @@ protected:
     std::vector<SpriteGo*> SCoins = {};
     DestinationGo* destination = nullptr;
 
+    SceneGame1* sceneGame1 = nullptr;
+    SceneGame2* sceneGame2 = nullptr;
 
     float speed = 500.f;
     bool flipX = false;
@@ -47,11 +52,13 @@ protected:
 
 
 public:
+    sf::Vector2f initialPos = { 0,0 };
     ObjectPool <TailsGo> poolTails;
     bool isDie = false;
     bool isWin = false;
     int score = 0;
     bool isMoving = false;
+    int sceneIndex = 0;
 
     Player(const std::string& textureId = "", const std::string& n = "") : SpriteGo(textureId, n) {};
     virtual ~Player() override { Release(); };
@@ -79,7 +86,8 @@ public:
     
     int GetScore() { return score; }
 
-    void MovePlayer(float dt);
+    void MovePlayer1(float dt);
+    void MovePlayer2(float dt);
     void CheckCoinCollide();
     COLLIDE CheckTileCollide();
     COLLIDE CheckSpikeCollide();
@@ -89,3 +97,89 @@ public:
 
 #define GETSCOIN 10
 #define GETBCOIN 50
+//
+//template <typename T>
+//void MovePlayer(T& s, float dt) {
+//	if (!this->isMoving)
+//	{
+//		//std::cout << "안움직이는중" << std::endl;
+//		if (this->INPUT_MGR.GetKeyDown(sf::Keyboard::W))
+//		{
+//			TailsGo* tail = this->poolTails.Get();
+//			if (s != nullptr)
+//			{
+//				s->AddGo(tail);
+//				tail->SetPlayer(s->GetPlayer());
+//				tail->sprite.setScale(0.f, 1.f);
+//				tail->direction = { 0.f,-1.f };
+//			}
+//			this->SetRotation(COLLIDE::T);
+//			this->isMoving = true;
+//			this->wMove = true;
+//		}
+//		if (this->INPUT_MGR.GetKeyDown(sf::Keyboard::A))
+//		{
+//			TailsGo* tail = this->poolTails.Get();
+//			if (s != nullptr)
+//			{
+//				s->AddGo(tail);
+//				tail->SetPlayer(s->GetPlayer());
+//				tail->sprite.setScale(0.f, 1.f);
+//				tail->direction = { -1.f,0.f };
+//			}
+//			this->SetRotation(COLLIDE::L);
+//			this->isMoving = true;
+//			this->aMove = true;
+//		}
+//		if (this->INPUT_MGR.GetKeyDown(sf::Keyboard::S))
+//		{
+//			TailsGo* tail = this->poolTails.Get();
+//			if (s != nullptr)
+//			{
+//				s->AddGo(tail);
+//				tail->SetPlayer(s->GetPlayer());
+//				tail->sprite.setScale(0.f, 1.f);
+//				tail->direction = { 0.f,1.f };
+//			}
+//			this->SetRotation(COLLIDE::B);
+//			this->isMoving = true;
+//			this->sMove = true;
+//		}
+//		if (this->INPUT_MGR.GetKeyDown(sf::Keyboard::D))
+//		{
+//			TailsGo* tail = this->poolTails.Get();
+//			if (s != nullptr)
+//			{
+//				s->AddGo(tail);
+//				tail->SetPlayer(s->GetPlayer());
+//				tail->sprite.setScale(0.f, 1.f);
+//				tail->direction = { 1.f,0.f };
+//			}
+//			this->SetRotation(COLLIDE::R);
+//			this->isMoving = true;
+//			this->dMove = true;
+//		}
+//	}
+//	else
+//	{
+//		//std::cout << "무빙" << std::endl;
+//		if (this->wMove)
+//		{
+//			this->direction = { 0,-1 };
+//		}
+//		else if (this->aMove)
+//		{
+//			this->direction = { -1,0 };
+//		}
+//		else if (this->sMove)
+//		{
+//			this->direction = { 0,1 };
+//		}
+//		else if (this->dMove)
+//		{
+//			this->direction = { 1,0 };
+//		}
+//		this->position += this->direction * this->speed * dt;
+//		this->SetPosition(this->position);
+//	}
+//}

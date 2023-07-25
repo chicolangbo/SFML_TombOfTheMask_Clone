@@ -28,6 +28,10 @@ void TailsGo::Reset()
 	SetOrigin(Origins::MR);
 	sprite.setScale(0.f, 1.f);
 	reachMaxWidth = false;
+	maxWidth = 1.5f;
+	directionChange = false;
+	stop = false;
+	count = 0;
 }
 
 void TailsGo::Update(float dt)

@@ -5,6 +5,7 @@
 #include "ResourceMgr.h"
 #include "SceneMgr.h"
 #include "SceneGame1.h"
+#include "SceneGame2.h"
 
 void Player::Init()
 {
@@ -17,7 +18,7 @@ void Player::Init()
 	animation.SetTarget(&sprite);
 	sprite.setColor(sf::Color::Yellow);
 	SetOrigin(Origins::MC);
-	SetPosition(tileMap->GetPosition(4, 5));
+	//SetPosition(tileMap->GetPosition(4, 5));
 
 	poolTails.OnCreate = [this](TailsGo* tails)
 	{
@@ -43,7 +44,7 @@ void Player::Reset()
 	totalTime = 0.f;
 	sprite.setRotation(0.f);
 	animation.Play("CharEnter");
-	SetPosition(tileMap->GetPosition(4,5));
+	SetPosition(initialPos);
 	sprite.setScale(2.f, 2.f);
 	SetOrigin(origin);
 	isMoving = false;
@@ -52,6 +53,16 @@ void Player::Reset()
 	isDie = false;
 	isWin = false;
 	score = 0;
+
+	Scene* scene = SCENE_MGR.GetCurrScene();
+	if (sceneIndex == 1)
+	{
+		sceneGame1 = dynamic_cast<SceneGame1*>(scene);
+	}
+	else if (sceneIndex == 2)
+	{
+		sceneGame2 = dynamic_cast<SceneGame2*>(scene);
+	}
 
 	// 타일 세팅값 초기화
 	for (int i = 0; i < BCoins.size(); ++i)
@@ -66,6 +77,16 @@ void Player::Reset()
 	{
 		spikes[i]->collide = false;
 	}
+
+	poolTails.OnCreate = [this](TailsGo* tails)
+	{
+		tails->textureId = "graphics/character/tails.png";
+		tails->pool = &poolTails;
+		tails->SetPosition(position);
+		tails->SetOrigin(Origins::MR);
+		tails->sprite.setScale(0.f, 1.f);
+		tails->reachMaxWidth = false;
+	};
 
 	// tails 초기화
 	for (auto tail : poolTails.GetUseList())
@@ -110,7 +131,14 @@ void Player::Update(float dt)
 	}
 	else
 	{
-		MovePlayer(dt);
+		if (sceneIndex == 1)
+		{
+			MovePlayer1(dt);
+		}
+		else if (sceneIndex == 2)
+		{
+			MovePlayer2(dt);
+		}
 		SetAnimation();
 	}
 	
@@ -217,39 +245,18 @@ void Player::SetDestination(DestinationGo* des)
 	this->destination = des;
 }
 
-void Player::MovePlayer(float dt)
+void Player::MovePlayer1(float dt)
 {
-	// FLIP : 안 쓸 수도 있음
-	//if (direction.x != 0.f/* && sprite.getRotation() == 0.f*/)
-	//{
-	//	bool flip = direction.x < 0.f;
-	//	if (GetFlipX() != flip)
-	//	{
-	//		SetFlipX(flip);
-	//	}
-	//}
-	//if (direction.y != 0.f/* && sprite.getRotation() == 0.f*/)
-	//{
-	//	bool flip = direction.y < 0.f;
-	//	if (GetFlipY() != flip)
-	//	{
-	//		SetFlipY(flip);
-	//	}
-	//}
-	Scene* scene = SCENE_MGR.GetCurrScene();
-	SceneGame1* sceneGame = dynamic_cast<SceneGame1*>(scene);
-
-	// MOVE
 	if (!isMoving)
 	{
 		//std::cout << "안움직이는중" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
 			TailsGo* tail = poolTails.Get();
-			if (sceneGame != nullptr)
+			if (sceneGame1 != nullptr)
 			{
-				sceneGame->AddGo(tail);
-				tail->SetPlayer(sceneGame->GetPlayer());
+				sceneGame1->AddGo(tail);
+				tail->SetPlayer(sceneGame1->GetPlayer());
 				tail->sprite.setScale(0.f, 1.f);
 				tail->direction = { 0.f,-1.f };
 			}
@@ -260,10 +267,10 @@ void Player::MovePlayer(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
 			TailsGo* tail = poolTails.Get();
-			if (sceneGame != nullptr)
+			if (sceneGame1 != nullptr)
 			{
-				sceneGame->AddGo(tail);
-				tail->SetPlayer(sceneGame->GetPlayer());
+				sceneGame1->AddGo(tail);
+				tail->SetPlayer(sceneGame1->GetPlayer());
 				tail->sprite.setScale(0.f, 1.f);
 				tail->direction = { -1.f,0.f };
 			}
@@ -274,10 +281,10 @@ void Player::MovePlayer(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
 			TailsGo* tail = poolTails.Get();
-			if (sceneGame != nullptr)
+			if (sceneGame1 != nullptr)
 			{
-				sceneGame->AddGo(tail);
-				tail->SetPlayer(sceneGame->GetPlayer());
+				sceneGame1->AddGo(tail);
+				tail->SetPlayer(sceneGame1->GetPlayer());
 				tail->sprite.setScale(0.f, 1.f);
 				tail->direction = { 0.f,1.f };
 			}
@@ -288,10 +295,96 @@ void Player::MovePlayer(float dt)
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
 			TailsGo* tail = poolTails.Get();
-			if (sceneGame != nullptr)
+			if (sceneGame1 != nullptr)
 			{
-				sceneGame->AddGo(tail);
-				tail->SetPlayer(sceneGame->GetPlayer());
+				sceneGame1->AddGo(tail);
+				tail->SetPlayer(sceneGame1->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { 1.f,0.f };
+			}
+			SetRotation(COLLIDE::R);
+			isMoving = true;
+			dMove = true;
+		}
+	}
+	else
+	{
+		//std::cout << "무빙" << std::endl;
+		if (wMove)
+		{
+			direction = { 0,-1 };
+		}
+		else if (aMove)
+		{
+			direction = { -1,0 };
+		}
+		else if (sMove)
+		{
+			direction = { 0,1 };
+		}
+		else if (dMove)
+		{
+			direction = { 1,0 };
+		}
+		position += direction * speed * dt;
+		SetPosition(position);
+	}
+}
+
+void Player::MovePlayer2(float dt)
+{
+	if (!isMoving)
+	{
+		//std::cout << "안움직이는중" << std::endl;
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
+		{
+			TailsGo* tail = poolTails.Get();
+			if (sceneGame2 != nullptr)
+			{
+				sceneGame2->AddGo(tail);
+				tail->SetPlayer(sceneGame2->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { 0.f,-1.f };
+			}
+			SetRotation(COLLIDE::T);
+			isMoving = true;
+			wMove = true;
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
+		{
+			TailsGo* tail = poolTails.Get();
+			if (sceneGame2 != nullptr)
+			{
+				sceneGame2->AddGo(tail);
+				tail->SetPlayer(sceneGame2->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { -1.f,0.f };
+			}
+			SetRotation(COLLIDE::L);
+			isMoving = true;
+			aMove = true;
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
+		{
+			TailsGo* tail = poolTails.Get();
+			if (sceneGame2 != nullptr)
+			{
+				sceneGame2->AddGo(tail);
+				tail->SetPlayer(sceneGame2->GetPlayer());
+				tail->sprite.setScale(0.f, 1.f);
+				tail->direction = { 0.f,1.f };
+			}
+			SetRotation(COLLIDE::B);
+			isMoving = true;
+			sMove = true;
+		}
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
+		{
+			TailsGo* tail = poolTails.Get();
+			if (sceneGame2 != nullptr)
+			{
+				sceneGame2->AddGo(tail);
+				tail->SetPlayer(sceneGame2->GetPlayer());
 				tail->sprite.setScale(0.f, 1.f);
 				tail->direction = { 1.f,0.f };
 			}
