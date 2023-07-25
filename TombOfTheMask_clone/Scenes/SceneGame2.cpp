@@ -33,7 +33,7 @@ void SceneGame2::Init()
 			this->spikes.push_back(spikes);
 		}
 
-		for (int i = 0; i < 114; ++i)
+		for (int i = 0; i < 179; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* scoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_2.png", "scoins" + num));
@@ -42,7 +42,7 @@ void SceneGame2::Init()
 			this->SCoins.push_back(scoins);
 		}
 
-		for (int i = 0; i < 48; ++i)
+		for (int i = 0; i < 53; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* bcoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_addict_1.png", "bcoins" + num));
@@ -79,7 +79,7 @@ void SceneGame2::Init()
 		// USING CODE
 		uiGame = (UIGame*)AddGo(new UIGame("uiGame"));
 		uiGame->SetOrigin(Origins::MC);
-		uiGame->SetMaxScore(920);
+		uiGame->SetMaxScore(3700);
 		uiGame->SetPosition(screenSize * 0.5f);
 		uiGame->sortLayer = 100;
 	}
@@ -119,7 +119,7 @@ void SceneGame2::Enter()
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 
 	curScore = player->GetScore();
-	uiGame->SetMaxScore(960); // 수정 필요
+	uiGame->SetMaxScore(3700); // 수정 필요
 	uiGame->SetCurScore(curScore);
 	uiGame->SetPastScore(SCENE_MGR.GetCurrScene()->score);
 

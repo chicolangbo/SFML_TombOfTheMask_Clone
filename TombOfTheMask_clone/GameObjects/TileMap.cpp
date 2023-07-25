@@ -130,24 +130,26 @@ bool TileMap::Load(const std::string& filePath)
                 {
                     continue;
                 }
-                //spikes[sIndex]->sprite.setRotation(0.f);
-                std::cout << tiles[tileIndex].rotation << std::endl;
+                spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
                 switch (tiles[tileIndex].rotation)
                 {
                 case 1:
                     spikes[sIndex]->sprite.setRotation(90.f);
+                    spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x + 15.f, vertexArray[vertexIndex].position.y - 30.f);
                     break;
                 case 2:
                     spikes[sIndex]->sprite.setRotation(180.f);
+                    spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x + 30.f, vertexArray[vertexIndex].position.y - 15.f);
                     break;
                 case 3:
                     spikes[sIndex]->sprite.setRotation(-90.f);
+                    spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x + 15.f, vertexArray[vertexIndex].position.y);
                     break;
                 case 4:
                     spikes[sIndex]->sprite.setRotation(0.f);
+                    spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
                     break;
                 }
-                spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
                 ++sIndex;
             }
             if (tiles[tileIndex].itemIndex == Item::SCoin)
