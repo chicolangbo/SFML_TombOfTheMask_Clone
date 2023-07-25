@@ -26,4 +26,5 @@ void DestinationGo::Update(float dt)
 void DestinationGo::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+	//window.draw(sprite, sf::BlendAdd);
 }
