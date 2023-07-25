@@ -28,6 +28,7 @@ struct Tile
 	int texIndex = -1;
 	Obstacles obstacleIndex = Obstacles::None;
 	Item itemIndex = Item::None;
+	int rotation = 0;
 };
 
 class TileMap : public VertexArrayGo
@@ -43,6 +44,7 @@ protected:
 public:
 	TileMap(const std::string& textureId = "", const std::string& n = "");
 	virtual ~TileMap() override;
+	void Release();
 
 	bool Load(const std::string& filePath);
 
@@ -51,6 +53,7 @@ public:
 	void SetSCoins(std::vector<SpriteGo*> SCoins);
 	void SetDestination(DestinationGo* des);
 	void SetEnum(Tile& t, int i);
+	void RotateSpikes();
 
 	sf::Vector2f GetPosition(int x, int y);
 

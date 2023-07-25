@@ -13,6 +13,11 @@ TileMap::~TileMap()
 {
 }
 
+void TileMap::Release()
+{
+    tiles.clear();
+}
+
 bool TileMap::Load(const std::string& filePath)
 {
     rapidcsv::Document map(filePath, rapidcsv::LabelParams(-1, -1));
@@ -28,32 +33,50 @@ bool TileMap::Load(const std::string& filePath)
             std::string cell = map.GetCell<std::string>(j, i);
             size_t firstSlashIndex = cell.find('/');
             size_t secondSlashIndex = cell.find('/', firstSlashIndex + 1);
-            size_t lastSlashIndex = cell.rfind('/');
-            if (firstSlashIndex != std::string::npos) // '/'를 한개 포함하면
+            size_t thirdSlashIndex = cell.find('/', secondSlashIndex + 1);
+            //size_t lastSlashIndex = cell.rfind('/');
+            if (firstSlashIndex != std::string::npos) // '/'를 1개 이상 포함하면
             {
                 // 첫번째 할당
                 int first = stoi(cell.substr(0, firstSlashIndex));
                 tile.texIndex = first;
+                SetEnum(tile, first);
 
-                // 두번째 할당
+                // 두번째 할당 : '/'를 1개만 포함하면
                 if (secondSlashIndex == std::string::npos)
                 {
                     int second = stoi(cell.substr(firstSlashIndex + 1));
                     SetEnum(tile, second);
                 }
-                // 세번째 할당
-                else
+                // 세번째 할당 : '/'를 2개만 포함하면
+                else if(secondSlashIndex != std::string::npos && thirdSlashIndex == std::string::npos)
                 {
-                    int mid = stoi(cell.substr(firstSlashIndex + 1, secondSlashIndex - firstSlashIndex - 1));
-                    SetEnum(tile, mid);
+                    int second = stoi(cell.substr(firstSlashIndex + 1, secondSlashIndex - firstSlashIndex - 1));
+                    SetEnum(tile, second);
 
-                    int last = stoi(cell.substr(lastSlashIndex + 1));
-                    SetEnum(tile, last);
+                    int third = stoi(cell.substr(secondSlashIndex + 1, thirdSlashIndex - secondSlashIndex - 1));
+                    SetEnum(tile, third);
+                }
+                // 네번째 할당 : '/'를 3개 다 포함하면
+                else if(secondSlashIndex != std::string::npos && thirdSlashIndex != std::string::npos)
+                {
+                    int second = stoi(cell.substr(firstSlashIndex + 1, secondSlashIndex - firstSlashIndex - 1));
+                    SetEnum(tile, second);
+
+                    int third = stoi(cell.substr(secondSlashIndex + 1, thirdSlashIndex - secondSlashIndex - 1));
+                    SetEnum(tile, third);
+
+                    int fourth = stoi(cell.substr(thirdSlashIndex + 1));
+                    if (fourth == 1 || fourth == 2 || fourth == 3 || fourth == 4)
+                    {
+                        tile.rotation = fourth;
+                    }
                 }
             }
             else // '/'를 포함하지 않으면
             {
                 tile.texIndex = stoi(cell);
+                SetEnum(tile, stoi(cell));
             }
             tiles.push_back(tile);
         }
@@ -107,8 +130,24 @@ bool TileMap::Load(const std::string& filePath)
                 {
                     continue;
                 }
+                //spikes[sIndex]->sprite.setRotation(0.f);
+                std::cout << tiles[tileIndex].rotation << std::endl;
+                switch (tiles[tileIndex].rotation)
+                {
+                case 1:
+                    spikes[sIndex]->sprite.setRotation(90.f);
+                    break;
+                case 2:
+                    spikes[sIndex]->sprite.setRotation(180.f);
+                    break;
+                case 3:
+                    spikes[sIndex]->sprite.setRotation(-90.f);
+                    break;
+                case 4:
+                    spikes[sIndex]->sprite.setRotation(0.f);
+                    break;
+                }
                 spikes[sIndex]->SetPosition(vertexArray[vertexIndex].position.x, vertexArray[vertexIndex].position.y - 15.f);
-                //spikes[sIndex]->SetTileIndex(tileIndex);
                 ++sIndex;
             }
             if (tiles[tileIndex].itemIndex == Item::SCoin)
@@ -129,10 +168,6 @@ bool TileMap::Load(const std::string& filePath)
                 BCoins[bcIndex]->SetPosition(GetPosition(j, i));
                 ++bcIndex;
             }
-            if (texIndex == 12 || texIndex == 13 || texIndex == 14 || texIndex == 15 || texIndex == 18 || texIndex == 19 || texIndex == 20 || texIndex == 21)
-            {
-                tiles[tileIndex].obstacleIndex = Obstacles::SpikeWall;
-            }
             if (tiles[tileIndex].itemIndex == Item::Destination)
             {
                 destination->SetPosition(GetPosition(j, i));
@@ -150,6 +185,30 @@ void TileMap::SetEnum(Tile& t, int i)
 {
     switch (i)
     {
+    case 12:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 13:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 14:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 15:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 18:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 19:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 20:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
+    case 21:
+        t.obstacleIndex = Obstacles::SpikeWall;
+        break;
     case 22:
         t.obstacleIndex = Obstacles::Spike;
         break;
@@ -164,6 +223,36 @@ void TileMap::SetEnum(Tile& t, int i)
         break;
     case 26:
         t.itemIndex = Item::Destination;
+        break;
+    default:
+        break;
+    }
+}
+
+void TileMap::RotateSpikes()
+{
+    int sIndex = 0;
+    for (int i = 0; i < tiles.size(); i++)
+    {
+        if (tiles[i].obstacleIndex == Obstacles::Spike)
+        {
+            switch (tiles[i].rotation)
+            {
+            case 1:
+                spikes[sIndex]->sprite.setRotation(90.f);
+                break;
+            case 2:
+                spikes[sIndex]->sprite.setRotation(180.f);
+                break;
+            case 3:
+                spikes[sIndex]->sprite.setRotation(-180.f);
+                break;
+            case 4:
+                spikes[sIndex]->sprite.setRotation(0.f);
+                break;
+            }
+            ++sIndex;
+        }
     }
 }
 

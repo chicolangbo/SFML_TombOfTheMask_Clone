@@ -42,7 +42,7 @@ void SceneGame2::Init()
 			this->SCoins.push_back(scoins);
 		}
 
-		for (int i = 0; i < 34; ++i)
+		for (int i = 0; i < 48; ++i)
 		{
 			std::string num = std::to_string(i + 1);
 			SpriteGo* bcoins = (SpriteGo*)AddGo(new SpriteGo("graphics/item/Coin_addict_1.png", "bcoins" + num));
@@ -54,9 +54,10 @@ void SceneGame2::Init()
 		destination = (DestinationGo*)AddGo(new DestinationGo("destination"));
 		entrance = (EntranceGo*)AddGo(new EntranceGo("entrance"));
 
-		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap"));
+		tileMap = (TileMap*)AddGo(new TileMap("graphics/item/tile_Map.png", "TileMap2"));
 		player = (Player*)AddGo(new Player("player"));
 
+		tileMap->Release();
 		tileMap->SetSpikes(spikes);
 		tileMap->SetBCoins(BCoins);
 		tileMap->SetSCoins(SCoins);
@@ -87,6 +88,9 @@ void SceneGame2::Init()
 	{
 		go->Init();
 	}
+
+	//tileMap->RotateSpikes();
+
 }
 
 void SceneGame2::Release()
