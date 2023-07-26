@@ -126,7 +126,7 @@ void SceneGame2::Enter()
 	entrance->SetPosition(player->GetPosition().x, player->GetPosition().y + 70.f);
 
 	curScore = player->GetScore();
-	uiGame->SetMaxScore(3700); // 수정 필요
+	uiGame->SetMaxScore(3700);
 	uiGame->SetCurScore(curScore);
 	uiGame->SetPastScore(SCENE_MGR.GetCurrScene()->score);
 
@@ -175,7 +175,6 @@ void SceneGame2::Update(float dt)
 			{
 				i->Update(dt);
 			}
-			//tails->Update(dt);
 		}
 		else if(player->isWin)
 		{

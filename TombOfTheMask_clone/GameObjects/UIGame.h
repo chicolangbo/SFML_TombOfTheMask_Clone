@@ -36,6 +36,9 @@ protected:
 	int pastScore = 0;
 	int maxScore = 0;
 	bool pauseWindowClose = false;
+	bool giveupClick = false;
+	bool yesClick = false;
+	bool pauseClick = false;
 
 public:
 	bool replay = false;

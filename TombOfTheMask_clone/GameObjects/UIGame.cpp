@@ -57,10 +57,7 @@ void UIGame::Init()
 		pauseIcon.OnClick = [this]() {
 			if (!winWindow && !dieWindow)
 			{
-				pauseWindow = true;
-				Reset();
-				isPause = true;
-
+				pauseClick = true;
 			}
 		};
 		pauseIcon.OnExit = [this]() {
@@ -146,6 +143,10 @@ void UIGame::Release()
 
 void UIGame::UiReplay()
 {
+	yesClick = false;
+	giveupClick = false;
+	pauseClick = false;
+
 	scoreCoin.Reset();
 	scoreText.Reset();
 	pauseIcon.Reset();
@@ -198,15 +199,15 @@ void UIGame::Update(float dt)
 	// 멈췄을 때
 	if (isPause)
 	{
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter) || yesClick)
 		{
 			pauseWindowClose = true;
 		}
 
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape))
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Escape) || giveupClick)
 		{
 			// 타이틀로 이동하는 코드
-			SCENE_MGR.GetCurrScene()->score = 0;
+			//SCENE_MGR.GetCurrScene()->score = 0;
 			SCENE_MGR.ChangeScene(SceneId::Title);
 		}
 
@@ -214,7 +215,7 @@ void UIGame::Update(float dt)
 	}
 	else
 	{
-		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
+		if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter) || pauseClick)
 		{
 			pauseWindow = true;
 			UiReplay();
@@ -404,7 +405,8 @@ void UIGame::SetPauseWindow()
 		button1.sprite.setColor(sf::Color::Magenta);
 	};
 	button1.OnClick = [this]() {
-		pauseWindowClose = true;
+		//pauseWindowClose = true;
+		yesClick = true;
 	};
 	button1.OnExit = [this]() {
 		button1.sprite.setColor(sf::Color::Yellow);
@@ -429,8 +431,9 @@ void UIGame::SetPauseWindow()
 		button2.sprite.setColor(sf::Color::Magenta);
 	};
 	button2.OnClick = [this]() {
-		pauseWindowClose = true;
-		SCENE_MGR.ChangeScene(SceneId::Title);
+		//pauseWindowClose = true;
+		//SCENE_MGR.ChangeScene(SceneId::Title);
+		giveupClick = true;
 	};
 	button2.OnExit = [this]() {
 		button2.sprite.setColor(sf::Color::Yellow);
