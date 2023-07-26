@@ -139,7 +139,7 @@ bool TailsGo::DecreaseTailWidth(float dt)
 	{
 		reachMaxWidth = false;
 	}
-	if (x <= 1.5f/* && x>=0.f*/)
+	if (x <= 1.5f)
 	{
 		sprite.setScale(x, 1.f);
 	}

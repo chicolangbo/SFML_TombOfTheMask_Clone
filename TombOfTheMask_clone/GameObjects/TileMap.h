@@ -21,6 +21,23 @@ enum class Item
 	Destination
 };
 
+enum Index
+{
+	ST = 12,
+	SB = 13,
+	SL = 14,
+	SR = 15,
+	STL = 18,
+	STR = 19,
+	SBL = 20,
+	SBR = 21,
+	SPIKE = 22,
+	SCOIN = 23,
+	BCOIN = 24,
+	BAT = 25,
+	EXIT = 26
+};
+
 struct Tile
 {
 	int x = 0;

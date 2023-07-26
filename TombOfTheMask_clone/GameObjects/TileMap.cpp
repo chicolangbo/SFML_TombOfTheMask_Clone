@@ -46,7 +46,7 @@ bool TileMap::Load(const std::string& filePath)
                 if (secondSlashIndex == std::string::npos)
                 {
                     int second = stoi(cell.substr(firstSlashIndex + 1));
-                    SetEnum(tile, second);
+                    SetEnum(tile, static_cast<Index>(second));
                 }
                 // 세번째 할당 : '/'를 2개만 포함하면
                 else if(secondSlashIndex != std::string::npos && thirdSlashIndex == std::string::npos)
@@ -187,43 +187,43 @@ void TileMap::SetEnum(Tile& t, int i)
 {
     switch (i)
     {
-    case 12:
+    case Index::ST:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 13:
+    case Index::SB:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 14:
+    case Index::SL:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 15:
+    case Index::SR:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 18:
+    case Index::STL:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 19:
+    case Index::STR:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 20:
+    case Index::SBL:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 21:
+    case Index::SBR:
         t.obstacleIndex = Obstacles::SpikeWall;
         break;
-    case 22:
+    case Index::SPIKE:
         t.obstacleIndex = Obstacles::Spike;
         break;
-    case 23:
+    case Index::SCOIN:
         t.itemIndex = Item::SCoin;
         break;
-    case 24:
+    case Index::BCOIN:
         t.itemIndex = Item::BCoin;
         break;
-    case 25:
+    case Index::BAT:
         t.obstacleIndex = Obstacles::Bat;
         break;
-    case 26:
+    case Index::EXIT:
         t.itemIndex = Item::Destination;
         break;
     default:
