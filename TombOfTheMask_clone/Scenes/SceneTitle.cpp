@@ -83,6 +83,13 @@ void SceneTitle::Update(float dt)
 {
 	Scene::Update(dt);
 
+	if (once)
+	{
+		sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/music_menu.wav"));
+		sound.play();
+		once = false;
+	}
+
 	blinkTime -= dt;
 	if (blinkTime <= 0.f)
 	{
@@ -99,6 +106,7 @@ void SceneTitle::Update(float dt)
 
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Enter))
 	{
+		sound.stop();
 		SCENE_MGR.ChangeScene(SceneId::Game1);
 	}
 }

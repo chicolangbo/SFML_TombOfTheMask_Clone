@@ -128,6 +128,17 @@ void SceneGame1::Exit()
 
 void SceneGame1::Update(float dt)
 {
+	if (once)
+	{
+		bgm.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/music_gameplay.wav"));
+		bgm.play();
+		once = false;
+	}
+	if (once && bgm.getStatus() == sf::Sound::Stopped)
+	{
+		once = true;
+	}
+
 	// PLAYER-UI SETTING
 	if (!uiGame->isPause && !player->isDie && !player->isWin)
 	{

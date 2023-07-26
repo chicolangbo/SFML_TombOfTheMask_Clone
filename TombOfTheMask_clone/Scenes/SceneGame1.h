@@ -17,11 +17,14 @@ protected:
 	EntranceGo* entrance = nullptr;
 	UIGame* uiGame = nullptr;
 	RectGo* backEffect = nullptr;
+	sf::Sound bgm;
+	sf::Sound sound;
 
 	std::vector<Spikes*> spikes = {};
 	std::vector<SpriteGo*> BCoins = {};
 	std::vector<SpriteGo*> SCoins = {};
 	
+	bool once = true;
 	int curScore = 0;
 	int count = 3;
 	float totalTime = 0.f;

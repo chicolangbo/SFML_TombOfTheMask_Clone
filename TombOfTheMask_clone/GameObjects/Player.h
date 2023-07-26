@@ -29,7 +29,7 @@ protected:
     AnimationController animation;
     sf::Vector2f direction;
     sf::Vector2f startPos = {0,0};
-    
+    sf::Sound sound;
 
     TileMap* tileMap = nullptr;
     RectGo* deathWater = nullptr;

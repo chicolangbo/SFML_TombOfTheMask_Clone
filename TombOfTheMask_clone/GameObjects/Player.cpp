@@ -122,6 +122,12 @@ void Player::Update(float dt)
 	totalTime += dt;
 	if (totalTime <= 2.f)
 	{
+		if (sound.getStatus() != sf::Sound::Playing)
+		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Shield.wav"));
+			sound.play();
+		}
+
 		sprite.setScale(totalTime, totalTime);
 		sprite.setColor(sf::Color(255, 255, 0, 0.f + totalTime * 127.5f));
 		if (animation.GetCurrentClipId() != "CharEnter")
@@ -257,6 +263,9 @@ void Player::MovePlayer1(float dt)
 		//std::cout << "안움직이는중" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame1 != nullptr)
 			{
@@ -271,6 +280,9 @@ void Player::MovePlayer1(float dt)
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame1 != nullptr)
 			{
@@ -285,6 +297,9 @@ void Player::MovePlayer1(float dt)
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame1 != nullptr)
 			{
@@ -299,6 +314,9 @@ void Player::MovePlayer1(float dt)
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame1 != nullptr)
 			{
@@ -344,6 +362,9 @@ void Player::MovePlayer2(float dt)
 		//std::cout << "안움직이는중" << std::endl;
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame2 != nullptr)
 			{
@@ -358,6 +379,9 @@ void Player::MovePlayer2(float dt)
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::A))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame2 != nullptr)
 			{
@@ -372,6 +396,9 @@ void Player::MovePlayer2(float dt)
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::S))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame2 != nullptr)
 			{
@@ -386,6 +413,9 @@ void Player::MovePlayer2(float dt)
 		}
 		if (INPUT_MGR.GetKeyDown(sf::Keyboard::D))
 		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/PopUp.wav"));
+			sound.play();
+
 			TailsGo* tail = poolTails.Get();
 			if (sceneGame2 != nullptr)
 			{
@@ -431,6 +461,9 @@ void Player::CheckCoinCollide()
 		{
 			if (SCoins[i]->GetActive())
 			{
+				sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Coin_1.wav"));
+				sound.play();
+
 				SCoins[i]->SetActive(false);
 				score += GETSCOIN;
 				std::cout << score << std::endl;
@@ -443,6 +476,9 @@ void Player::CheckCoinCollide()
 		{
 			if (BCoins[i]->GetActive())
 			{
+				sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Coin_1.wav"));
+				sound.play();
+
 				BCoins[i]->SetActive(false);
 				score += GETBCOIN;
 				std::cout << score << std::endl;
@@ -469,6 +505,12 @@ COLLIDE Player::CheckTileCollide()
 			// SpikeWall : 바로 죽음
 			if (tileMap->tiles[i].obstacleIndex == Obstacles::SpikeWall)
 			{
+				if (sound.getBuffer() != RESOURCE_MGR.GetSoundBuffer("sounds/Death.wav"))
+				{
+					sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Death.wav"));
+					sound.play();
+				}
+
 				isDie = true;
 				isMoving = false;
 				startPos = position;
@@ -478,6 +520,9 @@ COLLIDE Player::CheckTileCollide()
 			// 충돌 시 set position
 			if (direction.x == 1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
+				sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Landing.wav"));
+				sound.play();
+
 				SetPosition(position.x -15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::R);
@@ -486,6 +531,9 @@ COLLIDE Player::CheckTileCollide()
 			}
 			else if (direction.x == -1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
+				sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Landing.wav"));
+				sound.play();
+
 				SetPosition(position.x +15.f, position.y);
 				MoveReset();
 				SetRotation(COLLIDE::L);
@@ -494,6 +542,9 @@ COLLIDE Player::CheckTileCollide()
 			}
 			else if (direction.y == 1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
+				sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Landing.wav"));
+				sound.play();
+
 				SetPosition(position.x, position.y -15.f);
 				MoveReset();
 				SetRotation(COLLIDE::B);
@@ -502,6 +553,12 @@ COLLIDE Player::CheckTileCollide()
 			}
 			else if (direction.y == -1 && tileMap->tiles[i].obstacleIndex == Obstacles::None)
 			{
+				if (sound.getBuffer() != RESOURCE_MGR.GetSoundBuffer("sounds/Landing.wav"))
+				{
+					sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Landing.wav"));
+					sound.play();
+				}
+
 				SetPosition(position.x, position.y +15.f);
 				MoveReset();
 				SetRotation(COLLIDE::T);
@@ -525,6 +582,12 @@ COLLIDE Player::CheckSpikeCollide()
 			}
 			else if (spikes[i]->GetCurFrame() != 0)
 			{
+				if (sound.getBuffer() != RESOURCE_MGR.GetSoundBuffer("sounds/Death.wav"))
+				{
+					sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Death.wav"));
+					sound.play();
+				}
+
 				isDie = true;
 				MoveReset();
 				startPos = position;
@@ -539,6 +602,12 @@ COLLIDE Player::CheckArrival()
 {
 	if (Utils::Distance(position, destination->GetPosition()) <= 1.f)
 	{
+		if (sound.getBuffer() != RESOURCE_MGR.GetSoundBuffer("sounds/Win.wav"))
+		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Win.wav"));
+			sound.play();
+		}
+
 		isWin = true;
 		MoveReset();
 		startPos = position;
@@ -551,6 +620,12 @@ COLLIDE Player::CheckWaterCollide()
 {
 	if (sprite.getGlobalBounds().intersects(deathWater->rect.getGlobalBounds()))
 	{
+		if (sound.getBuffer() != RESOURCE_MGR.GetSoundBuffer("sounds/Death.wav"))
+		{
+			sound.setBuffer(*RESOURCE_MGR.GetSoundBuffer("sounds/Death.wav"));
+			sound.play();
+		}
+
 		isDie = true;
 		MoveReset();
 		startPos = position;

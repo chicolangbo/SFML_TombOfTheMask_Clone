@@ -124,3 +124,14 @@
 0,graphics/item/EnterDoor_19.png
 0,graphics/item/EnterDoor_20.png
 0,graphics/character/tails.png
+2,sounds/1_star.wav
+2,sounds/2_star.wav
+2,sounds/3_star.wav
+2,sounds/Coin_1.wav
+2,sounds/music_gameplay.wav
+2,sounds/music_menu.wav
+2,sounds/Shield.wav
+2,sounds/Win.wav
+2,sounds/Death.wav
+2,sounds/PopUp.wav
+2,sounds/Landing.wav

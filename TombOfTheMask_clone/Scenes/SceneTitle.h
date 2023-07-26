@@ -11,7 +11,9 @@ protected:
 	sf::View titleView;
 	LogoGo* logo = nullptr;
 	TextGo* playText = nullptr;
+	sf::Sound sound;
 
+	bool once = true;
 	float blinkTime = 0.5f;
 
 public:
