@@ -20,13 +20,6 @@ void SceneGame2::Init()
 
 	// GAME OBJECTS
 	{
-		deathWater = (RectGo*)AddGo(new RectGo("deathWater"));
-		deathWater->rect.setFillColor(sf::Color(0, 255, 0, 100));
-		deathWater->rect.setSize(screenSize);
-		deathWater->rect.setScale(1.f, 0.f);
-		deathWater->SetOrigin(Origins::BC);
-		deathWater->sortLayer = -1;
-
 		backEffect = (RectGo*)AddGo(new RectGo("backEffect"));
 		backEffect->rect.setFillColor(sf::Color(255,255,0,255)); // YELLOW, 0%
 		backEffect->rect.setSize(screenSize);
@@ -72,7 +65,14 @@ void SceneGame2::Init()
 		tileMap->Load("map/map_2.csv");
 		tileMap->SetOrigin(Origins::TL);
 
+		deathWater = (RectGo*)AddGo(new RectGo("deathWater"));
+		deathWater->rect.setFillColor(sf::Color(0, 255, 0, 100));
+		deathWater->rect.setSize((sf::Vector2f)tileMap->GetSize()*100.f);
+		deathWater->rect.setScale(1.f, 0.f);
+		deathWater->SetOrigin(Origins::BC);
+
 		player->SetMap(tileMap);
+		player->SetWater(deathWater);
 		player->SetSpikes(spikes);
 		player->SetBCoins(BCoins);
 		player->SetSCoins(SCoins);
@@ -133,7 +133,7 @@ void SceneGame2::Enter()
 	backEffect->SetActive(false);
 	deathWater->rect.setScale(1.f, 0.f);
 	deathWater->SetOrigin(Origins::BC);
-	deathWater->SetPosition(centerPos.x, size.y);
+	deathWater->SetPosition(centerPos.x, tileMap->GetPosition(10, 51).y + 400.f);
 
 	count = 3;
 }
@@ -145,15 +145,18 @@ void SceneGame2::Exit()
 
 void SceneGame2::Update(float dt)
 {
-	float height = deathWater->rect.getScale().y;
-	if (height <= 1.f)
-	{
-		height += 0.00001f; // 조금씩 증가시킬 값
-	}
-	deathWater->rect.setScale(1.f, height);
-
 	if (!uiGame->isPause && !player->isDie && !player->isWin)
 	{
+		if (player->totalTime >= 2.f)
+		{
+			float height = deathWater->rect.getScale().y;
+			if (height <= 1.f)
+			{
+				height += 0.00001f; // 조금씩 증가시킬 값
+			}
+			deathWater->rect.setScale(1.f, height);
+		}
+
 		Scene::Update(dt);
 		worldView.setCenter(player->GetPosition());	
 		curScore = player->GetScore();

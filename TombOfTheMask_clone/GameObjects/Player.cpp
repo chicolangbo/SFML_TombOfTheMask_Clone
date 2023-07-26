@@ -225,6 +225,11 @@ void Player::SetMap(TileMap* tilemap)
 	this->tileMap = tilemap;
 }
 
+void Player::SetWater(RectGo* deathWater)
+{
+	this->deathWater = deathWater;
+}
+
 void Player::SetSpikes(std::vector<Spikes*> spikes)
 {
 	this->spikes = spikes;
@@ -333,6 +338,7 @@ void Player::MovePlayer1(float dt)
 
 void Player::MovePlayer2(float dt)
 {
+	CheckWaterCollide();
 	if (!isMoving)
 	{
 		//std::cout << "안움직이는중" << std::endl;
@@ -537,6 +543,18 @@ COLLIDE Player::CheckArrival()
 		MoveReset();
 		startPos = position;
 		return COLLIDE::WIN;
+	}
+	return COLLIDE::NONE;
+}
+
+COLLIDE Player::CheckWaterCollide()
+{
+	if (sprite.getGlobalBounds().intersects(deathWater->rect.getGlobalBounds()))
+	{
+		isDie = true;
+		MoveReset();
+		startPos = position;
+		return COLLIDE::DIE;
 	}
 	return COLLIDE::NONE;
 }

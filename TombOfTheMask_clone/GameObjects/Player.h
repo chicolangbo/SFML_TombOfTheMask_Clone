@@ -32,6 +32,7 @@ protected:
     
 
     TileMap* tileMap = nullptr;
+    RectGo* deathWater = nullptr;
     std::vector<Spikes*> spikes = {};
     std::vector<SpriteGo*> BCoins = {};
     std::vector<SpriteGo*> SCoins = {};
@@ -40,7 +41,7 @@ protected:
     SceneGame1* sceneGame1 = nullptr;
     SceneGame2* sceneGame2 = nullptr;
 
-    float speed = 500.f;
+    float speed = 600.f;
     bool flipX = false;
     bool flipY = false;
     bool wMove = false;
@@ -48,10 +49,8 @@ protected:
     bool sMove = false;
     bool dMove = false;
 
-    float totalTime = 0.f;
-
-
 public:
+    float totalTime = 0.f;
     sf::Vector2f initialPos = { 0,0 };
     ObjectPool <TailsGo> poolTails;
     bool isDie = false;
@@ -79,6 +78,7 @@ public:
     void SetAnimation();
 
     void SetMap(TileMap* tilemap);
+    void SetWater(RectGo* deathWater);
     void SetSpikes(std::vector<Spikes*> spikes);
     void SetBCoins(std::vector<SpriteGo*> BCoins);
     void SetSCoins(std::vector<SpriteGo*> SCoins);
@@ -92,6 +92,7 @@ public:
     COLLIDE CheckTileCollide();
     COLLIDE CheckSpikeCollide();
     COLLIDE CheckArrival();
+    COLLIDE CheckWaterCollide();
     void MoveReset();
 };
 

@@ -56,6 +56,7 @@ public:
 	void RotateSpikes();
 
 	sf::Vector2f GetPosition(int x, int y);
+	sf::Vector2i GetSize() { return size; }
 
 	std::vector<Tile> tiles;
 };
